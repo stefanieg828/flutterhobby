@@ -12,7 +12,7 @@
   position: absolute;
   inset: 0;
   border: none;
-  background: rgba(47, 74, 56, 0.35);
+  background: rgba(42, 64, 48, 0.4);
   cursor: pointer;
 }
 
@@ -21,15 +21,35 @@
   z-index: 1;
   width: 100%;
   max-width: 32rem;
-  max-height: min(92dvh, 40rem);
+  max-height: min(92dvh, 42rem);
   overflow: auto;
-  background: linear-gradient(180deg, #fffef8 0%, #f3f8ef 100%);
-  border: 2px solid #c5d9c0;
+  background:
+    linear-gradient(180deg, #efe4d0 0%, #e4d4b8 18%, #f7fbf4 18%, #f3f8ef 100%);
+  border: 2.5px solid #2a4030;
   border-bottom: none;
-  border-radius: 1.6rem 1.6rem 0 0;
-  padding: 1.1rem 1.15rem calc(1.25rem + env(safe-area-inset-bottom));
-  box-shadow: 0 -8px 28px rgba(47, 74, 56, 0.18);
+  border-radius: 1.4rem 1.5rem 0 0;
+  padding: 1.15rem 1.15rem calc(1.25rem + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 28px rgba(42, 64, 48, 0.22);
   animation: bench-up 0.22s ease-out;
+}
+
+.bench__wood-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.85rem;
+  background: repeating-linear-gradient(
+    90deg,
+    #c4ad8c 0px,
+    #d7c4a8 8px,
+    #b89a72 16px,
+    #c4ad8c 24px
+  );
+  border-bottom: 2px solid #2a4030;
+  border-radius: 1.3rem 1.4rem 0 0;
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 @keyframes bench-up {
@@ -50,7 +70,7 @@
 @keyframes bench-glow {
   0%,
   100% {
-    box-shadow: 0 -8px 28px rgba(47, 74, 56, 0.18);
+    box-shadow: 0 -8px 28px rgba(42, 64, 48, 0.22);
   }
   40% {
     box-shadow: 0 -8px 32px rgba(90, 180, 130, 0.45);
@@ -62,7 +82,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin: 0.55rem 0 0.75rem;
 }
 
 .bench__eyebrow {
@@ -71,7 +91,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #74a892;
+  color: #a6855e;
 }
 
 .bench__header h2 {
@@ -82,8 +102,8 @@
 }
 
 .bench__close {
-  border: 2px solid #c5d9c0;
-  background: #fff;
+  border: 2px solid #2a4030;
+  background: #fdfbe2;
   color: #5a8f6b;
   width: 2.1rem;
   height: 2.1rem;
@@ -95,36 +115,33 @@
 .bench__plant {
   position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  margin: 0.25rem 0 0.75rem;
-  min-height: 4.5rem;
+  margin: 0.25rem 0 0.65rem;
+  min-height: 8rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  background: linear-gradient(180deg, #e8f0e2 0%, #dce8d4 100%);
+  border: 2px solid #2a4030;
+  border-radius: 1.1rem 1.25rem 1rem 1.15rem;
 }
 
-.bench__pot {
-  width: 4.25rem;
-  height: 4.25rem;
-  border-radius: 50% 50% 42% 42%;
-  display: grid;
-  place-items: center;
-  border: 2.5px solid currentColor;
+.bench__plant-art {
+  filter: drop-shadow(2px 3px 0 rgba(42, 64, 48, 0.12));
 }
 
-.bench__pot--sage { color: #5a8f6b; background: #dceee0; }
-.bench__pot--blush { color: #c4788a; background: #f8e4ea; }
-.bench__pot--sky { color: #5a8fb0; background: #ddeef6; }
-.bench__pot--honey { color: #b8892a; background: #f7ecd0; }
-.bench__pot--lavender { color: #8a6fa0; background: #ebe3f2; }
-.bench__pot--terracotta { color: #a86348; background: #f3e0d6; }
-
-.bench__emoji {
-  font-size: 1.85rem;
+.bench__tools {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.45rem;
+  opacity: 0.9;
 }
 
 .bench__water-drop {
   position: absolute;
-  top: 0;
+  top: 0.6rem;
   right: 38%;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   animation: drop-fall 0.85s ease-out;
 }
 
@@ -137,7 +154,7 @@
     opacity: 1;
   }
   to {
-    transform: translateY(1.4rem);
+    transform: translateY(1.8rem);
     opacity: 0;
   }
 }
@@ -175,7 +192,7 @@
   background: #e4efe0;
   border-radius: 999px;
   overflow: hidden;
-  border: 1px solid #c9dcc4;
+  border: 1.5px solid #2a4030;
 }
 
 .bench__progress-bar {
@@ -193,15 +210,15 @@
 
 .bench__tend {
   width: 100%;
-  border: none;
-  border-radius: 1rem;
+  border: 2px solid #2a4030;
+  border-radius: 1rem 0.9rem 1.05rem 0.95rem;
   padding: 0.85rem 1rem;
   font-weight: 700;
   font-size: 1rem;
   background: #3d6b52;
   color: #f7fbf5;
   cursor: pointer;
-  box-shadow: 0 3px 0 #2a4a38;
+  box-shadow: 0 3px 0 #2a4030;
 }
 
 .bench__tend:hover {
@@ -210,7 +227,7 @@
 
 .bench__tend:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #2a4a38;
+  box-shadow: 0 1px 0 #2a4030;
 }
 
 .bench__feedback {
@@ -227,7 +244,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #74a892;
+  color: #a6855e;
 }
 
 .bench__status {
@@ -241,8 +258,8 @@
 }
 
 .bench__status-btn {
-  border: 2px solid #c9dcc4;
-  background: #fffef9;
+  border: 2px solid #2a4030;
+  background: #fdfbe2;
   color: #3d5a45;
   border-radius: 999px;
   padding: 0.4rem 0.7rem;
@@ -253,7 +270,7 @@
 
 .bench__status-btn--active {
   background: #3d6b52;
-  border-color: #3d6b52;
+  border-color: #2a4030;
   color: #f7fbf5;
 }
 
@@ -266,8 +283,8 @@
 }
 
 .bench__secondary {
-  border: 2px solid #c9dcc4;
-  background: #fff;
+  border: 2px solid #2a4030;
+  background: #fffef9;
   color: #3d5a45;
   border-radius: 0.85rem;
   padding: 0.5rem 0.85rem;
@@ -277,7 +294,7 @@
 }
 
 .bench__danger {
-  border: 2px solid #e2b4b4;
+  border: 2px solid #2a4030;
   background: #fff5f5;
   color: #9a4a4a;
   border-radius: 0.85rem;
@@ -308,7 +325,7 @@
   flex-direction: column;
   gap: 0.7rem;
   padding-top: 0.25rem;
-  border-top: 2px dashed #d4e4ce;
+  border-top: 2px dashed #c4ad8c;
 }
 
 .bench__edit label {
@@ -326,7 +343,7 @@
   font-weight: 400;
   color: #2f4a38;
   padding: 0.55rem 0.7rem;
-  border: 2px solid #c9dcc4;
+  border: 2px solid #2a4030;
   border-radius: 0.7rem;
   background: #fffef9;
 }
@@ -354,14 +371,14 @@
   width: 1.85rem;
   height: 1.85rem;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 0 2px #c9dcc4;
+  border: 2px solid #2a4030;
   cursor: pointer;
   padding: 0;
 }
 
 .bench__swatch--active {
-  box-shadow: 0 0 0 2px #3d6b52;
+  outline: 2px solid #3d6b52;
+  outline-offset: 2px;
 }
 
 .bench__edit-actions {
@@ -370,7 +387,7 @@
 }
 
 .bench__edit-actions button[type='submit'] {
-  border: none;
+  border: 2px solid #2a4030;
   border-radius: 0.85rem;
   padding: 0.55rem 1rem;
   font-weight: 700;

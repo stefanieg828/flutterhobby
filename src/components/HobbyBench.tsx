@@ -6,6 +6,7 @@ import {
   STATUS_LABELS,
   progressPercent,
 } from '../types'
+import { PlantIllustration, plantShapeForId } from './PlantIllustration'
 import './HobbyBench.css'
 
 interface HobbyBenchProps {
@@ -59,6 +60,7 @@ export function HobbyBench({
   }, [justTended, hobby.progress])
 
   const pct = progressPercent(hobby.progress)
+  const shape = plantShapeForId(hobby.id, hobby.status)
 
   function handleSave(e: FormEvent) {
     e.preventDefault()
@@ -86,9 +88,10 @@ export function HobbyBench({
     <div className="bench-overlay" role="dialog" aria-modal="true" aria-labelledby="bench-title">
       <button type="button" className="bench-overlay__scrim" aria-label="Close bench" onClick={onClose} />
       <div className={`bench ${splash ? 'bench--splash' : ''}`}>
+        <div className="bench__wood-top" aria-hidden="true" />
         <header className="bench__header">
           <div>
-            <p className="bench__eyebrow">Tend bench</p>
+            <p className="bench__eyebrow">Potting bench</p>
             <h2 id="bench-title">{hobby.name}</h2>
           </div>
           <button type="button" className="bench__close" onClick={onClose} aria-label="Close">
@@ -97,12 +100,20 @@ export function HobbyBench({
         </header>
 
         <div className="bench__plant" aria-hidden="true">
-          <div className={`bench__pot bench__pot--${hobby.color ?? 'sage'}`}>
-            <span className="bench__emoji">
-              {hobby.status === 'proud-shelf' ? '🪴' : hobby.status === 'resting' ? '🌱' : '🌿'}
-            </span>
-          </div>
+          <PlantIllustration
+            shape={shape}
+            color={hobby.color ?? 'sage'}
+            size={120}
+            heart={hobby.status === 'proud-shelf'}
+            className="bench__plant-art"
+          />
           {splash ? <span className="bench__water-drop">💧</span> : null}
+          <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
+            <path d="M8 28 L28 28 L26 38 Q18 40 10 38 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.5" />
+            <rect x="6" y="24" width="24" height="5" rx="1" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.5" />
+            <rect x="52" y="8" width="5" height="16" rx="1" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.4" />
+            <path d="M48 24 L62 24 L58 38 Q55 40 52 38 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.4" />
+          </svg>
         </div>
 
         <p className="bench__creating">{hobby.creating}</p>

@@ -7,8 +7,8 @@
   justify-content: space-around;
   gap: 0.25rem;
   padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
-  background: rgba(247, 251, 244, 0.94);
-  border-top: 2px solid #c5d9c0;
+  background: rgba(253, 251, 226, 0.95);
+  border-top: 2.5px solid #2a4030;
   backdrop-filter: blur(8px);
   z-index: 100;
 }
@@ -23,6 +23,7 @@
   color: #4a7a5c;
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
+  border: 2px solid transparent;
 }
 
 .bottom-nav__link:hover {
@@ -33,4 +34,5 @@
 .bottom-nav__link--active {
   background: #3d6b52;
   color: #f7fbf5;
+  border-color: #2a4030;
 }

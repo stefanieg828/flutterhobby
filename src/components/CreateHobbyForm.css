@@ -2,13 +2,13 @@
   width: 100%;
   background: #e8f3e4;
   color: #2f4a38;
-  border: 2px dashed #8fbc8f;
+  border: 2px dashed #2a4030;
   border-radius: 1.15rem 1rem 1.2rem 1.05rem;
   padding: 0.9rem;
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  box-shadow: 2px 2px 0 rgba(90, 143, 107, 0.08);
+  box-shadow: 2px 2px 0 rgba(42, 64, 48, 0.08);
 }
 
 .create-hobby__toggle:hover {
@@ -16,14 +16,14 @@
 }
 
 .create-hobby {
-  background: #fffef9;
-  border: 2px solid #c5d9c0;
+  background: #fdfbe2;
+  border: 2.5px solid #2a4030;
   border-radius: 1.2rem 1rem 1.25rem 1.1rem;
   padding: 1.1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  box-shadow: 2px 3px 0 rgba(90, 143, 107, 0.1);
+  box-shadow: 2px 3px 0 rgba(42, 64, 48, 0.1);
 }
 
 .create-hobby h3 {
@@ -46,9 +46,9 @@
   font-weight: 400;
   color: #2f4a38;
   padding: 0.55rem 0.7rem;
-  border: 2px solid #c9dcc4;
+  border: 2px solid #2a4030;
   border-radius: 0.7rem;
-  background: #f8fff9;
+  background: #fffef9;
 }
 
 .create-hobby input:focus,
@@ -80,14 +80,14 @@
   width: 1.85rem;
   height: 1.85rem;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 2px #c9dcc4;
+  border: 2px solid #2a4030;
   cursor: pointer;
   padding: 0;
 }
 
 .create-hobby__swatch--active {
-  box-shadow: 0 0 0 2px #3d6b52;
+  outline: 2px solid #3d6b52;
+  outline-offset: 2px;
 }
 
 .create-hobby__actions {
@@ -107,6 +107,7 @@
 .create-hobby__actions button[type='submit'] {
   background: #3d6b52;
   color: #f7fbf5;
+  border: 2px solid #2a4030;
 }
 
 .create-hobby__actions button[type='submit']:hover {

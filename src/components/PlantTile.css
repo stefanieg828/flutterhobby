@@ -1,90 +1,44 @@
 .plant-tile {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.7rem;
-  width: 100%;
-  text-align: left;
-  padding: 0.7rem 0.8rem;
-  border: 2px solid #c9dcc4;
-  border-radius: 1.15rem 0.95rem 1.2rem 1rem;
-  background: #fffef9;
+  gap: 0.2rem;
+  width: 5.6rem;
+  min-width: 5.2rem;
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 0.35rem 0.25rem 0.45rem;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  box-shadow: 2px 3px 0 rgba(90, 143, 107, 0.1);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  transition: transform 0.12s ease;
 }
 
 .plant-tile:hover {
-  transform: translateY(-1px);
-  border-color: #8fbc8f;
-  box-shadow: 2px 4px 0 rgba(90, 143, 107, 0.16);
+  transform: translateY(-3px);
 }
 
 .plant-tile:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
-.plant-tile__pot {
-  flex-shrink: 0;
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 50% 50% 42% 42%;
-  display: grid;
-  place-items: center;
-  background: #e8f0e4;
-  border: 2px solid currentColor;
-}
-
-.plant-tile--sage { color: #5a8f6b; }
-.plant-tile--sage .plant-tile__pot { background: #dceee0; }
-.plant-tile--blush { color: #c4788a; }
-.plant-tile--blush .plant-tile__pot { background: #f8e4ea; }
-.plant-tile--sky { color: #5a8fb0; }
-.plant-tile--sky .plant-tile__pot { background: #ddeef6; }
-.plant-tile--honey { color: #b8892a; }
-.plant-tile--honey .plant-tile__pot { background: #f7ecd0; }
-.plant-tile--lavender { color: #8a6fa0; }
-.plant-tile--lavender .plant-tile__pot { background: #ebe3f2; }
-.plant-tile--terracotta { color: #a86348; }
-.plant-tile--terracotta .plant-tile__pot { background: #f3e0d6; }
-
-.plant-tile__leaf {
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.plant-tile__body {
-  min-width: 0;
-  flex: 1;
+.plant-tile__art {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-}
-
-.plant-tile__name {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #2f4a38;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.plant-tile__pet {
-  font-size: 0.75rem;
-  font-style: italic;
-  color: #6b8f76;
-}
-
-.plant-tile__pet--muted {
-  font-style: normal;
-  opacity: 0.75;
+  align-items: center;
+  line-height: 0;
+  filter: drop-shadow(1px 2px 0 rgba(42, 64, 48, 0.12));
 }
 
 .plant-tile__bar {
-  margin-top: 0.25rem;
-  height: 0.35rem;
+  display: block;
+  width: 2.6rem;
+  height: 0.28rem;
+  margin-top: -0.15rem;
   border-radius: 999px;
   background: #e4efe0;
+  border: 1px solid #c9dcc4;
   overflow: hidden;
 }
 
@@ -93,6 +47,41 @@
   height: 100%;
   border-radius: 999px;
   background: currentColor;
-  opacity: 0.85;
+  opacity: 0.9;
   transition: width 0.3s ease;
+}
+
+.plant-tile--sage { color: #5a8f6b; }
+.plant-tile--blush { color: #c4788a; }
+.plant-tile--sky { color: #5a8fb0; }
+.plant-tile--honey { color: #b8892a; }
+.plant-tile--lavender { color: #8a6fa0; }
+.plant-tile--terracotta { color: #a86348; }
+
+.plant-tile__name {
+  font-weight: 700;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: #2f4a38;
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0.2rem;
+}
+
+.plant-tile__pet {
+  font-size: 0.65rem;
+  font-style: italic;
+  color: #6b8f76;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plant-tile__pet--muted {
+  font-style: normal;
+  opacity: 0.7;
 }
