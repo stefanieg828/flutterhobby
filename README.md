@@ -10,7 +10,7 @@ This is a Progressive Web App (PWA) built with **Vite + React + TypeScript**.
 
 - **Home (Greenhouse)** — hobby cards with status chips (In season / Resting / Proud shelf), create form, Tend/Water button (localStorage)
 - **Collections** — themes (Greenhouse, Basement, Closet, Desktop, Workshop) and buddies (Sprout, Dusty, Mira, Pixel, Rip)
-- **Solstice** — seasonal rhythm placeholder
+- **Solstice** — season-turn ritual: sort hobbies into In season / Resting / Proud shelf (same localStorage as Home)
 - **You** — about / privacy notes (ad-free, local-only for now)
 
 ## How to run
