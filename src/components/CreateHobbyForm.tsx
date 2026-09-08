@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
-import type { Hobby, NudgeCadence } from '../types'
-import { CADENCE_LABELS } from '../types'
+import type { Hobby, NudgeCadence, PlantColor } from '../types'
+import { CADENCE_LABELS, PLANT_COLORS } from '../types'
 import { createHobbyId } from '../storage'
 import './CreateHobbyForm.css'
 
@@ -13,6 +13,7 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
   const [creating, setCreating] = useState('')
   const [cadence, setCadence] = useState<NudgeCadence>('every-few-days')
   const [petName, setPetName] = useState('')
+  const [color, setColor] = useState<PlantColor>('sage')
   const [open, setOpen] = useState(false)
 
   function handleSubmit(e: FormEvent) {
@@ -27,6 +28,7 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
       petName: petName.trim() || undefined,
       status: 'in-season',
       progress: 0,
+      color,
       createdAt: new Date().toISOString(),
     }
 
@@ -35,6 +37,7 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
     setCreating('')
     setCadence('every-few-days')
     setPetName('')
+    setColor('sage')
     setOpen(false)
   }
 
@@ -69,10 +72,7 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
       </label>
       <label>
         Nudge cadence
-        <select
-          value={cadence}
-          onChange={(e) => setCadence(e.target.value as NudgeCadence)}
-        >
+        <select value={cadence} onChange={(e) => setCadence(e.target.value as NudgeCadence)}>
           {(Object.keys(CADENCE_LABELS) as NudgeCadence[]).map((key) => (
             <option key={key} value={key}>
               {CADENCE_LABELS[key]}
@@ -88,6 +88,22 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
           placeholder="e.g. Fern"
         />
       </label>
+      <fieldset className="create-hobby__colors">
+        <legend>Pot color</legend>
+        <div className="create-hobby__swatches">
+          {PLANT_COLORS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              className={`create-hobby__swatch${color === c.id ? ' create-hobby__swatch--active' : ''}`}
+              style={{ background: c.swatch }}
+              aria-label={c.label}
+              aria-pressed={color === c.id}
+              onClick={() => setColor(c.id)}
+            />
+          ))}
+        </div>
+      </fieldset>
       <div className="create-hobby__actions">
         <button type="submit">Plant it</button>
         <button type="button" className="create-hobby__cancel" onClick={() => setOpen(false)}>

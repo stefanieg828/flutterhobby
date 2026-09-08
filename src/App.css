@@ -2,7 +2,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: #f1faee;
+  background: transparent;
 }
 
 .app-main {
@@ -15,7 +15,7 @@
 }
 
 .page__header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1rem;
 }
 
 .eyebrow {
@@ -24,19 +24,19 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #52b788;
+  color: #74a892;
 }
 
 .page__header h1 {
   margin: 0 0 0.4rem;
   font-size: 1.65rem;
   line-height: 1.2;
-  color: #1b4332;
+  color: #2f4a38;
 }
 
 .lede {
   margin: 0;
-  color: #40916c;
+  color: #4a7a5c;
   font-size: 0.95rem;
   line-height: 1.45;
 }

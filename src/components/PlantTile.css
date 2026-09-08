@@ -1,0 +1,98 @@
+.plant-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 0.8rem;
+  border: 2px solid #c9dcc4;
+  border-radius: 1.15rem 0.95rem 1.2rem 1rem;
+  background: #fffef9;
+  cursor: pointer;
+  box-shadow: 2px 3px 0 rgba(90, 143, 107, 0.1);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.plant-tile:hover {
+  transform: translateY(-1px);
+  border-color: #8fbc8f;
+  box-shadow: 2px 4px 0 rgba(90, 143, 107, 0.16);
+}
+
+.plant-tile:active {
+  transform: scale(0.98);
+}
+
+.plant-tile__pot {
+  flex-shrink: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50% 50% 42% 42%;
+  display: grid;
+  place-items: center;
+  background: #e8f0e4;
+  border: 2px solid currentColor;
+}
+
+.plant-tile--sage { color: #5a8f6b; }
+.plant-tile--sage .plant-tile__pot { background: #dceee0; }
+.plant-tile--blush { color: #c4788a; }
+.plant-tile--blush .plant-tile__pot { background: #f8e4ea; }
+.plant-tile--sky { color: #5a8fb0; }
+.plant-tile--sky .plant-tile__pot { background: #ddeef6; }
+.plant-tile--honey { color: #b8892a; }
+.plant-tile--honey .plant-tile__pot { background: #f7ecd0; }
+.plant-tile--lavender { color: #8a6fa0; }
+.plant-tile--lavender .plant-tile__pot { background: #ebe3f2; }
+.plant-tile--terracotta { color: #a86348; }
+.plant-tile--terracotta .plant-tile__pot { background: #f3e0d6; }
+
+.plant-tile__leaf {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.plant-tile__body {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.plant-tile__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #2f4a38;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plant-tile__pet {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #6b8f76;
+}
+
+.plant-tile__pet--muted {
+  font-style: normal;
+  opacity: 0.75;
+}
+
+.plant-tile__bar {
+  margin-top: 0.25rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #e4efe0;
+  overflow: hidden;
+}
+
+.plant-tile__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.85;
+  transition: width 0.3s ease;
+}
