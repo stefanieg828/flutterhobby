@@ -6,15 +6,29 @@ import './CreateHobbyForm.css'
 
 interface CreateHobbyFormProps {
   onCreate: (hobby: Hobby) => void
+  /** When provided with open, parent controls visibility (e.g. potting-bench FAB). */
+  open?: boolean
+  onCancel?: () => void
 }
 
-export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
+export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormProps) {
   const [name, setName] = useState('')
   const [creating, setCreating] = useState('')
   const [cadence, setCadence] = useState<NudgeCadence>('every-few-days')
   const [petName, setPetName] = useState('')
   const [color, setColor] = useState<PlantColor>('sage')
-  const [open, setOpen] = useState(false)
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const controlled = open !== undefined
+  const isOpen = controlled ? open : internalOpen
+
+  function close() {
+    if (controlled) {
+      onCancel?.()
+    } else {
+      setInternalOpen(false)
+    }
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -38,13 +52,14 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
     setCadence('every-few-days')
     setPetName('')
     setColor('sage')
-    setOpen(false)
+    close()
   }
 
-  if (!open) {
+  if (!isOpen) {
+    if (controlled) return null
     return (
-      <button type="button" className="create-hobby__toggle" onClick={() => setOpen(true)}>
-        + Plant a new hobby
+      <button type="button" className="create-hobby__fab" onClick={() => setInternalOpen(true)} aria-label="Plant a new hobby">
+        +
       </button>
     )
   }
@@ -106,7 +121,7 @@ export function CreateHobbyForm({ onCreate }: CreateHobbyFormProps) {
       </fieldset>
       <div className="create-hobby__actions">
         <button type="submit">Plant it</button>
-        <button type="button" className="create-hobby__cancel" onClick={() => setOpen(false)}>
+        <button type="button" className="create-hobby__cancel" onClick={close}>
           Cancel
         </button>
       </div>

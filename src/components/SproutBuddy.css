@@ -16,6 +16,10 @@
   max-width: 11rem;
 }
 
+.sprout-buddy--quiet {
+  max-width: none;
+}
+
 .sprout-buddy__avatar {
   flex-shrink: 0;
   line-height: 0;
@@ -23,8 +27,13 @@
 }
 
 .sprout-buddy--scene .sprout-buddy__avatar svg {
-  width: 108px;
-  height: 126px;
+  width: 100px;
+  height: 116px;
+}
+
+.sprout-buddy--quiet .sprout-buddy__avatar svg {
+  width: 92px;
+  height: 108px;
 }
 
 .sprout-buddy:not(.sprout-buddy--scene) .sprout-buddy__avatar svg {

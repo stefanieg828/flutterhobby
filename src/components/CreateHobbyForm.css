@@ -1,18 +1,40 @@
-.create-hobby__toggle {
-  width: 100%;
-  background: #e8f3e4;
-  color: #2f4a38;
-  border: 2px dashed #2a4030;
-  border-radius: 1.15rem 1rem 1.2rem 1.05rem;
-  padding: 0.9rem;
+.create-hobby__fab {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 2.5px solid #2a4030;
+  background: #3d6b52;
+  color: #f7fbf5;
+  font-size: 1.6rem;
   font-weight: 700;
-  font-size: 0.95rem;
+  line-height: 1;
   cursor: pointer;
-  box-shadow: 2px 2px 0 rgba(42, 64, 48, 0.08);
+  display: grid;
+  place-items: center;
+  box-shadow: 2px 3px 0 rgba(42, 64, 48, 0.15);
+}
+
+.create-hobby__fab:hover {
+  background: #2f5542;
+}
+
+/* legacy full-width toggle kept for any stray use — prefer FAB */
+.create-hobby__toggle {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: #3d6b52;
+  color: #f7fbf5;
+  border: 2.5px solid #2a4030;
+  padding: 0;
+  font-weight: 700;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 2px 3px 0 rgba(42, 64, 48, 0.12);
 }
 
 .create-hobby__toggle:hover {
-  background: #d8ecce;
+  background: #2f5542;
 }
 
 .create-hobby {
