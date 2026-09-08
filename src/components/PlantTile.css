@@ -18,9 +18,9 @@
 }
 
 .plant-tile--compact {
-  width: 4.6rem;
-  min-width: 4.1rem;
-  padding: 0.1rem 0.05rem 0;
+  width: 3.85rem;
+  min-width: 3.4rem;
+  padding: 0.08rem 0.02rem 0;
 }
 
 .plant-tile:hover {
@@ -41,8 +41,8 @@
 }
 
 .plant-tile--compact .plant-tile__art svg {
-  width: 58px;
-  height: 70px;
+  width: 50px;
+  height: 60px;
 }
 
 .plant-tile__bar {
@@ -95,7 +95,7 @@
 }
 
 .plant-tile--compact .plant-tile__tag {
-  font-size: 0.58rem;
-  padding: 0.05rem 0.22rem;
-  max-width: 4.3rem;
+  font-size: 0.52rem;
+  padding: 0.04rem 0.18rem;
+  max-width: 3.7rem;
 }

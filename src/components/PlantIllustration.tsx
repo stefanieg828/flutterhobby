@@ -119,6 +119,7 @@ export function PlantIllustration({
       height={size * 1.1}
       aria-hidden="true"
     >
+      <ellipse cx="50" cy="102" rx="26" ry="5" fill="#c5d9b8" opacity="0.35" />
       <Foliage shape={shape} />
       {/* pot rim */}
       <ellipse cx="50" cy="62" rx="28" ry="7" fill={pot.rim} stroke="#2a4030" strokeWidth="2" />

@@ -28,7 +28,7 @@ export function PlantTile({ hobby, onSelect, compact = false }: PlantTileProps) 
         <PlantIllustration
           shape={shape}
           color={color}
-          size={compact ? 58 : 68}
+          size={compact ? 50 : 68}
           heart={hobby.status === 'proud-shelf'}
         />
         <span className="plant-tile__bar" aria-hidden="true">

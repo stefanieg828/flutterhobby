@@ -6,6 +6,7 @@ import { CreateHobbyForm } from '../components/CreateHobbyForm'
 import { SproutBuddy } from '../components/SproutBuddy'
 import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
+import { PlantIllustration } from '../components/PlantIllustration'
 import './Home.css'
 
 const SEED: Hobby[] = [
@@ -43,122 +44,281 @@ const SEED: Hobby[] = [
   },
 ]
 
-const ZONE_ORDER: HobbyStatus[] = ['in-season', 'resting', 'proud-shelf']
+const EMPTY_SLOTS = 3
 
 function GreenhouseDecor() {
   return (
     <div className="gh-decor" aria-hidden="true">
-      <svg className="gh-decor__panes" viewBox="0 0 400 520" preserveAspectRatio="none">
-        <rect x="6" y="6" width="388" height="508" rx="14" fill="none" stroke="#7a9872" strokeWidth="5" />
-        <line x1="136" y1="6" x2="136" y2="514" stroke="#9bb892" strokeWidth="3.5" />
-        <line x1="264" y1="6" x2="264" y2="514" stroke="#9bb892" strokeWidth="3.5" />
-        <line x1="6" y1="130" x2="394" y2="130" stroke="#9bb892" strokeWidth="3.5" />
-        <line x1="6" y1="260" x2="394" y2="260" stroke="#9bb892" strokeWidth="3.5" />
-        <line x1="6" y1="390" x2="394" y2="390" stroke="#9bb892" strokeWidth="3.5" />
-        <rect x="18" y="18" width="100" height="48" rx="4" fill="#e8f4e4" opacity="0.5" />
-        <rect x="148" y="148" width="100" height="48" rx="4" fill="#fdfbe2" opacity="0.4" />
-        <rect x="276" y="18" width="100" height="48" rx="4" fill="#e8f4e4" opacity="0.45" />
-        <rect x="18" y="278" width="100" height="48" rx="4" fill="#fdfbe2" opacity="0.28" />
+      {/* warm sunbeams */}
+      <div className="gh-decor__sunbeams" />
+      <div className="gh-decor__haze" />
+
+      {/* greenhouse glass + white wood frames */}
+      <svg className="gh-decor__panes" viewBox="0 0 400 560" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="paneGlass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fffef8" stopOpacity="0.35" />
+            <stop offset="40%" stopColor="#fdfbe2" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#c8e0c0" stopOpacity="0.12" />
+          </linearGradient>
+        </defs>
+        <rect x="4" y="4" width="392" height="552" rx="18" fill="url(#paneGlass)" stroke="#e8e0d0" strokeWidth="7" />
+        <rect x="10" y="10" width="380" height="540" rx="14" fill="none" stroke="#f5f0e6" strokeWidth="3" opacity="0.7" />
+        <line x1="134" y1="10" x2="134" y2="550" stroke="#f0ebe0" strokeWidth="5" opacity="0.85" />
+        <line x1="266" y1="10" x2="266" y2="550" stroke="#f0ebe0" strokeWidth="5" opacity="0.85" />
+        <line x1="10" y1="145" x2="390" y2="145" stroke="#f0ebe0" strokeWidth="4" opacity="0.75" />
+        <line x1="10" y1="290" x2="390" y2="290" stroke="#f0ebe0" strokeWidth="4" opacity="0.65" />
+        <line x1="10" y1="420" x2="390" y2="420" stroke="#f0ebe0" strokeWidth="4" opacity="0.55" />
+        {/* soft glass glare */}
+        <rect x="22" y="24" width="95" height="55" rx="6" fill="#fffef8" opacity="0.28" />
+        <rect x="148" y="160" width="100" height="48" rx="5" fill="#fdfbe2" opacity="0.18" />
+        <rect x="280" y="28" width="95" height="50" rx="6" fill="#fffef8" opacity="0.22" />
       </svg>
-      <svg className="gh-decor__vines gh-decor__vines--left" viewBox="0 0 60 220">
-        <path
-          d="M30 0 C20 40 42 70 20 110 C8 145 36 170 26 215"
-          stroke="#4a7a4e"
-          strokeWidth="2.5"
-          fill="none"
-        />
-        <ellipse cx="18" cy="40" rx="11" ry="6.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.4" transform="rotate(-30 18 40)" />
-        <ellipse cx="38" cy="72" rx="10" ry="6" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.4" transform="rotate(25 38 72)" />
-        <ellipse cx="14" cy="112" rx="10" ry="6" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.4" transform="rotate(-22 14 112)" />
-        <ellipse cx="36" cy="152" rx="9" ry="5.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.4" transform="rotate(18 36 152)" />
-        <ellipse cx="18" cy="190" rx="9" ry="5.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.4" transform="rotate(-15 18 190)" />
+
+      {/* dense hanging vines left */}
+      <svg className="gh-decor__vines gh-decor__vines--left" viewBox="0 0 80 340">
+        <path d="M40 0 C28 50 52 90 30 140 C12 190 48 230 34 300 C28 320 36 335 40 340" stroke="#3d6b42" strokeWidth="3" fill="none" />
+        <path d="M52 10 C60 70 38 110 58 170 C70 210 48 250 62 300" stroke="#4a7a4e" strokeWidth="2.2" fill="none" opacity="0.85" />
+        <ellipse cx="24" cy="48" rx="14" ry="8" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-35 24 48)" />
+        <ellipse cx="48" cy="72" rx="13" ry="7.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(28 48 72)" />
+        <ellipse cx="20" cy="110" rx="12" ry="7" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-22 20 110)" />
+        <ellipse cx="52" cy="140" rx="13" ry="7.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(32 52 140)" />
+        <ellipse cx="26" cy="178" rx="11" ry="6.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-18 26 178)" />
+        <ellipse cx="50" cy="210" rx="12" ry="7" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(24 50 210)" />
+        <ellipse cx="28" cy="250" rx="11" ry="6.5" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-26 28 250)" />
+        <ellipse cx="48" cy="285" rx="10" ry="6" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(20 48 285)" />
+        <ellipse cx="32" cy="318" rx="9" ry="5.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-14 32 318)" />
+        <circle cx="38" cy="95" r="3" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
+        <circle cx="44" cy="195" r="2.5" fill="#c47a5a" stroke="#2a4030" strokeWidth="1" />
       </svg>
-      <svg className="gh-decor__vines gh-decor__vines--right" viewBox="0 0 60 220">
-        <path
-          d="M30 0 C40 38 18 72 40 115 C52 150 24 175 34 215"
-          stroke="#4a7a4e"
-          strokeWidth="2.5"
-          fill="none"
-        />
-        <ellipse cx="42" cy="44" rx="11" ry="6.5" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.4" transform="rotate(28 42 44)" />
-        <ellipse cx="22" cy="80" rx="10" ry="6" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.4" transform="rotate(-22 22 80)" />
-        <ellipse cx="44" cy="126" rx="10" ry="6" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.4" transform="rotate(20 44 126)" />
-        <ellipse cx="24" cy="168" rx="9" ry="5.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.4" transform="rotate(-16 24 168)" />
+
+      {/* dense vines right */}
+      <svg className="gh-decor__vines gh-decor__vines--right" viewBox="0 0 80 300">
+        <path d="M40 0 C52 45 28 85 50 135 C68 180 32 220 46 280" stroke="#3d6b42" strokeWidth="3" fill="none" />
+        <path d="M28 8 C18 60 42 100 22 155 C10 195 36 235 26 285" stroke="#4a7a4e" strokeWidth="2.2" fill="none" opacity="0.85" />
+        <ellipse cx="54" cy="42" rx="14" ry="8" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(32 54 42)" />
+        <ellipse cx="30" cy="78" rx="12" ry="7" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-28 30 78)" />
+        <ellipse cx="56" cy="118" rx="13" ry="7.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(22 56 118)" />
+        <ellipse cx="26" cy="155" rx="11" ry="6.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-30 26 155)" />
+        <ellipse cx="52" cy="190" rx="12" ry="7" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(18 52 190)" />
+        <ellipse cx="30" cy="230" rx="11" ry="6.5" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-24 30 230)" />
+        <ellipse cx="48" cy="265" rx="10" ry="6" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(16 48 265)" />
+        <circle cx="40" cy="100" r="2.8" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
+        <circle cx="38" cy="210" r="2.5" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
       </svg>
-      <svg className="gh-decor__lights" viewBox="0 0 320 28">
-        <path d="M4 8 Q80 22 160 8 T316 10" stroke="#c4a24e" strokeWidth="1.5" fill="none" />
-        <circle cx="40" cy="14" r="3.5" fill="#f7ecd0" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="100" cy="16" r="3.5" fill="#fce8f2" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="160" cy="10" r="3.5" fill="#f7ecd0" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="220" cy="16" r="3.5" fill="#e8f4e4" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="280" cy="12" r="3.5" fill="#fce8f2" stroke="#2a4030" strokeWidth="1" />
+
+      {/* top draping vines */}
+      <svg className="gh-decor__vines-top" viewBox="0 0 360 70">
+        <path d="M0 8 Q40 28 80 10 T160 14 T240 8 T320 16 T360 10" stroke="#3d6b42" strokeWidth="2.5" fill="none" />
+        <path d="M20 4 Q60 22 100 6 T200 12 T300 4" stroke="#4a7a4e" strokeWidth="1.8" fill="none" opacity="0.8" />
+        <ellipse cx="50" cy="22" rx="11" ry="6.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.2" transform="rotate(40 50 22)" />
+        <ellipse cx="110" cy="18" rx="10" ry="6" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.2" transform="rotate(-35 110 18)" />
+        <ellipse cx="170" cy="24" rx="12" ry="7" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.2" transform="rotate(25 170 24)" />
+        <ellipse cx="230" cy="16" rx="10" ry="6" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.2" transform="rotate(-40 230 16)" />
+        <ellipse cx="290" cy="22" rx="11" ry="6.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.2" transform="rotate(30 290 22)" />
       </svg>
+
+      {/* glowing string lights */}
+      <svg className="gh-decor__lights" viewBox="0 0 360 40">
+        <defs>
+          <filter id="bulbGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.2" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <path d="M8 10 Q60 28 120 12 T240 14 T352 10" stroke="#c4a24e" strokeWidth="1.6" fill="none" />
+        {[
+          [36, 16, '#ffe9a0'],
+          [78, 22, '#fff4c8'],
+          [120, 12, '#ffe0b0'],
+          [162, 20, '#fff8d8'],
+          [204, 14, '#ffe9a0'],
+          [246, 20, '#fff4c8'],
+          [288, 12, '#ffe0b0'],
+          [328, 16, '#fff8d8'],
+        ].map(([cx, cy, fill], i) => (
+          <g key={i} filter="url(#bulbGlow)">
+            <circle cx={cx} cy={cy} r="5" fill={String(fill)} opacity="0.95" />
+            <circle cx={cx} cy={cy} r="2.8" fill="#fffef8" opacity="0.85" />
+            <rect x={Number(cx) - 1.5} y={Number(cy) - 8} width="3" height="3.5" rx="0.5" fill="#8a7040" />
+          </g>
+        ))}
+      </svg>
+
       <div className="gh-decor__floor" />
     </div>
   )
 }
 
-function ShelfBracket({ side }: { side: 'left' | 'right' }) {
+function WoodSign({
+  status,
+  count,
+  id,
+}: {
+  status: HobbyStatus
+  count: number
+  id: string
+}) {
+  const icon = status === 'proud-shelf' ? '♡' : status === 'resting' ? '❀' : '❀'
+  const label =
+    status === 'proud-shelf' ? `${STATUS_LABELS[status]} ♡` : STATUS_LABELS[status]
+
   return (
-    <span className={`shelf-unit__bracket shelf-unit__bracket--${side}`} aria-hidden="true">
-      <svg viewBox="0 0 18 28" width="14" height="22">
+    <div className={`wood-sign wood-sign--${status}`}>
+      <span className="wood-sign__twine" aria-hidden="true" />
+      <div className="wood-sign__plank">
+        <span className="wood-sign__icon" aria-hidden="true">
+          {icon}
+        </span>
+        <h2 id={id} className="wood-sign__label">
+          {label}
+        </h2>
+        {count > 0 ? <span className="wood-sign__count">{count}</span> : null}
+      </div>
+    </div>
+  )
+}
+
+function EmptyRing() {
+  return (
+    <span className="empty-ring" aria-hidden="true">
+      <svg viewBox="0 0 48 56" width="40" height="48">
+        <ellipse cx="24" cy="30" rx="16" ry="5" fill="none" stroke="#c4b49a" strokeWidth="1.6" strokeDasharray="3 2.5" opacity="0.55" />
         <path
-          d={side === 'left' ? 'M16 2 L4 2 L4 24 L16 24' : 'M2 2 L14 2 L14 24 L2 24'}
+          d="M10 30 L13 48 Q24 54 35 48 L38 30"
           fill="none"
-          stroke="#5c4a3a"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          stroke="#c4b49a"
+          strokeWidth="1.5"
+          strokeDasharray="3 2.5"
+          opacity="0.45"
         />
-        <circle cx={side === 'left' ? 4 : 14} cy="8" r="1.6" fill="#2a4030" />
-        <circle cx={side === 'left' ? 4 : 14} cy="18" r="1.6" fill="#2a4030" />
       </svg>
     </span>
   )
 }
 
-function PottingBenchScene({
-  onPlantClick,
+function ShelfBay({
+  hobbies,
+  onSelect,
+  slots = EMPTY_SLOTS,
 }: {
-  onPlantClick: () => void
+  hobbies: Hobby[]
+  onSelect: (id: string) => void
+  slots?: number
 }) {
+  const empties = Math.max(0, slots - hobbies.length)
   return (
-    <div className="potting-scene">
-      <div className="potting-scene__buddy">
-        <SproutBuddy scene quiet />
+    <div className="shelf-bay">
+      {hobbies.map((hobby) => (
+        <PlantTile key={hobby.id} hobby={hobby} onSelect={onSelect} compact />
+      ))}
+      {Array.from({ length: empties }, (_, i) => (
+        <EmptyRing key={`empty-${i}`} />
+      ))}
+    </div>
+  )
+}
+
+function WoodShelf({ tone = 'warm' }: { tone?: 'warm' | 'cool' | 'gold' }) {
+  return (
+    <div className={`wood-shelf wood-shelf--${tone}`} aria-hidden="true">
+      <div className="wood-shelf__plank" />
+      <div className="wood-shelf__lip" />
+    </div>
+  )
+}
+
+function CenterWateringScene({ watering, sparkles }: { watering: boolean; sparkles: boolean }) {
+  return (
+    <div className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}`}>
+      <div className="center-stage__sprout">
+        <SproutBuddy scene quiet watering={watering} />
       </div>
-      <div className="potting-bench">
-        <div className="potting-bench__top">
-          <svg className="potting-bench__tools" viewBox="0 0 160 56" aria-hidden="true">
-            <path d="M22 18 L48 18 L46 46 Q35 52 24 46 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2" />
-            <rect x="18" y="12" width="36" height="8" rx="2" fill="#7cb87c" stroke="#2a4030" strokeWidth="2" />
-            <path d="M48 16 C60 14 62 28 54 32" stroke="#2a4030" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <path d="M54 32 L60 38" stroke="#2a4030" strokeWidth="2.5" strokeLinecap="round" />
-            <circle cx="35" cy="30" r="3.5" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1.2" />
-            <rect x="78" y="6" width="7" height="18" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.6" />
-            <path d="M74 24 L90 24 L86 48 Q82 52 78 48 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.6" />
-            <rect x="102" y="18" width="42" height="28" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2" />
-            <path d="M108 18 C110 10 136 10 138 18" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.8" />
-            <rect x="110" y="26" width="26" height="14" rx="2" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.4" />
-            <text x="123" y="36" textAnchor="middle" fontSize="5.5" fill="#e8f0e4" fontFamily="sans-serif">
-              ♡ grow
-            </text>
+      <div className="center-stage__plant" aria-hidden="true">
+        <PlantIllustration shape="sprout" color="sage" size={72} />
+        {watering ? (
+          <svg className={`center-stage__sparkles${sparkles ? ' center-stage__sparkles--hot' : ''}`} viewBox="0 0 80 60" aria-hidden="true">
+            <g fill="#f5d76e" stroke="#c4a24e" strokeWidth="0.8">
+              <path d="M18 28 L20 22 L22 28 L28 30 L22 32 L20 38 L18 32 L12 30 Z" />
+              <path d="M42 14 L43.5 10 L45 14 L49 15.5 L45 17 L43.5 21 L42 17 L38 15.5 Z" />
+              <path d="M58 34 L59.5 30 L61 34 L65 35.5 L61 37 L59.5 41 L58 37 L54 35.5 Z" />
+              <circle cx="32" cy="42" r="2" fill="#ffe9a0" stroke="none" />
+              <circle cx="52" cy="24" r="1.6" fill="#fffef8" stroke="none" />
+            </g>
+            {/* water droplets */}
+            <g fill="#7eb8da" opacity="0.85">
+              <ellipse cx="28" cy="18" rx="2" ry="3.2" transform="rotate(12 28 18)" />
+              <ellipse cx="36" cy="12" rx="1.6" ry="2.6" transform="rotate(-8 36 12)" />
+              <ellipse cx="44" cy="20" rx="1.8" ry="2.8" transform="rotate(18 44 20)" />
+            </g>
           </svg>
-          <button
-            type="button"
-            className="potting-bench__fab"
-            onClick={onPlantClick}
-            aria-label="Plant a new hobby"
-            title="Plant a new hobby"
-          >
-            <span aria-hidden="true">+</span>
-          </button>
-        </div>
-        <div className="potting-bench__body">
-          <span className="potting-bench__plaque">Potting Bench</span>
-        </div>
-        <p className="potting-bench__chalk">Small steps, big growth ♡</p>
+        ) : null}
       </div>
+    </div>
+  )
+}
+
+function PottingBenchScene({ onPlantClick }: { onPlantClick: () => void }) {
+  return (
+    <div className="potting-bench">
+      <div className="potting-bench__surface">
+        <svg className="potting-bench__props" viewBox="0 0 200 72" aria-hidden="true">
+          {/* watering can with heart */}
+          <g transform="translate(4,8)">
+            <path d="M14 16 L48 16 L45 48 Q30 56 16 48 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2.2" />
+            <rect x="10" y="10" width="42" height="9" rx="2" fill="#7cb87c" stroke="#2a4030" strokeWidth="2.2" />
+            <path d="M48 14 C64 10 68 30 56 36" stroke="#2a4030" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+            <path d="M56 36 L64 44" stroke="#2a4030" strokeWidth="2.6" strokeLinecap="round" />
+            <path
+              d="M30 28 C28 26 24 26 24 30 C24 33 30 38 30 38 C30 38 36 33 36 30 C36 26 32 26 30 28 Z"
+              fill="#e8a0b0"
+              stroke="#2a4030"
+              strokeWidth="1.2"
+            />
+          </g>
+          {/* crate with gloves */}
+          <g transform="translate(78,22)">
+            <rect x="0" y="8" width="46" height="30" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2" />
+            <path d="M4 8 C6 0 40 0 42 8" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.8" />
+            <rect x="6" y="14" width="16" height="12" rx="2" fill="#e8d4b0" stroke="#2a4030" strokeWidth="1.3" />
+            <rect x="24" y="14" width="16" height="12" rx="2" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.3" />
+            <path d="M10 14 Q14 8 18 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
+            <path d="M28 14 Q32 8 36 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
+          </g>
+          {/* trowel */}
+          <g transform="translate(132,6)">
+            <rect x="10" y="0" width="7" height="22" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.6" />
+            <path d="M6 22 L22 22 L18 48 Q14 54 10 48 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.6" />
+          </g>
+          {/* chalkboard */}
+          <g transform="translate(158,18)">
+            <rect x="0" y="0" width="40" height="28" rx="2" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.8" />
+            <rect x="-2" y="-2" width="44" height="4" rx="1" fill="#a6855e" stroke="#2a4030" strokeWidth="1.2" />
+            <text x="20" y="12" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
+              Small steps,
+            </text>
+            <text x="20" y="20" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
+              big growth ♡
+            </text>
+          </g>
+        </svg>
+        <button
+          type="button"
+          className="potting-bench__fab"
+          onClick={onPlantClick}
+          aria-label="Plant a new hobby"
+          title="Plant a new hobby"
+        >
+          <span aria-hidden="true">+</span>
+        </button>
+      </div>
+      <div className="potting-bench__legs">
+        <span className="potting-bench__plaque">Potting Bench</span>
+      </div>
+      <p className="potting-bench__chalk">Small steps, big growth ♡</p>
     </div>
   )
 }
@@ -211,6 +371,10 @@ export function Home() {
     return 'Tap a pot to tend on the bench.'
   }, [ready, hobbies.length, zones, justTendedId])
 
+  // Center scene mirrors the mock: Sprout mid-water; sparkles amp up after a tend
+  const isWatering = true
+  const showSparkles = Boolean(justTendedId)
+
   function handleCreate(hobby: Hobby) {
     persist([hobby, ...hobbies])
     setSelectedId(hobby.id)
@@ -231,7 +395,7 @@ export function Home() {
       ),
     )
     setJustTendedId(id)
-    window.setTimeout(() => setJustTendedId((cur) => (cur === id ? null : cur)), 1200)
+    window.setTimeout(() => setJustTendedId((cur) => (cur === id ? null : cur)), 1400)
   }
 
   function handleUpdate(hobby: Hobby) {
@@ -246,7 +410,12 @@ export function Home() {
   return (
     <section className="page home greenhouse">
       <header className="greenhouse__header">
-        <p className="greenhouse__brand">FlutterHobby</p>
+        <p className="greenhouse__brand">
+          <span className="greenhouse__butterfly" aria-hidden="true">
+            ✿
+          </span>
+          FlutterHobby
+        </p>
         <p className="greenhouse__tagline">Grow hobbies, grow joy</p>
       </header>
 
@@ -260,57 +429,54 @@ export function Home() {
         {!ready ? (
           <p className="muted greenhouse__loading">Loading your greenhouse…</p>
         ) : (
-          <div className="shelf-unit" role="region" aria-label="Hobby shelves">
-            <div className="shelf-unit__back" aria-hidden="true" />
-            <div className="shelf-unit__posts" aria-hidden="true">
-              <span className="shelf-unit__post shelf-unit__post--left" />
-              <span className="shelf-unit__post shelf-unit__post--right" />
-            </div>
+          <div className="gh-scene" role="region" aria-label="Hobby greenhouse">
+            {/* LEFT — In season + Resting furniture shelves */}
+            <aside className="gh-left" aria-label="In season and Resting shelves">
+              <div className="left-unit">
+                <div className="left-unit__posts" aria-hidden="true">
+                  <span className="left-unit__post left-unit__post--left" />
+                  <span className="left-unit__post left-unit__post--right" />
+                </div>
+                <div className="left-unit__back" aria-hidden="true" />
 
-            {ZONE_ORDER.map((status) => (
-              <div
-                key={status}
-                className={`shelf-tier shelf-tier--${status}`}
-                aria-labelledby={`shelf-${status}`}
-              >
-                <div className={`shelf-sign shelf-sign--${status}`}>
-                  <span className="shelf-sign__icon" aria-hidden="true">
-                    {status === 'proud-shelf' ? '♥' : status === 'resting' ? '☾' : '❀'}
-                  </span>
-                  <h2 id={`shelf-${status}`} className="shelf-sign__label">
-                    {STATUS_LABELS[status]}
-                  </h2>
-                  <span className="shelf-sign__count">{zones[status].length}</span>
+                <div className="left-tier" aria-labelledby="shelf-in-season">
+                  <WoodSign status="in-season" count={zones['in-season'].length} id="shelf-in-season" />
+                  <ShelfBay hobbies={zones['in-season']} onSelect={setSelectedId} slots={3} />
+                  <WoodShelf tone="warm" />
                 </div>
 
-                <div className="shelf-tier__bay">
-                  {zones[status].length === 0 ? (
-                    <p className="shelf-tier__empty">open space</p>
-                  ) : (
-                    <div className="shelf-tier__plants">
-                      {zones[status].map((hobby) => (
-                        <PlantTile key={hobby.id} hobby={hobby} onSelect={setSelectedId} compact />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="shelf-board" aria-hidden="true">
-                  <ShelfBracket side="left" />
-                  <div className="shelf-board__plank" />
-                  <ShelfBracket side="right" />
-                  <div className="shelf-board__lip" />
+                <div className="left-tier" aria-labelledby="shelf-resting">
+                  <WoodSign status="resting" count={zones.resting.length} id="shelf-resting" />
+                  <ShelfBay hobbies={zones.resting} onSelect={setSelectedId} slots={3} />
+                  <WoodShelf tone="cool" />
                 </div>
               </div>
-            ))}
+            </aside>
 
-            {hobbies.length === 0 ? (
-              <p className="muted greenhouse__empty">Nothing planted yet — tap + on the potting bench.</p>
-            ) : null}
+            {/* CENTER — Sprout watering */}
+            <div className="gh-center">
+              <CenterWateringScene watering={isWatering} sparkles={showSparkles} />
+            </div>
+
+            {/* RIGHT — Proud shelf + potting bench */}
+            <aside className="gh-right" aria-label="Proud shelf and potting bench">
+              <div className="proud-unit" aria-labelledby="shelf-proud-shelf">
+                <WoodSign
+                  status="proud-shelf"
+                  count={zones['proud-shelf'].length}
+                  id="shelf-proud-shelf"
+                />
+                <ShelfBay hobbies={zones['proud-shelf']} onSelect={setSelectedId} slots={2} />
+                <WoodShelf tone="gold" />
+              </div>
+              <PottingBenchScene onPlantClick={() => setCreateOpen(true)} />
+            </aside>
           </div>
         )}
 
-        <PottingBenchScene onPlantClick={() => setCreateOpen(true)} />
+        {hobbies.length === 0 && ready ? (
+          <p className="muted greenhouse__empty">Nothing planted yet — tap + on the potting bench.</p>
+        ) : null}
 
         {createOpen ? (
           <div className="greenhouse__create">
@@ -329,13 +495,13 @@ export function Home() {
         >
           <summary className="greenhouse__archive-summary">
             <span>Archive</span>
-            <span className="shelf-sign__count">{zones.archive.length}</span>
+            <span className="wood-sign__count">{zones.archive.length}</span>
           </summary>
           <p className="greenhouse__archive-hint">Tucked away, not deleted</p>
           {zones.archive.length === 0 ? (
-            <p className="shelf-tier__empty">Nothing archived.</p>
+            <p className="shelf-empty-note">Nothing archived.</p>
           ) : (
-            <div className="shelf-tier__plants shelf-tier__plants--archive">
+            <div className="shelf-bay shelf-bay--archive">
               {zones.archive.map((hobby) => (
                 <PlantTile key={hobby.id} hobby={hobby} onSelect={setSelectedId} compact />
               ))}
