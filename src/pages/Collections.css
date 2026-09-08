@@ -1,0 +1,63 @@
+.collections__block {
+  margin-top: 1.5rem;
+}
+
+.collections__block h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  color: #1b4332;
+}
+
+.theme-list,
+.buddy-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.theme-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #95d5b2;
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+}
+
+.theme-card__name {
+  font-weight: 700;
+  color: #1b4332;
+}
+
+.theme-card__badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #52796f;
+  background: #d8f3dc;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.buddy-card {
+  background: #fff;
+  border: 1px solid #95d5b2;
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+}
+
+.buddy-card strong {
+  color: #1b4332;
+  font-size: 1rem;
+}
+
+.buddy-card p {
+  margin: 0.3rem 0 0;
+  color: #52796f;
+  font-size: 0.9rem;
+}

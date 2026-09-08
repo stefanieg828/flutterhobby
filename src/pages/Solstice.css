@@ -1,0 +1,34 @@
+.solstice-card {
+  background: #fff;
+  border: 1px solid #95d5b2;
+  border-radius: 1rem;
+  padding: 1.1rem;
+  margin-top: 1rem;
+}
+
+.solstice-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: #1b4332;
+}
+
+.solstice-card p,
+.solstice-card li {
+  color: #40916c;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.solstice-card p {
+  margin: 0;
+}
+
+.solstice-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.solstice-card--muted {
+  background: #d8f3dc;
+  border-color: transparent;
+}

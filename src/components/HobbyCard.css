@@ -1,0 +1,103 @@
+.hobby-card {
+  background: #fff;
+  border: 1px solid #95d5b2;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(45, 106, 79, 0.08);
+}
+
+.hobby-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.hobby-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1b4332;
+}
+
+.chip {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+
+.chip--in-season {
+  background: #d8f3dc;
+  color: #1b4332;
+}
+
+.chip--resting {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.chip--proud-shelf {
+  background: #fff3bf;
+  color: #5c4800;
+}
+
+.hobby-card__creating {
+  margin: 0;
+  color: #40916c;
+  font-size: 0.95rem;
+}
+
+.hobby-card__pet {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #52796f;
+  font-style: italic;
+}
+
+.hobby-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #52796f;
+}
+
+.hobby-card__progress {
+  height: 0.4rem;
+  background: #d8f3dc;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hobby-card__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #52b788, #2d6a4f);
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}
+
+.hobby-card__tend {
+  margin-top: 0.25rem;
+  align-self: flex-start;
+  background: #2d6a4f;
+  color: #f1faee;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.hobby-card__tend:hover {
+  background: #1b4332;
+}
+
+.hobby-card__tend:active {
+  transform: scale(0.98);
+}

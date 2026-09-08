@@ -1,0 +1,37 @@
+# FlutterHobby
+
+A cozy, **ad-free** hobby tracker with a greenhouse-first vibe. Grow what you love — plant hobbies, tend them with gentle nudges, and celebrate proud-shelf wins. No accounts or payments yet; progress lives in your browser.
+
+**Domain:** [flutterhobby.fun](https://flutterhobby.fun)
+
+This is a Progressive Web App (PWA) built with **Vite + React + TypeScript**.
+
+## What you get (early shell)
+
+- **Home (Greenhouse)** — hobby cards with status chips (In season / Resting / Proud shelf), create form, Tend/Water button (localStorage)
+- **Collections** — themes (Greenhouse, Basement, Closet, Desktop, Workshop) and buddies (Sprout, Dusty, Mira, Pixel, Rip)
+- **Solstice** — seasonal rhythm placeholder
+- **You** — about / privacy notes (ad-free, local-only for now)
+
+## How to run
+
+Commands (in order):
+1. Install dependencies with the package manager.
+2. Start the local development server.
+3. Open the printed localhost URL (port 5173).
+4. Create a production build into the dist folder.
+5. Optionally preview the production build locally.
+- npm install
+- npm run dev
+- npm run build
+- npm run preview
+
+## Notes
+
+- Progress is stored in localStorage on your device.
+- PWA support via vite-plugin-pwa.
+- Source-only repo for now.
+
+## License
+
+Private project for FlutterHobby.

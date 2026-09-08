@@ -1,0 +1,11 @@
+.hobby-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.muted {
+  color: #52796f;
+  font-size: 0.95rem;
+}
