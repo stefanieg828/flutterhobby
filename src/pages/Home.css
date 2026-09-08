@@ -756,3 +756,195 @@
     min-height: 20rem;
   }
 }
+
+/* ——— Basement theme skin (placeholder) ——— */
+
+.basement .greenhouse__brand {
+  color: #e8d4b0;
+}
+
+.basement .greenhouse__butterfly {
+  color: #e6b84d;
+}
+
+.basement .greenhouse__tagline {
+  color: #a09078;
+}
+
+.basement .greenhouse__room {
+  background:
+    radial-gradient(ellipse 70% 45% at 70% 10%, rgba(255, 220, 120, 0.18), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 15% 30%, rgba(80, 70, 55, 0.45), transparent 50%),
+    radial-gradient(ellipse 60% 45% at 50% 100%, rgba(30, 24, 18, 0.55), transparent 55%),
+    linear-gradient(180deg, #3a3228 0%, #2e281f 35%, #262018 70%, #1e1812 100%);
+  border-color: #6a5a48;
+  box-shadow:
+    3px 5px 0 rgba(20, 16, 12, 0.35),
+    inset 0 0 60px rgba(255, 220, 120, 0.06);
+}
+
+.basement .greenhouse__whisper {
+  color: #d8c8a8;
+  background: rgba(30, 24, 18, 0.72);
+  border-color: #8a7a68;
+}
+
+.bm-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.bm-decor__gloom {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 230, 150, 0.08), transparent 45%);
+}
+
+.bm-decor__beam {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  width: 55%;
+  height: 55%;
+  background: linear-gradient(210deg, rgba(255, 232, 160, 0.22), transparent 55%);
+  mix-blend-mode: soft-light;
+  animation: bm-beam 10s ease-in-out infinite alternate;
+}
+
+@keyframes bm-beam {
+  from { opacity: 0.7; transform: translateX(0); }
+  to { opacity: 1; transform: translateX(-2%); }
+}
+
+.bm-decor__walls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bm-decor__bulbs {
+  position: absolute;
+  top: 0.35rem;
+  left: 6%;
+  width: 88%;
+  height: 42px;
+  filter: drop-shadow(0 0 5px rgba(255, 220, 120, 0.35));
+}
+
+.bm-decor__crates {
+  position: absolute;
+  bottom: 18%;
+  width: 54px;
+  height: 70px;
+  opacity: 0.85;
+}
+
+.bm-decor__crates--left { left: 0.2rem; }
+.bm-decor__crates--right { right: 0.2rem; }
+
+.bm-decor__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18px,
+      rgba(90, 70, 40, 0.12) 18px 19px
+    ),
+    linear-gradient(180deg, transparent 0%, rgba(20, 16, 12, 0.55) 70%, rgba(12, 10, 8, 0.7) 100%);
+}
+
+.basement .left-unit__back {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(90, 70, 40, 0.15) 0 2px,
+      transparent 2px 11px
+    ),
+    linear-gradient(180deg, rgba(70, 58, 42, 0.65) 0%, rgba(50, 42, 32, 0.5) 100%);
+  border-color: #8a7040;
+  box-shadow: inset 0 0 0 3px rgba(40, 32, 24, 0.35);
+}
+
+.basement .left-unit__post {
+  background: linear-gradient(90deg, #4a3a28 0%, #8a7040 40%, #6a5438 70%, #3d2e1f 100%);
+  border-color: #2a2018;
+}
+
+.basement .proud-unit {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(180, 150, 80, 0.12) 0 2px,
+      transparent 2px 10px
+    ),
+    linear-gradient(180deg, rgba(90, 70, 40, 0.45) 0%, rgba(60, 48, 32, 0.35) 100%);
+  border-color: #c4a24e;
+}
+
+.basement .wood-sign__plank {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(40, 30, 20, 0.15) 0 1px,
+      transparent 1px 8px
+    ),
+    linear-gradient(180deg, #8a7040 0%, #6a5438 55%, #5a4430 100%);
+  border-color: #2a2018;
+  color: #f5ecd8;
+}
+
+.basement .wood-sign__label,
+.basement .wood-sign__icon,
+.basement .wood-sign__count {
+  color: #f5ecd8;
+}
+
+.basement .wood-shelf__plank {
+  background: linear-gradient(180deg, #6a5438 0%, #4a3a28 100%);
+  border-color: #2a2018;
+}
+
+.basement .potting-bench--basement .potting-bench__surface {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(40, 30, 20, 0.12) 0 2px,
+      transparent 2px 10px
+    ),
+    linear-gradient(180deg, #5a4a38 0%, #3d3228 100%);
+  border-color: #8a7040;
+}
+
+.basement .potting-bench__plaque {
+  background: #3d2e1f;
+  color: #e8d4b0;
+  border-color: #8a7040;
+}
+
+.basement .potting-bench__chalk {
+  color: #c4b49a;
+}
+
+.basement .greenhouse__archive-summary {
+  color: #e8d4b0;
+}
+
+.basement .greenhouse__archive-hint,
+.basement .shelf-empty-note,
+.basement .muted {
+  color: #a09078;
+}
+
+.center-stage--basement .center-stage__plant {
+  filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.25));
+}

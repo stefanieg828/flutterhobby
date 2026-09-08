@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import type { Hobby, NudgeCadence, PlantColor } from '../types'
 import { CADENCE_LABELS, PLANT_COLORS } from '../types'
 import { createHobbyId } from '../storage'
+import { useTheme } from '../ThemeContext'
 import './CreateHobbyForm.css'
 
 interface CreateHobbyFormProps {
@@ -12,6 +13,7 @@ interface CreateHobbyFormProps {
 }
 
 export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormProps) {
+  const { copy } = useTheme()
   const [name, setName] = useState('')
   const [creating, setCreating] = useState('')
   const [cadence, setCadence] = useState<NudgeCadence>('every-few-days')
@@ -58,7 +60,7 @@ export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormPro
   if (!isOpen) {
     if (controlled) return null
     return (
-      <button type="button" className="create-hobby__fab" onClick={() => setInternalOpen(true)} aria-label="Plant a new hobby">
+      <button type="button" className="create-hobby__fab" onClick={() => setInternalOpen(true)} aria-label={copy.createFab}>
         +
       </button>
     )
@@ -66,7 +68,7 @@ export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormPro
 
   return (
     <form className="create-hobby" onSubmit={handleSubmit}>
-      <h3>Plant a new hobby</h3>
+      <h3>{copy.createTitle}</h3>
       <label>
         Name
         <input

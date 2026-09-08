@@ -2,11 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
+import { useTheme } from '../ThemeContext'
 import { CreateHobbyForm } from '../components/CreateHobbyForm'
 import { SproutBuddy } from '../components/SproutBuddy'
+import { DustyBuddy } from '../components/DustyBuddy'
+import { BasementDecor } from '../components/BasementDecor'
 import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
 import { PlantIllustration } from '../components/PlantIllustration'
+import { GadgetIllustration } from '../components/GadgetIllustration'
 import './Home.css'
 
 const SEED: Hobby[] = [
@@ -182,7 +186,28 @@ function WoodSign({
   )
 }
 
-function EmptyRing() {
+function EmptyRing({ basement = false }: { basement?: boolean }) {
+  if (basement) {
+    return (
+      <span className="empty-ring empty-ring--crate" aria-hidden="true">
+        <svg viewBox="0 0 48 56" width="40" height="48">
+          <rect
+            x="8"
+            y="22"
+            width="32"
+            height="24"
+            rx="2"
+            fill="none"
+            stroke="#8a7a68"
+            strokeWidth="1.5"
+            strokeDasharray="3 2.5"
+            opacity="0.5"
+          />
+          <line x1="8" y1="30" x2="40" y2="30" stroke="#8a7a68" strokeWidth="1.2" strokeDasharray="3 2.5" opacity="0.4" />
+        </svg>
+      </span>
+    )
+  }
   return (
     <span className="empty-ring" aria-hidden="true">
       <svg viewBox="0 0 48 56" width="40" height="48">
@@ -204,10 +229,12 @@ function ShelfBay({
   hobbies,
   onSelect,
   slots = EMPTY_SLOTS,
+  basement = false,
 }: {
   hobbies: Hobby[]
   onSelect: (id: string) => void
   slots?: number
+  basement?: boolean
 }) {
   const empties = Math.max(0, slots - hobbies.length)
   return (
@@ -216,7 +243,7 @@ function ShelfBay({
         <PlantTile key={hobby.id} hobby={hobby} onSelect={onSelect} compact />
       ))}
       {Array.from({ length: empties }, (_, i) => (
-        <EmptyRing key={`empty-${i}`} />
+        <EmptyRing key={`empty-${i}`} basement={basement} />
       ))}
     </div>
   )
@@ -231,14 +258,32 @@ function WoodShelf({ tone = 'warm' }: { tone?: 'warm' | 'cool' | 'gold' }) {
   )
 }
 
-function CenterWateringScene({ watering, sparkles }: { watering: boolean; sparkles: boolean }) {
+function CenterWateringScene({
+  watering,
+  sparkles,
+  basement,
+}: {
+  watering: boolean
+  sparkles: boolean
+  basement: boolean
+}) {
   return (
-    <div className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}`}>
+    <div
+      className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}${basement ? ' center-stage--basement' : ''}`}
+    >
       <div className="center-stage__sprout">
-        <SproutBuddy scene quiet watering={watering} />
+        {basement ? (
+          <DustyBuddy scene quiet tending={watering} />
+        ) : (
+          <SproutBuddy scene quiet watering={watering} />
+        )}
       </div>
       <div className="center-stage__plant" aria-hidden="true">
-        <PlantIllustration shape="sprout" color="sage" size={72} />
+        {basement ? (
+          <GadgetIllustration shape="crate" color="honey" size={72} />
+        ) : (
+          <PlantIllustration shape="sprout" color="sage" size={72} />
+        )}
         {watering ? (
           <svg className={`center-stage__sparkles${sparkles ? ' center-stage__sparkles--hot' : ''}`} viewBox="0 0 80 60" aria-hidden="true">
             <g fill="#f5d76e" stroke="#c4a24e" strokeWidth="0.8">
@@ -248,12 +293,19 @@ function CenterWateringScene({ watering, sparkles }: { watering: boolean; sparkl
               <circle cx="32" cy="42" r="2" fill="#ffe9a0" stroke="none" />
               <circle cx="52" cy="24" r="1.6" fill="#fffef8" stroke="none" />
             </g>
-            {/* water droplets */}
-            <g fill="#7eb8da" opacity="0.85">
-              <ellipse cx="28" cy="18" rx="2" ry="3.2" transform="rotate(12 28 18)" />
-              <ellipse cx="36" cy="12" rx="1.6" ry="2.6" transform="rotate(-8 36 12)" />
-              <ellipse cx="44" cy="20" rx="1.8" ry="2.8" transform="rotate(18 44 20)" />
-            </g>
+            {basement ? (
+              <g fill="#c4ad8c" opacity="0.75">
+                <circle cx="28" cy="18" r="1.8" />
+                <circle cx="36" cy="12" r="1.4" />
+                <circle cx="44" cy="20" r="1.6" />
+              </g>
+            ) : (
+              <g fill="#7eb8da" opacity="0.85">
+                <ellipse cx="28" cy="18" rx="2" ry="3.2" transform="rotate(12 28 18)" />
+                <ellipse cx="36" cy="12" rx="1.6" ry="2.6" transform="rotate(-8 36 12)" />
+                <ellipse cx="44" cy="20" rx="1.8" ry="2.8" transform="rotate(18 44 20)" />
+              </g>
+            )}
           </svg>
         ) : null}
       </div>
@@ -261,69 +313,114 @@ function CenterWateringScene({ watering, sparkles }: { watering: boolean; sparkl
   )
 }
 
-function PottingBenchScene({ onPlantClick }: { onPlantClick: () => void }) {
+function PottingBenchScene({
+  onPlantClick,
+  basement,
+  plaque,
+  chalk,
+  fabLabel,
+}: {
+  onPlantClick: () => void
+  basement: boolean
+  plaque: string
+  chalk: string
+  fabLabel: string
+}) {
   return (
-    <div className="potting-bench">
+    <div className={`potting-bench${basement ? ' potting-bench--basement' : ''}`}>
       <div className="potting-bench__surface">
-        <svg className="potting-bench__props" viewBox="0 0 200 72" aria-hidden="true">
-          {/* watering can with heart */}
-          <g transform="translate(4,8)">
-            <path d="M14 16 L48 16 L45 48 Q30 56 16 48 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2.2" />
-            <rect x="10" y="10" width="42" height="9" rx="2" fill="#7cb87c" stroke="#2a4030" strokeWidth="2.2" />
-            <path d="M48 14 C64 10 68 30 56 36" stroke="#2a4030" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-            <path d="M56 36 L64 44" stroke="#2a4030" strokeWidth="2.6" strokeLinecap="round" />
-            <path
-              d="M30 28 C28 26 24 26 24 30 C24 33 30 38 30 38 C30 38 36 33 36 30 C36 26 32 26 30 28 Z"
-              fill="#e8a0b0"
-              stroke="#2a4030"
-              strokeWidth="1.2"
-            />
-          </g>
-          {/* crate with gloves */}
-          <g transform="translate(78,22)">
-            <rect x="0" y="8" width="46" height="30" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2" />
-            <path d="M4 8 C6 0 40 0 42 8" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.8" />
-            <rect x="6" y="14" width="16" height="12" rx="2" fill="#e8d4b0" stroke="#2a4030" strokeWidth="1.3" />
-            <rect x="24" y="14" width="16" height="12" rx="2" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.3" />
-            <path d="M10 14 Q14 8 18 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
-            <path d="M28 14 Q32 8 36 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
-          </g>
-          {/* trowel */}
-          <g transform="translate(132,6)">
-            <rect x="10" y="0" width="7" height="22" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.6" />
-            <path d="M6 22 L22 22 L18 48 Q14 54 10 48 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.6" />
-          </g>
-          {/* chalkboard */}
-          <g transform="translate(158,18)">
-            <rect x="0" y="0" width="40" height="28" rx="2" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.8" />
-            <rect x="-2" y="-2" width="44" height="4" rx="1" fill="#a6855e" stroke="#2a4030" strokeWidth="1.2" />
-            <text x="20" y="12" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
-              Small steps,
-            </text>
-            <text x="20" y="20" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
-              big growth ♡
-            </text>
-          </g>
-        </svg>
+        {basement ? (
+          <svg className="potting-bench__props" viewBox="0 0 200 72" aria-hidden="true">
+            {/* toolbox */}
+            <g transform="translate(6,16)">
+              <rect x="0" y="14" width="52" height="30" rx="3" fill="#8a7040" stroke="#3d2e1f" strokeWidth="2" />
+              <rect x="0" y="14" width="52" height="10" rx="2" fill="#a08050" stroke="#3d2e1f" strokeWidth="1.6" />
+              <path d="M14 14 L14 6 Q26 0 38 6 L38 14" fill="#c4ad8c" stroke="#3d2e1f" strokeWidth="1.5" />
+              <rect x="20" y="26" width="12" height="8" rx="1" fill="#5a4a3a" stroke="#3d2e1f" strokeWidth="1.1" />
+            </g>
+            {/* dusty radio */}
+            <g transform="translate(70,18)">
+              <rect x="0" y="10" width="44" height="32" rx="3" fill="#6a5a70" stroke="#3d2e1f" strokeWidth="2" />
+              <rect x="6" y="16" width="18" height="12" rx="1" fill="#2a3028" stroke="#3d2e1f" strokeWidth="1.2" />
+              <circle cx="34" cy="22" r="6" fill="#e6b84d" stroke="#3d2e1f" strokeWidth="1.3" />
+              <path d="M12 10 L12 0 Q22 -4 32 0 L32 10" stroke="#3d2e1f" strokeWidth="1.8" fill="none" />
+            </g>
+            {/* flashlight + chalkboard */}
+            <g transform="translate(128,10)">
+              <rect x="0" y="18" width="22" height="10" rx="2" fill="#5a6a70" stroke="#3d2e1f" strokeWidth="1.5" />
+              <rect x="22" y="14" width="10" height="18" rx="2" fill="#8a9aa8" stroke="#3d2e1f" strokeWidth="1.5" />
+              <circle cx="36" cy="23" r="4" fill="#ffe9a0" stroke="#c4a24e" strokeWidth="1.1" />
+            </g>
+            <g transform="translate(158,18)">
+              <rect x="0" y="0" width="40" height="28" rx="2" fill="#2a241c" stroke="#3d2e1f" strokeWidth="1.8" />
+              <rect x="-2" y="-2" width="44" height="4" rx="1" fill="#8a7040" stroke="#3d2e1f" strokeWidth="1.2" />
+              <text x="20" y="12" textAnchor="middle" fontSize="4" fill="#e8d4b0" fontFamily="sans-serif">
+                Dust off,
+              </text>
+              <text x="20" y="20" textAnchor="middle" fontSize="4" fill="#e8d4b0" fontFamily="sans-serif">
+                plug in ♡
+              </text>
+            </g>
+          </svg>
+        ) : (
+          <svg className="potting-bench__props" viewBox="0 0 200 72" aria-hidden="true">
+            <g transform="translate(4,8)">
+              <path d="M14 16 L48 16 L45 48 Q30 56 16 48 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2.2" />
+              <rect x="10" y="10" width="42" height="9" rx="2" fill="#7cb87c" stroke="#2a4030" strokeWidth="2.2" />
+              <path d="M48 14 C64 10 68 30 56 36" stroke="#2a4030" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+              <path d="M56 36 L64 44" stroke="#2a4030" strokeWidth="2.6" strokeLinecap="round" />
+              <path
+                d="M30 28 C28 26 24 26 24 30 C24 33 30 38 30 38 C30 38 36 33 36 30 C36 26 32 26 30 28 Z"
+                fill="#e8a0b0"
+                stroke="#2a4030"
+                strokeWidth="1.2"
+              />
+            </g>
+            <g transform="translate(78,22)">
+              <rect x="0" y="8" width="46" height="30" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2" />
+              <path d="M4 8 C6 0 40 0 42 8" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.8" />
+              <rect x="6" y="14" width="16" height="12" rx="2" fill="#e8d4b0" stroke="#2a4030" strokeWidth="1.3" />
+              <rect x="24" y="14" width="16" height="12" rx="2" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.3" />
+              <path d="M10 14 Q14 8 18 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
+              <path d="M28 14 Q32 8 36 14" stroke="#2a4030" strokeWidth="1.4" fill="none" />
+            </g>
+            <g transform="translate(132,6)">
+              <rect x="10" y="0" width="7" height="22" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.6" />
+              <path d="M6 22 L22 22 L18 48 Q14 54 10 48 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.6" />
+            </g>
+            <g transform="translate(158,18)">
+              <rect x="0" y="0" width="40" height="28" rx="2" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.8" />
+              <rect x="-2" y="-2" width="44" height="4" rx="1" fill="#a6855e" stroke="#2a4030" strokeWidth="1.2" />
+              <text x="20" y="12" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
+                Small steps,
+              </text>
+              <text x="20" y="20" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">
+                big growth ♡
+              </text>
+            </g>
+          </svg>
+        )}
         <button
           type="button"
           className="potting-bench__fab"
           onClick={onPlantClick}
-          aria-label="Plant a new hobby"
-          title="Plant a new hobby"
+          aria-label={fabLabel}
+          title={fabLabel}
         >
           <span aria-hidden="true">+</span>
         </button>
       </div>
       <div className="potting-bench__legs">
-        <span className="potting-bench__plaque">Potting Bench</span>
+        <span className="potting-bench__plaque">{plaque}</span>
       </div>
-      <p className="potting-bench__chalk">Small steps, big growth ♡</p>
+      <p className="potting-bench__chalk">{chalk}</p>
     </div>
   )
 }
 
 export function Home() {
+  const { theme, copy } = useTheme()
+  const basement = theme === 'Basement'
   const [hobbies, setHobbies] = useState<Hobby[]>([])
   const [ready, setReady] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -364,12 +461,12 @@ export function Home() {
 
   const sproutMessage = useMemo(() => {
     const active = zones['in-season'].length
-    if (!ready) return 'Opening the greenhouse…'
-    if (hobbies.length === 0) return 'Empty shelves — plant something!'
-    if (justTendedId) return 'That sip counted ♡'
-    if (active === 0) return 'Wake a plant or plant something new.'
-    return 'Tap a pot to tend on the bench.'
-  }, [ready, hobbies.length, zones, justTendedId])
+    if (!ready) return copy.whisperLoading
+    if (hobbies.length === 0) return copy.whisperEmpty
+    if (justTendedId) return copy.whisperTended
+    if (active === 0) return copy.whisperNoActive
+    return copy.whisperIdle
+  }, [ready, hobbies.length, zones, justTendedId, copy])
 
   // Center scene mirrors the mock: Sprout mid-water; sparkles amp up after a tend
   const isWatering = true
@@ -408,28 +505,32 @@ export function Home() {
   }
 
   return (
-    <section className="page home greenhouse">
+    <section className={`page home greenhouse${basement ? ' basement' : ''}`}>
       <header className="greenhouse__header">
         <p className="greenhouse__brand">
           <span className="greenhouse__butterfly" aria-hidden="true">
-            ✿
+            {copy.brandMark}
           </span>
           FlutterHobby
         </p>
-        <p className="greenhouse__tagline">Grow hobbies, grow joy</p>
+        <p className="greenhouse__tagline">{copy.tagline}</p>
       </header>
 
       <div className="greenhouse__room">
-        <GreenhouseDecor />
+        {basement ? <BasementDecor /> : <GreenhouseDecor />}
 
         <p className="greenhouse__whisper" aria-live="polite">
           {sproutMessage}
         </p>
 
         {!ready ? (
-          <p className="muted greenhouse__loading">Loading your greenhouse…</p>
+          <p className="muted greenhouse__loading">{copy.whisperLoading}</p>
         ) : (
-          <div className="gh-scene" role="region" aria-label="Hobby greenhouse">
+          <div
+            className="gh-scene"
+            role="region"
+            aria-label={basement ? 'Hobby basement' : 'Hobby greenhouse'}
+          >
             {/* LEFT — In season + Resting furniture shelves */}
             <aside className="gh-left" aria-label="In season and Resting shelves">
               <div className="left-unit">
@@ -441,41 +542,73 @@ export function Home() {
 
                 <div className="left-tier" aria-labelledby="shelf-in-season">
                   <WoodSign status="in-season" count={zones['in-season'].length} id="shelf-in-season" />
-                  <ShelfBay hobbies={zones['in-season']} onSelect={setSelectedId} slots={3} />
+                  <ShelfBay
+                    hobbies={zones['in-season']}
+                    onSelect={setSelectedId}
+                    slots={3}
+                    basement={basement}
+                  />
                   <WoodShelf tone="warm" />
                 </div>
 
                 <div className="left-tier" aria-labelledby="shelf-resting">
                   <WoodSign status="resting" count={zones.resting.length} id="shelf-resting" />
-                  <ShelfBay hobbies={zones.resting} onSelect={setSelectedId} slots={3} />
+                  <ShelfBay
+                    hobbies={zones.resting}
+                    onSelect={setSelectedId}
+                    slots={3}
+                    basement={basement}
+                  />
                   <WoodShelf tone="cool" />
                 </div>
               </div>
             </aside>
 
-            {/* CENTER — Sprout watering */}
+            {/* CENTER — buddy tending */}
             <div className="gh-center">
-              <CenterWateringScene watering={isWatering} sparkles={showSparkles} />
+              <CenterWateringScene
+                watering={isWatering}
+                sparkles={showSparkles}
+                basement={basement}
+              />
             </div>
 
-            {/* RIGHT — Proud shelf + potting bench */}
-            <aside className="gh-right" aria-label="Proud shelf and potting bench">
+            {/* RIGHT — Proud shelf + workbench */}
+            <aside
+              className="gh-right"
+              aria-label={basement ? 'Proud shelf and workbench' : 'Proud shelf and potting bench'}
+            >
               <div className="proud-unit" aria-labelledby="shelf-proud-shelf">
                 <WoodSign
                   status="proud-shelf"
                   count={zones['proud-shelf'].length}
                   id="shelf-proud-shelf"
                 />
-                <ShelfBay hobbies={zones['proud-shelf']} onSelect={setSelectedId} slots={2} />
+                <ShelfBay
+                  hobbies={zones['proud-shelf']}
+                  onSelect={setSelectedId}
+                  slots={2}
+                  basement={basement}
+                />
                 <WoodShelf tone="gold" />
               </div>
-              <PottingBenchScene onPlantClick={() => setCreateOpen(true)} />
+              <PottingBenchScene
+                onPlantClick={() => setCreateOpen(true)}
+                basement={basement}
+                plaque={copy.workbenchPlaque}
+                chalk={copy.workbenchChalk}
+                fabLabel={copy.createFab}
+              />
             </aside>
           </div>
         )}
 
         {hobbies.length === 0 && ready ? (
-          <p className="muted greenhouse__empty">Nothing planted yet — tap + on the potting bench.</p>
+          <p className="muted greenhouse__empty">
+            {basement
+              ? 'Nothing stashed yet — tap + on the workbench.'
+              : 'Nothing planted yet — tap + on the potting bench.'}
+          </p>
         ) : null}
 
         {createOpen ? (
@@ -497,7 +630,7 @@ export function Home() {
             <span>Archive</span>
             <span className="wood-sign__count">{zones.archive.length}</span>
           </summary>
-          <p className="greenhouse__archive-hint">Tucked away, not deleted</p>
+          <p className="greenhouse__archive-hint">{copy.archiveHint}</p>
           {zones.archive.length === 0 ? (
             <p className="shelf-empty-note">Nothing archived.</p>
           ) : (

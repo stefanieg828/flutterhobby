@@ -1,0 +1,60 @@
+.dusty-buddy {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.dusty-buddy--quiet,
+.dusty-buddy--scene {
+  justify-content: center;
+}
+
+.dusty-buddy__avatar {
+  flex-shrink: 0;
+  line-height: 0;
+  filter: drop-shadow(2px 3px 0 rgba(30, 24, 18, 0.25));
+}
+
+.dusty-buddy--scene .dusty-buddy__avatar svg {
+  width: min(132px, 28vw);
+  height: auto;
+}
+
+.dusty-buddy--tending .dusty-buddy__avatar {
+  animation: dusty-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes dusty-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1.5deg);
+  }
+}
+
+.dusty-buddy__bubble {
+  background: rgba(40, 34, 28, 0.88);
+  border: 2px solid #c4ad8c;
+  border-radius: 0.85rem 0.95rem 0.95rem 0.25rem;
+  padding: 0.55rem 0.7rem;
+  max-width: 11rem;
+  box-shadow: 2px 3px 0 rgba(20, 16, 12, 0.35);
+}
+
+.dusty-buddy__name {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e6b84d;
+}
+
+.dusty-buddy__msg {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #f0e6d4;
+}

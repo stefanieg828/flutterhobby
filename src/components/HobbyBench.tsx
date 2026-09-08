@@ -4,11 +4,12 @@ import {
   CADENCE_LABELS,
   PLANT_COLORS,
   STATUS_LABELS,
-  TEND_PRESETS,
   applyProgressBump,
   progressPercent,
 } from '../types'
+import { useTheme } from '../ThemeContext'
 import { PlantIllustration, plantShapeForId } from './PlantIllustration'
+import { GadgetIllustration, gadgetShapeForId } from './GadgetIllustration'
 import './HobbyBench.css'
 
 interface HobbyBenchProps {
@@ -35,6 +36,8 @@ export function HobbyBench({
   onDelete,
   justTended = false,
 }: HobbyBenchProps) {
+  const { theme, copy } = useTheme()
+  const presets = copy.presets
   const [editing, setEditing] = useState(false)
   const [name, setName] = useState(hobby.name)
   const [creating, setCreating] = useState(hobby.creating)
@@ -68,7 +71,9 @@ export function HobbyBench({
   }, [justTended, hobby.progress])
 
   const pct = progressPercent(hobby.progress)
-  const shape = plantShapeForId(hobby.id, hobby.status)
+  const isBasement = theme === 'Basement'
+  const plantShape = plantShapeForId(hobby.id, hobby.status)
+  const gadgetShape = gadgetShapeForId(hobby.id, hobby.status)
   const roomLeft = Math.max(0, 100 - pct)
   const appliedBump = Math.min(amount, roomLeft)
   const previewPct = applyProgressBump(pct, amount)
@@ -76,8 +81,8 @@ export function HobbyBench({
   const amountLabel = useMemo(() => {
     if (roomLeft === 0) return 'Already at 100% — still lovely to check in'
     if (appliedBump < amount) return `+${appliedBump}% (caps at 100%)`
-    return `+${amount}% growth`
-  }, [amount, appliedBump, roomLeft])
+    return copy.amountHint(amount)
+  }, [amount, appliedBump, roomLeft, copy])
 
   function handleSave(e: FormEvent) {
     e.preventDefault()
@@ -111,7 +116,7 @@ export function HobbyBench({
   function onSliderChange(value: number) {
     const next = Math.min(100, Math.max(1, Math.round(value)))
     setAmount(next)
-    const match = TEND_PRESETS.find((p) => p.bump === next)
+    const match = presets.find((p) => p.bump === next)
     setPresetId(match ? match.id : 'custom')
   }
 
@@ -127,7 +132,7 @@ export function HobbyBench({
         <div className="bench__wood-top" aria-hidden="true" />
         <header className="bench__header">
           <div>
-            <p className="bench__eyebrow">Potting bench</p>
+            <p className="bench__eyebrow">{copy.benchEyebrow}</p>
             <h2 id="bench-title">{hobby.name}</h2>
           </div>
           <button type="button" className="bench__close" onClick={onClose} aria-label="Close">
@@ -136,20 +141,39 @@ export function HobbyBench({
         </header>
 
         <div className="bench__plant" aria-hidden="true">
-          <PlantIllustration
-            shape={shape}
-            color={hobby.color ?? 'sage'}
-            size={120}
-            heart={hobby.status === 'proud-shelf'}
-            className="bench__plant-art"
-          />
-          {splash ? <span className="bench__water-drop">💧</span> : null}
-          <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
-            <path d="M8 28 L28 28 L26 38 Q18 40 10 38 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.5" />
-            <rect x="6" y="24" width="24" height="5" rx="1" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.5" />
-            <rect x="52" y="8" width="5" height="16" rx="1" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.4" />
-            <path d="M48 24 L62 24 L58 38 Q55 40 52 38 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.4" />
-          </svg>
+          {isBasement ? (
+            <GadgetIllustration
+              shape={gadgetShape}
+              color={hobby.color ?? 'sage'}
+              size={120}
+              heart={hobby.status === 'proud-shelf'}
+              className="bench__plant-art"
+            />
+          ) : (
+            <PlantIllustration
+              shape={plantShape}
+              color={hobby.color ?? 'sage'}
+              size={120}
+              heart={hobby.status === 'proud-shelf'}
+              className="bench__plant-art"
+            />
+          )}
+          {splash ? <span className="bench__water-drop">{copy.splashEmoji}</span> : null}
+          {isBasement ? (
+            <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
+              <rect x="6" y="18" width="28" height="16" rx="2" fill="#8a7a68" stroke="#3d2e1f" strokeWidth="1.5" />
+              <rect x="10" y="22" width="10" height="8" rx="1" fill="#c4ad8c" stroke="#3d2e1f" strokeWidth="1.1" />
+              <rect x="48" y="12" width="18" height="10" rx="2" fill="#5a6a70" stroke="#3d2e1f" strokeWidth="1.4" />
+              <circle cx="70" cy="17" r="5" fill="#ffe9a0" stroke="#c4a24e" strokeWidth="1.2" />
+            </svg>
+          ) : (
+            <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
+              <path d="M8 28 L28 28 L26 38 Q18 40 10 38 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.5" />
+              <rect x="6" y="24" width="24" height="5" rx="1" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.5" />
+              <rect x="52" y="8" width="5" height="16" rx="1" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.4" />
+              <path d="M48 24 L62 24 L58 38 Q55 40 52 38 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.4" />
+            </svg>
+          )}
         </div>
 
         <p className="bench__creating">{hobby.creating}</p>
@@ -157,7 +181,7 @@ export function HobbyBench({
 
         <div className="bench__progress-block">
           <div className="bench__progress-labels">
-            <span>Growth</span>
+            <span>{copy.progressLabel}</span>
             <span>{pct}%</span>
           </div>
           <div className="bench__progress" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
@@ -165,7 +189,7 @@ export function HobbyBench({
           </div>
           {hobby.lastTendedAt ? (
             <p className="bench__last">
-              Last watered{' '}
+              {copy.lastTendedPrefix}{' '}
               {new Date(hobby.lastTendedAt).toLocaleString(undefined, {
                 month: 'short',
                 day: 'numeric',
@@ -174,26 +198,24 @@ export function HobbyBench({
               })}
             </p>
           ) : (
-            <p className="bench__last">Not tended yet — give it a first sip whenever you like.</p>
+            <p className="bench__last">{copy.notTendedYet}</p>
           )}
         </div>
 
         {!choosing ? (
           <>
             <button type="button" className="bench__tend" onClick={openChooser}>
-              💧 Water / Tend
+              {copy.tendButton}
             </button>
             {splash ? <p className="bench__feedback">Nice — progress saved on this device.</p> : null}
           </>
         ) : (
           <div className="bench__chooser" aria-label="Choose how much progress to log">
-            <p className="bench__chooser-title">How much did you get to?</p>
-            <p className="bench__chooser-copy">
-              Any amount counts. Pick a sip size — there&apos;s no wrong answer.
-            </p>
+            <p className="bench__chooser-title">{copy.tendChooserTitle}</p>
+            <p className="bench__chooser-copy">{copy.tendChooserCopy}</p>
 
             <div className="bench__presets" role="group" aria-label="Progress presets">
-              {TEND_PRESETS.map((preset) => (
+              {presets.map((preset) => (
                 <button
                   key={preset.id}
                   type="button"
@@ -245,7 +267,7 @@ export function HobbyBench({
 
             <div className="bench__chooser-actions">
               <button type="button" className="bench__tend" onClick={confirmTend}>
-                💧 Log this sip
+                {copy.tendConfirm}
               </button>
               <button type="button" className="bench__secondary" onClick={() => setChoosing(false)}>
                 Not now
@@ -317,7 +339,7 @@ export function HobbyBench({
               <input value={petName} onChange={(e) => setPetName(e.target.value)} placeholder="e.g. Fern" />
             </label>
             <fieldset className="bench__colors">
-              <legend>Recolor pot</legend>
+              <legend>{copy.recolorLegend}</legend>
               <div className="bench__swatches">
                 {PLANT_COLORS.map((c) => (
                   <button

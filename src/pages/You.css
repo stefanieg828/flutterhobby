@@ -29,3 +29,54 @@
   background: #d8f3dc;
   border-color: transparent;
 }
+
+.you-theme-current {
+  margin-bottom: 0.75rem !important;
+}
+
+.you-theme-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.you-theme-btn {
+  flex: 1 1 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.85rem;
+  border: 1.5px solid #95d5b2;
+  background: #f7fbf4;
+  cursor: pointer;
+  text-align: left;
+}
+
+.you-theme-btn--active {
+  background: #1b4332;
+  border-color: #1b4332;
+}
+
+.you-theme-btn__name {
+  font-weight: 800;
+  color: #1b4332;
+  font-size: 0.95rem;
+}
+
+.you-theme-btn__buddy {
+  font-size: 0.78rem;
+  color: #52796f;
+}
+
+.you-theme-btn--active .you-theme-btn__name,
+.you-theme-btn--active .you-theme-btn__buddy {
+  color: #f7fbf4;
+}
+
+.you-theme-hint {
+  margin-top: 0.65rem !important;
+  font-size: 0.8rem !important;
+  color: #52796f !important;
+}

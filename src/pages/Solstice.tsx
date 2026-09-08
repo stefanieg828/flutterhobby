@@ -3,6 +3,8 @@ import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
 import { PlantIllustration, plantShapeForId } from '../components/PlantIllustration'
+import { GadgetIllustration, gadgetShapeForId } from '../components/GadgetIllustration'
+import { useTheme } from '../ThemeContext'
 import './Solstice.css'
 
 type SeasonStatus = Exclude<HobbyStatus, 'archive'>
@@ -63,11 +65,22 @@ function SolsticeDecor() {
 }
 
 function TinyPlant({ hobby }: { hobby: Hobby }) {
+  const { theme } = useTheme()
   const color = hobby.color ?? 'sage'
-  const shape = plantShapeForId(hobby.id, hobby.status)
+  if (theme === 'Basement') {
+    return (
+      <GadgetIllustration
+        shape={gadgetShapeForId(hobby.id, hobby.status)}
+        color={color}
+        size={28}
+        heart={hobby.status === 'proud-shelf'}
+        className="solstice-chip__plant"
+      />
+    )
+  }
   return (
     <PlantIllustration
-      shape={shape}
+      shape={plantShapeForId(hobby.id, hobby.status)}
       color={color}
       size={28}
       heart={hobby.status === 'proud-shelf'}
