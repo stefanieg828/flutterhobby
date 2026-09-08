@@ -4,7 +4,7 @@ import './HobbyCard.css'
 
 interface HobbyCardProps {
   hobby: Hobby
-  onTend: (id: string) => void
+  onTend: (id: string, amountPercent: number) => void
   onSelect?: (id: string) => void
 }
 
@@ -37,9 +37,7 @@ export function HobbyCard({ hobby, onTend, onSelect }: HobbyCardProps) {
       {hobby.petName ? <p className="hobby-card__pet">Buddy pet: {hobby.petName}</p> : null}
       <div className="hobby-card__meta">
         <span>Nudge: {CADENCE_LABELS[hobby.cadence]}</span>
-        <span>
-          {pct}% · {hobby.progress} tend{hobby.progress === 1 ? '' : 's'}
-        </span>
+        <span>{pct}% growth</span>
       </div>
       <div className="hobby-card__progress" aria-hidden="true">
         <div className="hobby-card__progress-bar" style={{ width: `${pct}%` }} />
@@ -49,7 +47,8 @@ export function HobbyCard({ hobby, onTend, onSelect }: HobbyCardProps) {
         className="hobby-card__tend"
         onClick={(e) => {
           e.stopPropagation()
-          onTend(hobby.id)
+          // Legacy card shortcut: gentle default sip (bench has the full chooser).
+          onTend(hobby.id, 5)
         }}
       >
         Tend / Water

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
-import { STATUS_LABELS } from '../types'
+import { STATUS_LABELS, applyProgressBump } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
 import { CreateHobbyForm } from '../components/CreateHobbyForm'
 import { SproutBuddy } from '../components/SproutBuddy'
@@ -17,7 +17,7 @@ const SEED: Hobby[] = [
     cadence: 'every-few-days',
     petName: 'Fern',
     status: 'in-season',
-    progress: 3,
+    progress: 15,
     color: 'sage',
     createdAt: new Date().toISOString(),
   },
@@ -27,7 +27,7 @@ const SEED: Hobby[] = [
     creating: 'Learning brioche stitch',
     cadence: 'weekly',
     status: 'resting',
-    progress: 1,
+    progress: 5,
     color: 'blush',
     createdAt: new Date().toISOString(),
   },
@@ -38,7 +38,7 @@ const SEED: Hobby[] = [
     cadence: 'when-inspired',
     petName: 'Ink',
     status: 'proud-shelf',
-    progress: 12,
+    progress: 60,
     color: 'honey',
     createdAt: new Date().toISOString(),
   },
@@ -381,13 +381,13 @@ export function Home() {
     setCreateOpen(false)
   }
 
-  function handleTend(id: string) {
+  function handleTend(id: string, amountPercent: number) {
     persist(
       hobbies.map((h) =>
         h.id === id
           ? {
               ...h,
-              progress: h.progress + 1,
+              progress: applyProgressBump(h.progress, amountPercent),
               lastTendedAt: new Date().toISOString(),
               status: h.status === 'resting' || h.status === 'archive' ? 'in-season' : h.status,
             }

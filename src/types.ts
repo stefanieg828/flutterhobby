@@ -11,6 +11,7 @@ export interface Hobby {
   cadence: NudgeCadence
   petName?: string
   status: HobbyStatus
+  /** Growth progress as 0–100 percent */
   progress: number
   color?: PlantColor
   createdAt: string
@@ -51,6 +52,18 @@ export const PLANT_COLORS: { id: PlantColor; label: string; swatch: string }[] =
   { id: 'terracotta', label: 'Terracotta', swatch: '#c47a5a' },
 ]
 
+/** Preset tend amounts (percent bumps). */
+export const TEND_PRESETS = [
+  { id: 'little', label: 'A little', bump: 5, hint: 'A tiny sip' },
+  { id: 'some', label: 'Some', bump: 15, hint: 'A nice watering' },
+  { id: 'lot', label: 'A lot', bump: 25, hint: 'A deep drink' },
+] as const
+
 export function progressPercent(progress: number): number {
-  return Math.min(Math.round(progress * 5), 100)
+  return Math.min(100, Math.max(0, Math.round(progress)))
+}
+
+export function applyProgressBump(current: number, bumpPercent: number): number {
+  const bump = Math.max(0, Math.round(bumpPercent))
+  return Math.min(100, progressPercent(current) + bump)
 }

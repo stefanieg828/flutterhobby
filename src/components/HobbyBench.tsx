@@ -1,9 +1,11 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { Hobby, HobbyStatus, NudgeCadence, PlantColor } from '../types'
 import {
   CADENCE_LABELS,
   PLANT_COLORS,
   STATUS_LABELS,
+  TEND_PRESETS,
+  applyProgressBump,
   progressPercent,
 } from '../types'
 import { PlantIllustration, plantShapeForId } from './PlantIllustration'
@@ -12,7 +14,7 @@ import './HobbyBench.css'
 interface HobbyBenchProps {
   hobby: Hobby
   onClose: () => void
-  onTend: (id: string) => void
+  onTend: (id: string, amountPercent: number) => void
   onUpdate: (hobby: Hobby) => void
   onDelete: (id: string) => void
   justTended?: boolean
@@ -41,6 +43,9 @@ export function HobbyBench({
   const [color, setColor] = useState<PlantColor>(hobby.color ?? 'sage')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [splash, setSplash] = useState(false)
+  const [choosing, setChoosing] = useState(false)
+  const [amount, setAmount] = useState(15)
+  const [presetId, setPresetId] = useState<string | 'custom'>('some')
 
   useEffect(() => {
     setName(hobby.name)
@@ -50,6 +55,9 @@ export function HobbyBench({
     setColor(hobby.color ?? 'sage')
     setEditing(false)
     setConfirmDelete(false)
+    setChoosing(false)
+    setAmount(15)
+    setPresetId('some')
   }, [hobby])
 
   useEffect(() => {
@@ -61,6 +69,15 @@ export function HobbyBench({
 
   const pct = progressPercent(hobby.progress)
   const shape = plantShapeForId(hobby.id, hobby.status)
+  const roomLeft = Math.max(0, 100 - pct)
+  const appliedBump = Math.min(amount, roomLeft)
+  const previewPct = applyProgressBump(pct, amount)
+
+  const amountLabel = useMemo(() => {
+    if (roomLeft === 0) return 'Already at 100% — still lovely to check in'
+    if (appliedBump < amount) return `+${appliedBump}% (caps at 100%)`
+    return `+${amount}% growth`
+  }, [amount, appliedBump, roomLeft])
 
   function handleSave(e: FormEvent) {
     e.preventDefault()
@@ -80,8 +97,27 @@ export function HobbyBench({
     onUpdate({ ...hobby, status })
   }
 
-  function handleTendClick() {
-    onTend(hobby.id)
+  function openChooser() {
+    setChoosing(true)
+    setAmount(15)
+    setPresetId('some')
+  }
+
+  function pickPreset(id: string, bump: number) {
+    setPresetId(id)
+    setAmount(bump)
+  }
+
+  function onSliderChange(value: number) {
+    const next = Math.min(100, Math.max(1, Math.round(value)))
+    setAmount(next)
+    const match = TEND_PRESETS.find((p) => p.bump === next)
+    setPresetId(match ? match.id : 'custom')
+  }
+
+  function confirmTend() {
+    onTend(hobby.id, amount)
+    setChoosing(false)
   }
 
   return (
@@ -122,9 +158,7 @@ export function HobbyBench({
         <div className="bench__progress-block">
           <div className="bench__progress-labels">
             <span>Growth</span>
-            <span>
-              {pct}% · {hobby.progress} tend{hobby.progress === 1 ? '' : 's'}
-            </span>
+            <span>{pct}%</span>
           </div>
           <div className="bench__progress" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
             <div className="bench__progress-bar" style={{ width: `${pct}%` }} />
@@ -140,14 +174,85 @@ export function HobbyBench({
               })}
             </p>
           ) : (
-            <p className="bench__last">Not tended yet — give it a first sip.</p>
+            <p className="bench__last">Not tended yet — give it a first sip whenever you like.</p>
           )}
         </div>
 
-        <button type="button" className="bench__tend" onClick={handleTendClick}>
-          💧 Water / Tend
-        </button>
-        {splash ? <p className="bench__feedback">Nice — progress saved on this device.</p> : null}
+        {!choosing ? (
+          <>
+            <button type="button" className="bench__tend" onClick={openChooser}>
+              💧 Water / Tend
+            </button>
+            {splash ? <p className="bench__feedback">Nice — progress saved on this device.</p> : null}
+          </>
+        ) : (
+          <div className="bench__chooser" aria-label="Choose how much progress to log">
+            <p className="bench__chooser-title">How much did you get to?</p>
+            <p className="bench__chooser-copy">
+              Any amount counts. Pick a sip size — there&apos;s no wrong answer.
+            </p>
+
+            <div className="bench__presets" role="group" aria-label="Progress presets">
+              {TEND_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  className={`bench__preset${presetId === preset.id ? ' bench__preset--active' : ''}`}
+                  onClick={() => pickPreset(preset.id, preset.bump)}
+                  aria-pressed={presetId === preset.id}
+                >
+                  <span className="bench__preset-label">{preset.label}</span>
+                  <span className="bench__preset-bump">+{preset.bump}%</span>
+                  <span className="bench__preset-hint">{preset.hint}</span>
+                </button>
+              ))}
+            </div>
+
+            <label className="bench__slider-label">
+              <span>Or choose your own</span>
+              <span className="bench__slider-value">{amount}%</span>
+            </label>
+            <input
+              className="bench__slider"
+              type="range"
+              min={1}
+              max={100}
+              step={1}
+              value={amount}
+              onChange={(e) => onSliderChange(Number(e.target.value))}
+              aria-valuemin={1}
+              aria-valuemax={100}
+              aria-valuenow={amount}
+              aria-label="Custom progress percent"
+            />
+            <div className="bench__custom-row">
+              <label className="bench__custom-input-wrap">
+                Custom %
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={amount}
+                  onChange={(e) => onSliderChange(Number(e.target.value) || 1)}
+                  inputMode="numeric"
+                />
+              </label>
+              <p className="bench__chooser-preview" aria-live="polite">
+                {amountLabel}
+                {roomLeft > 0 ? ` · grows to ${previewPct}%` : ''}
+              </p>
+            </div>
+
+            <div className="bench__chooser-actions">
+              <button type="button" className="bench__tend" onClick={confirmTend}>
+                💧 Log this sip
+              </button>
+              <button type="button" className="bench__secondary" onClick={() => setChoosing(false)}>
+                Not now
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="bench__status">
           <p className="bench__section-label">Move to</p>
