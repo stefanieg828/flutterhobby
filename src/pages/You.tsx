@@ -29,7 +29,7 @@ export function You() {
               onClick={() => setTheme(name)}
               aria-pressed={theme === name}
             >
-              <span className="you-theme-btn__name">{name}</span>
+              <span className="you-theme-btn__name">{THEME_COPY[name as PlayableTheme].roomName}</span>
               <span className="you-theme-btn__buddy">{THEME_COPY[name as PlayableTheme].buddyName}</span>
             </button>
           ))}
@@ -40,8 +40,8 @@ export function You() {
       <div className="you-card">
         <h2>About FlutterHobby</h2>
         <p>
-          A cozy hobby tracker with greenhouse and basement vibes. Grow — or dust off — what you
-          love at your own pace. Domain: <strong>flutterhobby.fun</strong>
+          A cozy hobby tracker with five room vibes — greenhouse, basement, closet, desktop, and
+          workshop. Tend what you love at your own pace. Domain: <strong>flutterhobby.fun</strong>
         </p>
       </div>
 
@@ -57,7 +57,7 @@ export function You() {
         <h2>Coming later</h2>
         <ul>
           <li>Optional sync / account (still ad-free)</li>
-          <li>More theme unlocks &amp; buddy art</li>
+          <li>Painted buddy &amp; room art polish</li>
           <li>Export / backup</li>
         </ul>
       </div>

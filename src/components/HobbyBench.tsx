@@ -8,8 +8,7 @@ import {
   progressPercent,
 } from '../types'
 import { useTheme } from '../ThemeContext'
-import { PlantIllustration, plantShapeForId } from './PlantIllustration'
-import { GadgetIllustration, gadgetShapeForId } from './GadgetIllustration'
+import { ThemeObjectArt } from './ThemeObjectArt'
 import './HobbyBench.css'
 
 interface HobbyBenchProps {
@@ -71,9 +70,6 @@ export function HobbyBench({
   }, [justTended, hobby.progress])
 
   const pct = progressPercent(hobby.progress)
-  const isBasement = theme === 'Basement'
-  const plantShape = plantShapeForId(hobby.id, hobby.status)
-  const gadgetShape = gadgetShapeForId(hobby.id, hobby.status)
   const roomLeft = Math.max(0, 100 - pct)
   const appliedBump = Math.min(amount, roomLeft)
   const previewPct = applyProgressBump(pct, amount)
@@ -141,39 +137,52 @@ export function HobbyBench({
         </header>
 
         <div className="bench__plant" aria-hidden="true">
-          {isBasement ? (
-            <GadgetIllustration
-              shape={gadgetShape}
-              color={hobby.color ?? 'sage'}
-              size={120}
-              heart={hobby.status === 'proud-shelf'}
-              className="bench__plant-art"
-            />
-          ) : (
-            <PlantIllustration
-              shape={plantShape}
-              color={hobby.color ?? 'sage'}
-              size={120}
-              heart={hobby.status === 'proud-shelf'}
-              className="bench__plant-art"
-            />
-          )}
+          <ThemeObjectArt
+            theme={theme}
+            id={hobby.id}
+            status={hobby.status}
+            color={hobby.color ?? 'sage'}
+            size={120}
+            heart={hobby.status === 'proud-shelf'}
+            className="bench__plant-art"
+          />
           {splash ? <span className="bench__water-drop">{copy.splashEmoji}</span> : null}
-          {isBasement ? (
-            <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
-              <rect x="6" y="18" width="28" height="16" rx="2" fill="#8a7a68" stroke="#3d2e1f" strokeWidth="1.5" />
-              <rect x="10" y="22" width="10" height="8" rx="1" fill="#c4ad8c" stroke="#3d2e1f" strokeWidth="1.1" />
-              <rect x="48" y="12" width="18" height="10" rx="2" fill="#5a6a70" stroke="#3d2e1f" strokeWidth="1.4" />
-              <circle cx="70" cy="17" r="5" fill="#ffe9a0" stroke="#c4a24e" strokeWidth="1.2" />
-            </svg>
-          ) : (
-            <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
-              <path d="M8 28 L28 28 L26 38 Q18 40 10 38 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.5" />
-              <rect x="6" y="24" width="24" height="5" rx="1" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.5" />
-              <rect x="52" y="8" width="5" height="16" rx="1" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.4" />
-              <path d="M48 24 L62 24 L58 38 Q55 40 52 38 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.4" />
-            </svg>
-          )}
+          <svg className="bench__tools" viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">
+            {theme === 'Greenhouse' ? (
+              <>
+                <path d="M8 28 L28 28 L26 38 Q18 40 10 38 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.5" />
+                <rect x="6" y="24" width="24" height="5" rx="1" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.5" />
+                <rect x="52" y="8" width="5" height="16" rx="1" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.4" />
+                <path d="M48 24 L62 24 L58 38 Q55 40 52 38 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.4" />
+              </>
+            ) : theme === 'Closet' ? (
+              <>
+                <path d="M20 8 Q20 2 26 2 Q30 2 30 6" stroke="#8a7a68" strokeWidth="1.6" fill="none" />
+                <path d="M8 14 Q20 8 32 14" stroke="#8a7a68" strokeWidth="1.8" fill="none" />
+                <path d="M12 16 L28 16 L30 34 Q20 40 10 34 Z" fill="#b39bc8" stroke="#5a4060" strokeWidth="1.3" />
+                <ellipse cx="58" cy="24" rx="14" ry="10" fill="#f2d6e4" stroke="#5a4060" strokeWidth="1.3" />
+              </>
+            ) : theme === 'Desktop' ? (
+              <>
+                <path d="M8 16 L18 16 L22 20 L40 20 L40 36 L8 36 Z" fill="#e6b84d" stroke="#2a3028" strokeWidth="1.4" />
+                <path d="M8 20 L40 20 L40 16 L24 16 L20 12 L8 12 Z" fill="#f5d76e" stroke="#2a3028" strokeWidth="1.2" />
+                <rect x="50" y="14" width="22" height="20" rx="2" fill="#7eb8da" stroke="#2a3028" strokeWidth="1.3" />
+              </>
+            ) : theme === 'Workshop' ? (
+              <>
+                <rect x="14" y="6" width="6" height="28" rx="1" fill="#8a7040" stroke="#2a3028" strokeWidth="1.3" />
+                <rect x="6" y="6" width="22" height="10" rx="1" fill="#8a9aa8" stroke="#2a3028" strokeWidth="1.4" />
+                <rect x="44" y="16" width="28" height="16" rx="2" fill="#c47a5a" stroke="#2a3028" strokeWidth="1.3" />
+              </>
+            ) : (
+              <>
+                <rect x="6" y="18" width="28" height="16" rx="2" fill="#8a7a68" stroke="#3d2e1f" strokeWidth="1.5" />
+                <rect x="10" y="22" width="10" height="8" rx="1" fill="#c4ad8c" stroke="#3d2e1f" strokeWidth="1.1" />
+                <rect x="48" y="12" width="18" height="10" rx="2" fill="#5a6a70" stroke="#3d2e1f" strokeWidth="1.4" />
+                <circle cx="70" cy="17" r="5" fill="#ffe9a0" stroke="#c4a24e" strokeWidth="1.2" />
+              </>
+            )}
+          </svg>
         </div>
 
         <p className="bench__creating">{hobby.creating}</p>

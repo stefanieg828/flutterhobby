@@ -948,3 +948,401 @@
 .center-stage--basement .center-stage__plant {
   filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.25));
 }
+
+/* ——— Closet of selves theme skin (placeholder) ——— */
+
+.closet .greenhouse__brand { color: #5a4060; }
+.closet .greenhouse__butterfly { color: #c4788a; }
+.closet .greenhouse__tagline { color: #a08098; }
+
+.closet .greenhouse__room {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 230, 245, 0.9), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 90% 40%, rgba(227, 180, 210, 0.35), transparent 50%),
+    linear-gradient(180deg, #f8e8f0 0%, #f0d8e8 40%, #e8c8dc 75%, #d8b0c8 100%);
+  border-color: #c4a0b8;
+  box-shadow:
+    3px 5px 0 rgba(90, 64, 96, 0.1),
+    inset 0 0 60px rgba(255, 248, 252, 0.35);
+}
+
+.closet .greenhouse__whisper {
+  color: #5a4060;
+  background: rgba(255, 248, 252, 0.82);
+  border-color: #c4a0b8;
+}
+
+.cl-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.cl-decor__blush {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 40% 10%, rgba(255, 240, 250, 0.55), transparent 50%);
+}
+
+.cl-decor__glow {
+  position: absolute;
+  top: 5%;
+  left: 20%;
+  width: 60%;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 233, 160, 0.18), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+.cl-decor__walls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.cl-decor__lights {
+  position: absolute;
+  top: 0.4rem;
+  left: 6%;
+  width: 88%;
+  height: 34px;
+  filter: drop-shadow(0 0 4px rgba(255, 220, 160, 0.4));
+}
+
+.cl-decor__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 20px, rgba(180, 140, 160, 0.08) 20px 21px),
+    linear-gradient(180deg, transparent 0%, rgba(200, 160, 180, 0.28) 100%);
+}
+
+.closet .left-unit__back {
+  background:
+    repeating-linear-gradient(90deg, rgba(180, 140, 160, 0.1) 0 2px, transparent 2px 11px),
+    linear-gradient(180deg, rgba(232, 208, 224, 0.55) 0%, rgba(212, 180, 200, 0.35) 100%);
+  border-color: #c4a0b8;
+}
+
+.closet .left-unit__post {
+  background: linear-gradient(90deg, #a08098 0%, #e0c0d4 40%, #c4a0b8 70%, #8a6880 100%);
+  border-color: #5a4060;
+}
+
+.closet .proud-unit {
+  background:
+    repeating-linear-gradient(90deg, rgba(200, 150, 170, 0.12) 0 2px, transparent 2px 10px),
+    linear-gradient(180deg, rgba(248, 220, 232, 0.5) 0%, rgba(232, 190, 210, 0.3) 100%);
+  border-color: #e8a0b0;
+}
+
+.closet .wood-sign__plank {
+  background:
+    repeating-linear-gradient(90deg, rgba(90, 64, 96, 0.08) 0 1px, transparent 1px 8px),
+    linear-gradient(180deg, #f2d6e4 0%, #e0b8d0 55%, #d0a0c0 100%);
+  border-color: #5a4060;
+}
+
+.closet .wood-sign__label,
+.closet .wood-sign__icon { color: #5a4060; }
+
+.closet .wood-shelf__plank {
+  background: linear-gradient(180deg, #e8d0e0 0%, #c4a0b8 100%);
+  border-color: #5a4060;
+}
+
+.closet .potting-bench--closet .potting-bench__surface {
+  background:
+    repeating-linear-gradient(90deg, rgba(90, 64, 96, 0.08) 0 2px, transparent 2px 10px),
+    linear-gradient(180deg, #e8d0e0 0%, #d0b0c8 100%);
+  border-color: #c4a0b8;
+}
+
+.closet .potting-bench__plaque {
+  background: #f8e8f0;
+  color: #5a4060;
+  border-color: #c4a0b8;
+}
+
+.closet .potting-bench__chalk { color: #e8d0e0; background: #5a4060; border-color: #3d2e40; }
+.closet .greenhouse__archive-summary { color: #5a4060; }
+.closet .greenhouse__archive-hint,
+.closet .shelf-empty-note,
+.closet .muted { color: #a08098; }
+
+/* ——— Desktop theme skin (placeholder) ——— */
+
+.desktop .greenhouse__brand { color: #e8f0f8; }
+.desktop .greenhouse__butterfly { color: #e6b84d; }
+.desktop .greenhouse__tagline { color: #8aa0b0; }
+
+.desktop .greenhouse__room {
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 15%, rgba(126, 184, 218, 0.25), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(230, 184, 77, 0.12), transparent 50%),
+    linear-gradient(180deg, #3a4a58 0%, #2a3848 40%, #1e2834 80%, #162028 100%);
+  border-color: #5a6a70;
+  box-shadow:
+    3px 5px 0 rgba(20, 28, 36, 0.4),
+    inset 0 0 50px rgba(126, 184, 218, 0.08);
+}
+
+.desktop .greenhouse__whisper {
+  color: #d8e8f0;
+  background: rgba(20, 28, 36, 0.75);
+  border-color: #5a6a70;
+}
+
+.dk-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.dk-decor__wallpaper {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(126, 184, 218, 0.08) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(126, 184, 218, 0.08) 25%, transparent 25%);
+  background-size: 28px 28px;
+  opacity: 0.6;
+}
+
+.dk-decor__scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 255, 255, 0.02) 3px 4px);
+}
+
+.dk-decor__walls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dk-decor__icons {
+  position: absolute;
+  top: 3.5rem;
+  left: 0.35rem;
+  width: 48px;
+  height: 140px;
+  opacity: 0.85;
+}
+
+.dk-decor__taskbar {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0.55rem;
+  height: 1.35rem;
+  background: rgba(30, 40, 50, 0.85);
+  border: 1.5px solid #5a6a70;
+  border-radius: 0.45rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dk-decor__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 16, 22, 0.45) 100%);
+}
+
+.desktop .left-unit__back {
+  background:
+    repeating-linear-gradient(90deg, rgba(90, 110, 120, 0.15) 0 2px, transparent 2px 11px),
+    linear-gradient(180deg, rgba(50, 64, 78, 0.7) 0%, rgba(36, 48, 60, 0.55) 100%);
+  border-color: #5a6a70;
+}
+
+.desktop .left-unit__post {
+  background: linear-gradient(90deg, #2a3848 0%, #5a6a70 40%, #3a4a58 100%);
+  border-color: #1a2028;
+}
+
+.desktop .proud-unit {
+  background: linear-gradient(180deg, rgba(230, 184, 77, 0.2) 0%, rgba(60, 70, 40, 0.25) 100%);
+  border-color: #c4a24e;
+}
+
+.desktop .wood-sign__plank {
+  background: linear-gradient(180deg, #4a5a68 0%, #3a4a58 100%);
+  border-color: #1a2028;
+}
+
+.desktop .wood-sign__label,
+.desktop .wood-sign__icon,
+.desktop .wood-sign__count { color: #e8f0f8; }
+
+.desktop .wood-shelf__plank {
+  background: linear-gradient(180deg, #5a6a70 0%, #3a4a58 100%);
+  border-color: #1a2028;
+}
+
+.desktop .potting-bench--desktop .potting-bench__surface {
+  background: linear-gradient(180deg, #3a4a58 0%, #2a3848 100%);
+  border-color: #5a6a70;
+}
+
+.desktop .potting-bench__plaque {
+  background: #1e2834;
+  color: #e6b84d;
+  border-color: #c4a24e;
+  font-family: ui-monospace, monospace;
+}
+
+.desktop .potting-bench__chalk { color: #a8c0d0; background: #1a2028; border-color: #5a6a70; }
+.desktop .greenhouse__archive-summary { color: #e8f0f8; }
+.desktop .greenhouse__archive-hint,
+.desktop .shelf-empty-note,
+.desktop .muted { color: #8aa0b0; }
+
+/* ——— Workshop theme skin (placeholder) ——— */
+
+.workshop .greenhouse__brand { color: #3d2e1f; }
+.workshop .greenhouse__butterfly { color: #c47a5a; }
+.workshop .greenhouse__tagline { color: #8a7040; }
+
+.workshop .greenhouse__room {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 220, 140, 0.35), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 15% 70%, rgba(140, 100, 60, 0.2), transparent 50%),
+    linear-gradient(180deg, #e8d4b0 0%, #d4b890 35%, #c4a878 70%, #b09068 100%);
+  border-color: #8a7040;
+  box-shadow:
+    3px 5px 0 rgba(61, 46, 31, 0.15),
+    inset 0 0 50px rgba(255, 240, 200, 0.2);
+}
+
+.workshop .greenhouse__whisper {
+  color: #3d2e1f;
+  background: rgba(255, 248, 236, 0.82);
+  border-color: #8a7040;
+}
+
+.ws-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.ws-decor__dust {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 20%, rgba(255, 240, 200, 0.35), transparent 45%);
+}
+
+.ws-decor__lamp {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 40%;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(255, 233, 160, 0.28), transparent 70%);
+  mix-blend-mode: soft-light;
+  animation: ws-lamp 9s ease-in-out infinite alternate;
+}
+
+@keyframes ws-lamp {
+  from { opacity: 0.75; }
+  to { opacity: 1; }
+}
+
+.ws-decor__walls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.ws-decor__lights {
+  position: absolute;
+  top: 0.25rem;
+  left: 8%;
+  width: 84%;
+  height: 42px;
+  filter: drop-shadow(0 0 5px rgba(255, 220, 120, 0.35));
+}
+
+.ws-decor__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 24px, rgba(90, 70, 40, 0.1) 24px 25px),
+    linear-gradient(180deg, transparent 0%, rgba(120, 90, 55, 0.35) 100%);
+}
+
+.workshop .left-unit__back {
+  background:
+    repeating-linear-gradient(90deg, rgba(90, 70, 40, 0.12) 0 2px, transparent 2px 11px),
+    linear-gradient(180deg, rgba(196, 173, 140, 0.55) 0%, rgba(168, 130, 90, 0.4) 100%);
+  border-color: #8a7040;
+}
+
+.workshop .left-unit__post {
+  background: linear-gradient(90deg, #6a5438 0%, #c4ad8c 40%, #a08050 70%, #5c4a3a 100%);
+  border-color: #3d2e1f;
+}
+
+.workshop .proud-unit {
+  background: linear-gradient(180deg, rgba(230, 184, 77, 0.3) 0%, rgba(196, 122, 90, 0.2) 100%);
+  border-color: #c47a5a;
+}
+
+.workshop .wood-sign__plank {
+  background: linear-gradient(180deg, #d4b890 0%, #b09068 100%);
+  border-color: #3d2e1f;
+}
+
+.workshop .wood-shelf__plank {
+  background: linear-gradient(180deg, #c4ad8c 0%, #8a7040 100%);
+  border-color: #3d2e1f;
+}
+
+.workshop .potting-bench--workshop .potting-bench__surface {
+  background:
+    repeating-linear-gradient(90deg, rgba(60, 40, 20, 0.1) 0 2px, transparent 2px 10px),
+    linear-gradient(180deg, #b09068 0%, #8a7040 100%);
+  border-color: #5c4a3a;
+}
+
+.workshop .potting-bench__plaque {
+  background: #3d2e1f;
+  color: #e8d4b0;
+  border-color: #8a7040;
+}
+
+.workshop .potting-bench__chalk { color: #e8d4b0; background: #3d2e1f; border-color: #8a7040; }
+.workshop .greenhouse__archive-summary { color: #3d2e1f; }
+.workshop .greenhouse__archive-hint,
+.workshop .shelf-empty-note,
+.workshop .muted { color: #8a7040; }
+
+.center-stage--closet .center-stage__plant,
+.center-stage--desktop .center-stage__plant,
+.center-stage--workshop .center-stage__plant,
+.center-stage--basement .center-stage__plant {
+  filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.25));
+}

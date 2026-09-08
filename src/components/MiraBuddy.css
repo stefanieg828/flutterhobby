@@ -1,0 +1,60 @@
+.mira-buddy {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.mira-buddy--quiet,
+.mira-buddy--scene {
+  justify-content: center;
+}
+
+.mira-buddy__avatar {
+  flex-shrink: 0;
+  line-height: 0;
+  filter: drop-shadow(2px 3px 0 rgba(90, 64, 96, 0.15));
+}
+
+.mira-buddy--scene .mira-buddy__avatar svg {
+  width: min(132px, 28vw);
+  height: auto;
+}
+
+.mira-buddy--tending .mira-buddy__avatar {
+  animation: mira-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes mira-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1.5deg);
+  }
+}
+
+.mira-buddy__bubble {
+  background: rgba(255, 248, 252, 0.92);
+  border: 2px solid #c4a0b8;
+  border-radius: 0.85rem 0.95rem 0.95rem 0.25rem;
+  padding: 0.55rem 0.7rem;
+  max-width: 11rem;
+  box-shadow: 2px 3px 0 rgba(90, 64, 96, 0.12);
+}
+
+.mira-buddy__name {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #a06890;
+}
+
+.mira-buddy__msg {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #5a4060;
+}

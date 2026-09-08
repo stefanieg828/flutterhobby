@@ -1,0 +1,61 @@
+.pixel-buddy {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.pixel-buddy--quiet,
+.pixel-buddy--scene {
+  justify-content: center;
+}
+
+.pixel-buddy__avatar {
+  flex-shrink: 0;
+  line-height: 0;
+  filter: drop-shadow(2px 3px 0 rgba(42, 48, 40, 0.2));
+}
+
+.pixel-buddy--scene .pixel-buddy__avatar svg {
+  width: min(118px, 26vw);
+  height: auto;
+}
+
+.pixel-buddy--tending .pixel-buddy__avatar {
+  animation: pixel-bob 1.4s steps(3, end) infinite;
+}
+
+@keyframes pixel-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.pixel-buddy__bubble {
+  background: rgba(255, 254, 248, 0.94);
+  border: 2px solid #c4a24e;
+  border-radius: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  max-width: 11rem;
+  box-shadow: 2px 3px 0 rgba(42, 48, 40, 0.15);
+}
+
+.pixel-buddy__name {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #a08028;
+  font-family: ui-monospace, monospace;
+}
+
+.pixel-buddy__msg {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #3d2e1f;
+}

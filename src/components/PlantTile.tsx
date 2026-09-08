@@ -1,8 +1,7 @@
 import type { Hobby } from '../types'
 import { progressPercent } from '../types'
 import { useTheme } from '../ThemeContext'
-import { PlantIllustration, plantShapeForId } from './PlantIllustration'
-import { GadgetIllustration, gadgetShapeForId } from './GadgetIllustration'
+import { ThemeObjectArt } from './ThemeObjectArt'
 import './PlantTile.css'
 
 interface PlantTileProps {
@@ -13,43 +12,34 @@ interface PlantTileProps {
 }
 
 export function PlantTile({ hobby, onSelect, compact = false }: PlantTileProps) {
-  const { theme } = useTheme()
+  const { theme, copy } = useTheme()
   const pct = progressPercent(hobby.progress)
   const color = hobby.color ?? 'sage'
   const tag = hobby.petName || hobby.name
   const size = compact ? 50 : 68
-  const isBasement = theme === 'Basement'
-  const objectWord = isBasement ? 'crate' : 'pot'
 
   return (
     <button
       type="button"
       className={`plant-tile${compact ? ' plant-tile--compact' : ''} plant-tile--${color}`}
       onClick={() => onSelect(hobby.id)}
-      aria-label={`${hobby.name}, ${pct}% tended. Open ${isBasement ? 'workbench' : 'bench'}.`}
+      aria-label={`${hobby.name}, ${pct}% tended. Open ${copy.benchEyebrow.toLowerCase()}.`}
       title={hobby.name}
     >
       <span className="plant-tile__art">
-        {isBasement ? (
-          <GadgetIllustration
-            shape={gadgetShapeForId(hobby.id, hobby.status)}
-            color={color}
-            size={size}
-            heart={hobby.status === 'proud-shelf'}
-          />
-        ) : (
-          <PlantIllustration
-            shape={plantShapeForId(hobby.id, hobby.status)}
-            color={color}
-            size={size}
-            heart={hobby.status === 'proud-shelf'}
-          />
-        )}
+        <ThemeObjectArt
+          theme={theme}
+          id={hobby.id}
+          status={hobby.status}
+          color={color}
+          size={size}
+          heart={hobby.status === 'proud-shelf'}
+        />
         <span className="plant-tile__bar" aria-hidden="true">
           <span className="plant-tile__fill" style={{ width: `${pct}%` }} />
         </span>
       </span>
-      <span className="plant-tile__tag" data-object={objectWord}>
+      <span className="plant-tile__tag" data-object={copy.objectWord}>
         {tag}
       </span>
     </button>

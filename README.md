@@ -10,8 +10,8 @@ This is a Progressive Web App (PWA) built with **Vite + React + TypeScript**.
 
 ## What you get (early shell)
 
-- **Home** — Greenhouse or Basement room (theme in localStorage), status shelves (In season / Resting / Proud shelf / Archive), create form, progress chooser when tending
-- **Collections** — switch Greenhouse ↔ Basement (Sprout / Dusty); other themes & buddies listed as coming soon
+- **Home** — Greenhouse, Basement, Closet, Desktop, or Workshop room (theme in localStorage), status shelves (In season / Resting / Proud shelf / Archive), create form, progress chooser when tending
+- **Collections** — switch all five themes (Sprout / Dusty / Mira / Pixel / Rip)
 - **Solstice** — season-turn ritual: sort hobbies into In season / Resting / Proud shelf (same localStorage as Home)
 - **You** — theme switcher, about / privacy notes (ad-free, local-only for now)
 

@@ -2,8 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type DragEvent } from 'react
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
-import { PlantIllustration, plantShapeForId } from '../components/PlantIllustration'
-import { GadgetIllustration, gadgetShapeForId } from '../components/GadgetIllustration'
+import { ThemeObjectArt } from '../components/ThemeObjectArt'
 import { useTheme } from '../ThemeContext'
 import './Solstice.css'
 
@@ -67,20 +66,11 @@ function SolsticeDecor() {
 function TinyPlant({ hobby }: { hobby: Hobby }) {
   const { theme } = useTheme()
   const color = hobby.color ?? 'sage'
-  if (theme === 'Basement') {
-    return (
-      <GadgetIllustration
-        shape={gadgetShapeForId(hobby.id, hobby.status)}
-        color={color}
-        size={28}
-        heart={hobby.status === 'proud-shelf'}
-        className="solstice-chip__plant"
-      />
-    )
-  }
   return (
-    <PlantIllustration
-      shape={plantShapeForId(hobby.id, hobby.status)}
+    <ThemeObjectArt
+      theme={theme}
+      id={hobby.id}
+      status={hobby.status}
       color={color}
       size={28}
       heart={hobby.status === 'proud-shelf'}

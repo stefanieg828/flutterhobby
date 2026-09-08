@@ -1,0 +1,60 @@
+.rip-buddy {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.rip-buddy--quiet,
+.rip-buddy--scene {
+  justify-content: center;
+}
+
+.rip-buddy__avatar {
+  flex-shrink: 0;
+  line-height: 0;
+  filter: drop-shadow(2px 3px 0 rgba(42, 48, 40, 0.22));
+}
+
+.rip-buddy--scene .rip-buddy__avatar svg {
+  width: min(128px, 27vw);
+  height: auto;
+}
+
+.rip-buddy--tending .rip-buddy__avatar {
+  animation: rip-bob 1.5s ease-in-out infinite;
+}
+
+@keyframes rip-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+.rip-buddy__bubble {
+  background: rgba(255, 248, 236, 0.94);
+  border: 2px solid #8a7040;
+  border-radius: 0.85rem 0.95rem 0.95rem 0.25rem;
+  padding: 0.55rem 0.7rem;
+  max-width: 11rem;
+  box-shadow: 2px 3px 0 rgba(42, 48, 40, 0.18);
+}
+
+.rip-buddy__name {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6a5438;
+}
+
+.rip-buddy__msg {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #3d2e1f;
+}
