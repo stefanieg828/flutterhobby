@@ -2,7 +2,9 @@
 
 A cozy, **ad-free** hobby tracker with a greenhouse-first vibe. Grow what you love — plant hobbies, tend them with gentle nudges, and celebrate proud-shelf wins. No accounts or payments yet; progress lives in your browser.
 
-**Domain:** [flutterhobby.fun](https://flutterhobby.fun)
+**GitHub Pages preview:** https://stefanieg828.github.io/flutterhobby/
+
+**Custom domain (later):** flutterhobby.fun (Hostinger) — not wired to this Pages deploy yet.
 
 This is a Progressive Web App (PWA) built with **Vite + React + TypeScript**.
 
@@ -25,6 +27,10 @@ Commands (in order):
 - npm run dev
 - npm run build
 - npm run preview
+
+## GitHub Pages
+
+CI builds the site for the project path and publishes on push to main. Local production builds stay root-relative.
 
 ## Notes
 

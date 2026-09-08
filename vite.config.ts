@@ -2,7 +2,13 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// GitHub Pages project site needs /flutterhobby/; local dev/build keep /
+const base =
+  process.env.VITE_BASE ||
+  (process.env.GITHUB_ACTIONS === "true" ? "/flutterhobby/" : "/")
+
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
@@ -15,7 +21,8 @@ export default defineConfig({
         theme_color: '#2d6a4f',
         background_color: '#f1faee',
         display: 'standalone',
-        start_url: '/',
+        start_url: base,
+        scope: base,
         icons: [
           {
             src: 'favicon.svg',

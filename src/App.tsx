@@ -6,9 +6,12 @@ import { Solstice } from './pages/Solstice'
 import { You } from './pages/You'
 import './App.css'
 
+// Vite BASE_URL has a trailing slash; React Router basename should not.
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename === '/' ? undefined : basename}>
       <div className="app-shell">
         <main className="app-main">
           <Routes>
