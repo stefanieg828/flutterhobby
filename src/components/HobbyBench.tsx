@@ -13,6 +13,7 @@ import { useTheme } from '../ThemeContext'
 import { ThemeObjectArt } from './ThemeObjectArt'
 import { NestItemsPanel } from './NestItemsPanel'
 import { ProgressPhotosPanel } from './ProgressPhotosPanel'
+import { ProgressAudioPanel } from './ProgressAudioPanel'
 import './HobbyBench.css'
 
 interface HobbyBenchProps {
@@ -313,6 +314,8 @@ export function HobbyBench({
         <NestItemsPanel hobby={hobby} onChange={handleItemsChange} dense />
 
         <ProgressPhotosPanel hobbyId={hobby.id} dense />
+
+        <ProgressAudioPanel hobbyId={hobby.id} dense />
 
         <div className="bench__status">
           <p className="bench__section-label">Move to</p>

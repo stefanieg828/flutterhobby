@@ -3,6 +3,7 @@ import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
 import { deleteAllPhotosForHobby } from '../photoStorage'
+import { deleteAllAudioForHobby } from '../audioStorage'
 import { useTheme } from '../ThemeContext'
 import { themeRoomClass } from '../theme'
 import { CreateHobbyForm } from '../components/CreateHobbyForm'
@@ -646,6 +647,7 @@ export function Home() {
     persist(hobbies.filter((h) => h.id !== id))
     setSelectedId(null)
     void deleteAllPhotosForHobby(id)
+    void deleteAllAudioForHobby(id)
   }
 
   function enterHyperfocus(id: string) {
