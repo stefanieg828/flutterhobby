@@ -16,7 +16,7 @@ export function PlantTile({ hobby, onSelect, compact = false }: PlantTileProps) 
   const pct = progressPercent(hobby.progress)
   const color = hobby.color ?? 'sage'
   const tag = hobby.petName || hobby.name
-  const size = compact ? 50 : 68
+  const size = compact ? 58 : 76
 
   return (
     <button

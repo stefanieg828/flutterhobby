@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
-  max-width: 12rem;
+  max-width: 14rem;
 }
 
 .sprout-buddy--quiet {
@@ -23,27 +23,28 @@
 .sprout-buddy__avatar {
   flex-shrink: 0;
   line-height: 0;
-  filter: drop-shadow(2px 4px 0 rgba(42, 64, 48, 0.14));
+  filter: drop-shadow(2px 5px 0 rgba(42, 64, 48, 0.16));
 }
 
+/* Larger, charming scene Sprout — closer to the painted mock */
 .sprout-buddy--scene .sprout-buddy__avatar svg {
-  width: 118px;
-  height: 126px;
+  width: 142px;
+  height: 152px;
 }
 
 .sprout-buddy--quiet .sprout-buddy__avatar svg {
-  width: 112px;
-  height: 120px;
+  width: 138px;
+  height: 148px;
 }
 
 .sprout-buddy--watering .sprout-buddy__avatar svg {
-  width: 124px;
-  height: 132px;
+  width: 152px;
+  height: 162px;
 }
 
 .sprout-buddy:not(.sprout-buddy--scene) .sprout-buddy__avatar svg {
-  width: 88px;
-  height: 102px;
+  width: 96px;
+  height: 108px;
 }
 
 .sprout-buddy__bubble {
@@ -92,12 +93,12 @@
 
   .sprout-buddy--quiet .sprout-buddy__avatar svg,
   .sprout-buddy--scene .sprout-buddy__avatar svg {
-    width: 100px;
-    height: 108px;
+    width: 118px;
+    height: 126px;
   }
 
   .sprout-buddy--watering .sprout-buddy__avatar svg {
-    width: 108px;
-    height: 116px;
+    width: 128px;
+    height: 136px;
   }
 }

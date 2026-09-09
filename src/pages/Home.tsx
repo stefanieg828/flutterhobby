@@ -83,8 +83,12 @@ const SEED: Hobby[] = [
 const EMPTY_SLOTS = 3
 
 function GreenhouseDecor() {
+  const art = `${import.meta.env.BASE_URL}art/greenhouse`
   return (
     <div className="gh-decor" aria-hidden="true">
+      {/* soft outdoor trees through glass */}
+      <img className="gh-decor__trees" src={`${art}/outdoor-trees.svg`} alt="" />
+
       {/* warm sunbeams */}
       <div className="gh-decor__sunbeams" />
       <div className="gh-decor__haze" />
@@ -93,98 +97,183 @@ function GreenhouseDecor() {
       <svg className="gh-decor__panes" viewBox="0 0 400 560" preserveAspectRatio="none">
         <defs>
           <linearGradient id="paneGlass" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#fffef8" stopOpacity="0.35" />
-            <stop offset="40%" stopColor="#fdfbe2" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#c8e0c0" stopOpacity="0.12" />
+            <stop offset="0%" stopColor="#fffef8" stopOpacity="0.4" />
+            <stop offset="35%" stopColor="#fdfbe2" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#c8e0c0" stopOpacity="0.14" />
+          </linearGradient>
+          <linearGradient id="frameWood" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#f5f0e6" />
+            <stop offset="100%" stopColor="#d8d0c0" />
           </linearGradient>
         </defs>
-        <rect x="4" y="4" width="392" height="552" rx="18" fill="url(#paneGlass)" stroke="#e8e0d0" strokeWidth="7" />
-        <rect x="10" y="10" width="380" height="540" rx="14" fill="none" stroke="#f5f0e6" strokeWidth="3" opacity="0.7" />
-        <line x1="134" y1="10" x2="134" y2="550" stroke="#f0ebe0" strokeWidth="5" opacity="0.85" />
-        <line x1="266" y1="10" x2="266" y2="550" stroke="#f0ebe0" strokeWidth="5" opacity="0.85" />
-        <line x1="10" y1="145" x2="390" y2="145" stroke="#f0ebe0" strokeWidth="4" opacity="0.75" />
-        <line x1="10" y1="290" x2="390" y2="290" stroke="#f0ebe0" strokeWidth="4" opacity="0.65" />
-        <line x1="10" y1="420" x2="390" y2="420" stroke="#f0ebe0" strokeWidth="4" opacity="0.55" />
+        <rect x="3" y="3" width="394" height="554" rx="18" fill="url(#paneGlass)" stroke="#c8bca8" strokeWidth="8" />
+        <rect x="10" y="10" width="380" height="540" rx="14" fill="none" stroke="#f5f0e6" strokeWidth="3.5" opacity="0.75" />
+        {/* white wood muntins */}
+        <line x1="134" y1="10" x2="134" y2="550" stroke="#efe8da" strokeWidth="6" opacity="0.9" />
+        <line x1="266" y1="10" x2="266" y2="550" stroke="#efe8da" strokeWidth="6" opacity="0.9" />
+        <line x1="10" y1="140" x2="390" y2="140" stroke="#efe8da" strokeWidth="5" opacity="0.8" />
+        <line x1="10" y1="280" x2="390" y2="280" stroke="#efe8da" strokeWidth="5" opacity="0.7" />
+        <line x1="10" y1="410" x2="390" y2="410" stroke="#efe8da" strokeWidth="5" opacity="0.6" />
         {/* soft glass glare */}
-        <rect x="22" y="24" width="95" height="55" rx="6" fill="#fffef8" opacity="0.28" />
-        <rect x="148" y="160" width="100" height="48" rx="5" fill="#fdfbe2" opacity="0.18" />
-        <rect x="280" y="28" width="95" height="50" rx="6" fill="#fffef8" opacity="0.22" />
+        <rect x="20" y="22" width="100" height="58" rx="6" fill="#fffef8" opacity="0.32" />
+        <rect x="148" y="155" width="105" height="50" rx="5" fill="#fdfbe2" opacity="0.2" />
+        <rect x="278" y="26" width="98" height="52" rx="6" fill="#fffef8" opacity="0.26" />
+        <rect x="22" y="300" width="90" height="40" rx="5" fill="#fffef8" opacity="0.12" />
       </svg>
 
+      {/* wooden rafters */}
+      <img className="gh-decor__rafters" src={`${art}/rafters.svg`} alt="" />
+
       {/* dense hanging vines left */}
-      <svg className="gh-decor__vines gh-decor__vines--left" viewBox="0 0 80 340">
-        <path d="M40 0 C28 50 52 90 30 140 C12 190 48 230 34 300 C28 320 36 335 40 340" stroke="#3d6b42" strokeWidth="3" fill="none" />
-        <path d="M52 10 C60 70 38 110 58 170 C70 210 48 250 62 300" stroke="#4a7a4e" strokeWidth="2.2" fill="none" opacity="0.85" />
-        <ellipse cx="24" cy="48" rx="14" ry="8" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-35 24 48)" />
-        <ellipse cx="48" cy="72" rx="13" ry="7.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(28 48 72)" />
-        <ellipse cx="20" cy="110" rx="12" ry="7" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-22 20 110)" />
-        <ellipse cx="52" cy="140" rx="13" ry="7.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(32 52 140)" />
-        <ellipse cx="26" cy="178" rx="11" ry="6.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-18 26 178)" />
-        <ellipse cx="50" cy="210" rx="12" ry="7" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(24 50 210)" />
-        <ellipse cx="28" cy="250" rx="11" ry="6.5" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-26 28 250)" />
-        <ellipse cx="48" cy="285" rx="10" ry="6" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(20 48 285)" />
-        <ellipse cx="32" cy="318" rx="9" ry="5.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-14 32 318)" />
-        <circle cx="38" cy="95" r="3" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="44" cy="195" r="2.5" fill="#c47a5a" stroke="#2a4030" strokeWidth="1" />
+      <svg className="gh-decor__vines gh-decor__vines--left" viewBox="0 0 90 360">
+        <path d="M44 0 C30 55 56 95 32 150 C12 205 52 245 36 320 C28 340 40 355 44 360" stroke="#3d6b42" strokeWidth="3.4" fill="none" />
+        <path d="M58 8 C66 75 40 115 62 180 C76 225 50 265 66 320" stroke="#4a7a4e" strokeWidth="2.4" fill="none" opacity="0.85" />
+        <path d="M36 20 C22 80 48 120 28 190" stroke="#2f5a38" strokeWidth="1.8" fill="none" opacity="0.7" />
+        {[
+          [26, 42, -35, '#6aaa6a', 15],
+          [52, 68, 28, '#7cb87c', 14],
+          [20, 105, -22, '#8fbc8f', 13],
+          [56, 132, 32, '#6aaa6a', 14],
+          [24, 168, -18, '#9fd49f', 12],
+          [54, 200, 24, '#7cb87c', 13],
+          [28, 238, -26, '#8fbc8f', 12],
+          [50, 272, 20, '#6aaa6a', 11],
+          [34, 308, -14, '#9fd49f', 10],
+          [48, 338, 16, '#7cb87c', 9],
+        ].map(([cx, cy, rot, fill, rx], i) => (
+          <g key={i}>
+            <ellipse
+              cx={cx}
+              cy={cy}
+              rx={rx}
+              ry={Number(rx) * 0.58}
+              fill={String(fill)}
+              stroke="#2a4030"
+              strokeWidth="1.35"
+              transform={`rotate(${rot} ${cx} ${cy})`}
+            />
+            <ellipse
+              cx={cx}
+              cy={cy}
+              rx={Number(rx) * 0.4}
+              ry={Number(rx) * 0.22}
+              fill="#c8f0c0"
+              opacity="0.4"
+              transform={`rotate(${rot} ${cx} ${cy})`}
+            />
+          </g>
+        ))}
+        <circle cx="40" cy="90" r="3.2" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
+        <circle cx="48" cy="188" r="2.8" fill="#c47a5a" stroke="#2a4030" strokeWidth="1" />
+        <circle cx="38" cy="255" r="2.5" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
       </svg>
 
       {/* dense vines right */}
-      <svg className="gh-decor__vines gh-decor__vines--right" viewBox="0 0 80 300">
-        <path d="M40 0 C52 45 28 85 50 135 C68 180 32 220 46 280" stroke="#3d6b42" strokeWidth="3" fill="none" />
-        <path d="M28 8 C18 60 42 100 22 155 C10 195 36 235 26 285" stroke="#4a7a4e" strokeWidth="2.2" fill="none" opacity="0.85" />
-        <ellipse cx="54" cy="42" rx="14" ry="8" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(32 54 42)" />
-        <ellipse cx="30" cy="78" rx="12" ry="7" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-28 30 78)" />
-        <ellipse cx="56" cy="118" rx="13" ry="7.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(22 56 118)" />
-        <ellipse cx="26" cy="155" rx="11" ry="6.5" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-30 26 155)" />
-        <ellipse cx="52" cy="190" rx="12" ry="7" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.3" transform="rotate(18 52 190)" />
-        <ellipse cx="30" cy="230" rx="11" ry="6.5" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.3" transform="rotate(-24 30 230)" />
-        <ellipse cx="48" cy="265" rx="10" ry="6" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.3" transform="rotate(16 48 265)" />
-        <circle cx="40" cy="100" r="2.8" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="38" cy="210" r="2.5" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
+      <svg className="gh-decor__vines gh-decor__vines--right" viewBox="0 0 90 320">
+        <path d="M46 0 C58 48 30 90 54 145 C72 190 34 230 50 295" stroke="#3d6b42" strokeWidth="3.4" fill="none" />
+        <path d="M32 6 C20 65 46 108 24 165 C10 210 38 250 28 300" stroke="#4a7a4e" strokeWidth="2.4" fill="none" opacity="0.85" />
+        {[
+          [58, 38, 32, '#8fbc8f', 15],
+          [30, 72, -28, '#6aaa6a', 13],
+          [60, 112, 22, '#7cb87c', 14],
+          [26, 148, -30, '#9fd49f', 12],
+          [56, 182, 18, '#6aaa6a', 13],
+          [30, 220, -24, '#8fbc8f', 12],
+          [52, 255, 16, '#7cb87c', 11],
+          [36, 290, -12, '#9fd49f', 10],
+        ].map(([cx, cy, rot, fill, rx], i) => (
+          <g key={i}>
+            <ellipse
+              cx={cx}
+              cy={cy}
+              rx={rx}
+              ry={Number(rx) * 0.58}
+              fill={String(fill)}
+              stroke="#2a4030"
+              strokeWidth="1.35"
+              transform={`rotate(${rot} ${cx} ${cy})`}
+            />
+            <ellipse
+              cx={cx}
+              cy={cy}
+              rx={Number(rx) * 0.4}
+              ry={Number(rx) * 0.22}
+              fill="#c8f0c0"
+              opacity="0.4"
+              transform={`rotate(${rot} ${cx} ${cy})`}
+            />
+          </g>
+        ))}
+        <circle cx="42" cy="95" r="3" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
+        <circle cx="40" cy="200" r="2.6" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
       </svg>
 
       {/* top draping vines */}
-      <svg className="gh-decor__vines-top" viewBox="0 0 360 70">
-        <path d="M0 8 Q40 28 80 10 T160 14 T240 8 T320 16 T360 10" stroke="#3d6b42" strokeWidth="2.5" fill="none" />
-        <path d="M20 4 Q60 22 100 6 T200 12 T300 4" stroke="#4a7a4e" strokeWidth="1.8" fill="none" opacity="0.8" />
-        <ellipse cx="50" cy="22" rx="11" ry="6.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.2" transform="rotate(40 50 22)" />
-        <ellipse cx="110" cy="18" rx="10" ry="6" fill="#8fbc8f" stroke="#2a4030" strokeWidth="1.2" transform="rotate(-35 110 18)" />
-        <ellipse cx="170" cy="24" rx="12" ry="7" fill="#7cb87c" stroke="#2a4030" strokeWidth="1.2" transform="rotate(25 170 24)" />
-        <ellipse cx="230" cy="16" rx="10" ry="6" fill="#9fd49f" stroke="#2a4030" strokeWidth="1.2" transform="rotate(-40 230 16)" />
-        <ellipse cx="290" cy="22" rx="11" ry="6.5" fill="#6aaa6a" stroke="#2a4030" strokeWidth="1.2" transform="rotate(30 290 22)" />
+      <svg className="gh-decor__vines-top" viewBox="0 0 360 80">
+        <path d="M0 10 Q40 32 80 12 T160 16 T240 10 T320 18 T360 12" stroke="#3d6b42" strokeWidth="2.8" fill="none" />
+        <path d="M16 6 Q60 26 100 8 T200 14 T300 6" stroke="#4a7a4e" strokeWidth="2" fill="none" opacity="0.85" />
+        <path d="M40 4 Q90 20 140 6 T260 12 T340 4" stroke="#2f5a38" strokeWidth="1.5" fill="none" opacity="0.55" />
+        {[
+          [48, 24, 40, '#6aaa6a'],
+          [108, 20, -35, '#8fbc8f'],
+          [168, 26, 25, '#7cb87c'],
+          [228, 18, -40, '#9fd49f'],
+          [288, 24, 30, '#6aaa6a'],
+          [328, 20, -20, '#8fbc8f'],
+        ].map(([cx, cy, rot, fill], i) => (
+          <ellipse
+            key={i}
+            cx={cx}
+            cy={cy}
+            rx="12"
+            ry="7"
+            fill={String(fill)}
+            stroke="#2a4030"
+            strokeWidth="1.25"
+            transform={`rotate(${rot} ${cx} ${cy})`}
+          />
+        ))}
+        <circle cx="130" cy="28" r="2.8" fill="#e8a0b0" stroke="#2a4030" strokeWidth="0.9" />
+        <circle cx="250" cy="22" r="2.5" fill="#e6b84d" stroke="#2a4030" strokeWidth="0.9" />
       </svg>
 
       {/* glowing string lights */}
-      <svg className="gh-decor__lights" viewBox="0 0 360 40">
+      <svg className="gh-decor__lights" viewBox="0 0 360 48">
         <defs>
-          <filter id="bulbGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.2" result="b" />
+          <filter id="bulbGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="2.8" result="b" />
             <feMerge>
               <feMergeNode in="b" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
-        <path d="M8 10 Q60 28 120 12 T240 14 T352 10" stroke="#c4a24e" strokeWidth="1.6" fill="none" />
+        <path d="M6 12 Q55 32 115 14 T235 16 T354 12" stroke="#a88840" strokeWidth="1.8" fill="none" />
+        <path d="M6 12 Q55 32 115 14 T235 16 T354 12" stroke="#c4a24e" strokeWidth="1" fill="none" opacity="0.7" />
         {[
-          [36, 16, '#ffe9a0'],
-          [78, 22, '#fff4c8'],
-          [120, 12, '#ffe0b0'],
-          [162, 20, '#fff8d8'],
-          [204, 14, '#ffe9a0'],
-          [246, 20, '#fff4c8'],
-          [288, 12, '#ffe0b0'],
-          [328, 16, '#fff8d8'],
+          [34, 18, '#ffe9a0'],
+          [72, 26, '#fff4c8'],
+          [112, 14, '#ffe0b0'],
+          [152, 24, '#fff8d8'],
+          [192, 16, '#ffe9a0'],
+          [232, 24, '#fff4c8'],
+          [272, 14, '#ffe0b0'],
+          [312, 20, '#fff8d8'],
+          [342, 14, '#ffe9a0'],
         ].map(([cx, cy, fill], i) => (
           <g key={i} filter="url(#bulbGlow)">
-            <circle cx={cx} cy={cy} r="5" fill={String(fill)} opacity="0.95" />
-            <circle cx={cx} cy={cy} r="2.8" fill="#fffef8" opacity="0.85" />
-            <rect x={Number(cx) - 1.5} y={Number(cy) - 8} width="3" height="3.5" rx="0.5" fill="#8a7040" />
+            <circle cx={cx} cy={cy} r="6.2" fill={String(fill)} opacity="0.55" />
+            <circle cx={cx} cy={cy} r="4.6" fill={String(fill)} opacity="0.95" />
+            <circle cx={cx} cy={Number(cy) - 0.8} r="2.4" fill="#fffef8" opacity="0.9" />
+            <rect x={Number(cx) - 1.6} y={Number(cy) - 9} width="3.2" height="3.8" rx="0.6" fill="#8a7040" stroke="#3d2e1f" strokeWidth="0.6" />
           </g>
         ))}
       </svg>
 
-      <div className="gh-decor__floor" />
+      {/* wooden plank floor */}
+      <div className="gh-decor__floor">
+        <img className="gh-decor__floor-img" src={`${art}/floor-planks.svg`} alt="" />
+      </div>
     </div>
   )
 }
@@ -326,7 +415,7 @@ function CenterWateringScene({
         <ThemeBuddy theme={theme} scene quiet tending={watering} />
       </div>
       <div className="center-stage__plant" aria-hidden="true">
-        <ThemeObjectArt theme={theme} id="center-demo" size={72} demo />
+        <ThemeObjectArt theme={theme} id="center-demo" size={88} demo />
         {watering ? (
           <svg className={`center-stage__sparkles${sparkles ? ' center-stage__sparkles--hot' : ''}`} viewBox="0 0 80 60" aria-hidden="true">
             <g fill="#f5d76e" stroke="#c4a24e" strokeWidth="0.8">
@@ -466,31 +555,39 @@ function BenchProps({ theme, chalkLine1, chalkLine2 }: { theme: import('../theme
       </svg>
     )
   }
-  // Greenhouse default
+  // Greenhouse default — illustrated watering can, crate, gloves, trowel, chalk
   return (
     <svg className="potting-bench__props" viewBox="0 0 200 72" aria-hidden="true">
-      <g transform="translate(4,8)">
-        <path d="M14 16 L48 16 L45 48 Q30 56 16 48 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2.2" />
-        <rect x="10" y="10" width="42" height="9" rx="2" fill="#7cb87c" stroke="#2a4030" strokeWidth="2.2" />
-        <path d="M48 14 C64 10 68 30 56 36" stroke="#2a4030" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-        <path d="M56 36 L64 44" stroke="#2a4030" strokeWidth="2.6" strokeLinecap="round" />
-        <path d="M30 28 C28 26 24 26 24 30 C24 33 30 38 30 38 C30 38 36 33 36 30 C36 26 32 26 30 28 Z" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1.2" />
+      <g transform="translate(2,6)">
+        <path d="M14 16 L50 16 L46 50 Q30 58 16 50 Z" fill="#6aaa6a" stroke="#2a4030" strokeWidth="2.3" />
+        <path d="M20 24 L24 44" stroke="#9fd49f" strokeWidth="3" strokeLinecap="round" opacity="0.45" />
+        <rect x="10" y="8" width="44" height="11" rx="2.5" fill="#7cb87c" stroke="#2a4030" strokeWidth="2.3" />
+        <path d="M50 14 C66 8 72 30 58 38" stroke="#2a4030" strokeWidth="3.4" fill="none" strokeLinecap="round" />
+        <path d="M50 14 C66 8 72 30 58 38" stroke="#7cb87c" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+        <path d="M58 38 L68 48" stroke="#2a4030" strokeWidth="2.8" strokeLinecap="round" />
+        <path d="M31 30 C29 28 25 28 25 32 C25 35 31 40 31 40 C31 40 37 35 37 32 C37 28 33 28 31 30 Z" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1.3" />
       </g>
-      <g transform="translate(78,22)">
-        <rect x="0" y="8" width="46" height="30" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2" />
-        <path d="M4 8 C6 0 40 0 42 8" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.8" />
-        <rect x="6" y="14" width="16" height="12" rx="2" fill="#e8d4b0" stroke="#2a4030" strokeWidth="1.3" />
-        <rect x="24" y="14" width="16" height="12" rx="2" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.3" />
+      <g transform="translate(74,18)">
+        <rect x="0" y="10" width="50" height="34" rx="3" fill="#c4ad8c" stroke="#2a4030" strokeWidth="2.1" />
+        <path d="M3 10 C6 0 44 0 47 10" fill="#d7c4a8" stroke="#2a4030" strokeWidth="1.9" />
+        {/* weave on crate */}
+        <path d="M4 20 H46 M4 28 H46 M4 36 H46" stroke="#8a6840" strokeWidth="1" opacity="0.35" />
+        {/* gloves */}
+        <ellipse cx="16" cy="28" rx="9" ry="7" fill="#e8d4b0" stroke="#2a4030" strokeWidth="1.4" />
+        <ellipse cx="14" cy="24" rx="3" ry="4" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.1" />
+        <ellipse cx="34" cy="30" rx="8" ry="6.5" fill="#d4c0a0" stroke="#2a4030" strokeWidth="1.4" />
+        <path d="M30 26 Q34 22 38 26" stroke="#2a4030" strokeWidth="1.1" fill="none" />
       </g>
-      <g transform="translate(132,6)">
-        <rect x="10" y="0" width="7" height="22" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.6" />
-        <path d="M6 22 L22 22 L18 48 Q14 54 10 48 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.6" />
+      <g transform="translate(130,4)">
+        <rect x="10" y="0" width="8" height="24" rx="2" fill="#c4ad8c" stroke="#2a4030" strokeWidth="1.7" />
+        <path d="M5 24 L25 24 L20 52 Q14 58 10 52 Z" fill="#8a9aa8" stroke="#2a4030" strokeWidth="1.7" />
+        <path d="M10 32 L14 48" stroke="#c8d4dc" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
       </g>
-      <g transform="translate(158,18)">
-        <rect x="0" y="0" width="40" height="28" rx="2" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.8" />
-        <rect x="-2" y="-2" width="44" height="4" rx="1" fill="#a6855e" stroke="#2a4030" strokeWidth="1.2" />
-        <text x="20" y="12" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">{chalkLine1}</text>
-        <text x="20" y="20" textAnchor="middle" fontSize="4.2" fill="#e8f0e4" fontFamily="sans-serif">{chalkLine2}</text>
+      <g transform="translate(156,16)">
+        <rect x="0" y="0" width="42" height="32" rx="2.5" fill="#3d4a40" stroke="#2a4030" strokeWidth="1.9" />
+        <rect x="-2" y="-3" width="46" height="5" rx="1.2" fill="#a6855e" stroke="#2a4030" strokeWidth="1.2" />
+        <text x="21" y="14" textAnchor="middle" fontSize="4.4" fill="#e8f0e4" fontFamily="sans-serif">{chalkLine1}</text>
+        <text x="21" y="23" textAnchor="middle" fontSize="4.4" fill="#e8f0e4" fontFamily="sans-serif">{chalkLine2}</text>
       </g>
     </svg>
   )

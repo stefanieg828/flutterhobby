@@ -73,10 +73,12 @@ export function ThemeObjectArt({
       return (
         <PlantIllustration
           shape={demo ? 'sprout' : plantShapeForId(id, status)}
-          color={demo ? 'sage' : color}
+          color={demo ? 'terracotta' : color}
           size={size}
           className={className}
           heart={heart}
+          plantId={id}
+          status={demo ? undefined : status}
         />
       )
   }

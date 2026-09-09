@@ -18,8 +18,8 @@
 }
 
 .plant-tile--compact {
-  width: 3.85rem;
-  min-width: 3.4rem;
+  width: 4.15rem;
+  min-width: 3.6rem;
   padding: 0.08rem 0.02rem 0;
 }
 
@@ -41,8 +41,8 @@
 }
 
 .plant-tile--compact .plant-tile__art svg {
-  width: 50px;
-  height: 60px;
+  width: 58px;
+  height: 68px;
 }
 
 .plant-tile__bar {
