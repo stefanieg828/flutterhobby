@@ -4,6 +4,7 @@ import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
 import { deleteAllPhotosForHobby } from '../photoStorage'
 import { deleteAllAudioForHobby } from '../audioStorage'
+import { deleteAllAchievementsForHobby } from '../achievementStorage'
 import { useTheme } from '../ThemeContext'
 import { themeRoomClass } from '../theme'
 import { CreateHobbyForm } from '../components/CreateHobbyForm'
@@ -648,6 +649,7 @@ export function Home() {
     setSelectedId(null)
     void deleteAllPhotosForHobby(id)
     void deleteAllAudioForHobby(id)
+    deleteAllAchievementsForHobby(id)
   }
 
   function enterHyperfocus(id: string) {

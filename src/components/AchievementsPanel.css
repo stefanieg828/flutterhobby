@@ -1,0 +1,197 @@
+.ach-panel {
+  margin-top: 1rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 0.95rem;
+  border: 1.5px dashed #d4b88a;
+  background: rgba(255, 246, 230, 0.55);
+}
+
+.ach-panel--dense {
+  margin-top: 0.85rem;
+  padding: 0.75rem 0.8rem;
+}
+
+.ach-panel__head {
+  margin-bottom: 0.55rem;
+}
+
+.ach-panel__title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a6855e;
+}
+
+.ach-panel__hint {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: #52796f;
+}
+
+.ach-panel__empty {
+  margin: 0 0 0.65rem;
+  font-size: 0.88rem;
+  color: #52796f;
+}
+
+.ach-panel__list {
+  list-style: none;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ach-panel__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  background: #fffef8;
+  border: 1px solid #e8d4a8;
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  position: relative;
+}
+
+.ach-panel__badge {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.65rem;
+  color: #c4a24e;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.ach-panel__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-right: 1.25rem;
+}
+
+.ach-panel__copy strong {
+  color: #1b4332;
+  font-size: 0.95rem;
+}
+
+.ach-panel__copy span {
+  color: #52796f;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.ach-panel__date {
+  font-weight: 600;
+  color: #a6855e !important;
+  font-size: 0.75rem !important;
+  margin-top: 0.1rem;
+}
+
+.ach-panel__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.ach-panel__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.ach-panel__confirm p {
+  margin: 0;
+  flex: 1 1 100%;
+  font-size: 0.75rem;
+  color: #8a4050;
+}
+
+.ach-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.ach-panel__form--add {
+  margin-top: 0.25rem;
+}
+
+.ach-panel__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #52796f;
+}
+
+.ach-panel__form input {
+  border: 1.5px solid #e0c48a;
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  font-weight: 500;
+  color: #1b4332;
+  background: #fff;
+}
+
+.ach-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.ach-panel__actions button,
+.ach-panel__add {
+  border: 1.5px solid #c4a24e;
+  background: #1b4332;
+  color: #f7fbf4;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+}
+
+.ach-panel__add {
+  width: 100%;
+  background: #ffe9b8;
+  color: #1b4332;
+}
+
+.ach-panel__ghost {
+  border: 1.5px solid #e0c48a !important;
+  background: #fffef8 !important;
+  color: #1b4332 !important;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+
+.ach-panel__danger {
+  border: 1.5px solid #e8a0b0 !important;
+  background: #fff5f7 !important;
+  color: #8a4050 !important;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+
+.ach-panel__error {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: #8a4050;
+}
