@@ -1346,3 +1346,35 @@
 .center-stage--basement .center-stage__plant {
   filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.25));
 }
+
+
+.greenhouse__exit-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 250;
+  max-width: min(90vw, 20rem);
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid #2a4030;
+  background: #fdfbe2;
+  color: #2f4a38;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(42, 64, 48, 0.22);
+  animation: exit-toast-in 0.28s ease-out;
+  pointer-events: none;
+}
+
+@keyframes exit-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

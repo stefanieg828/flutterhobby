@@ -561,3 +561,27 @@
     display: none;
   }
 }
+
+
+.bench__hyperfocus {
+  width: 100%;
+  margin-top: 0.85rem;
+  border: 2px solid #2a4030;
+  border-radius: 1rem;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: #fdfbe2;
+  color: #3d5a45;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #2a4030;
+}
+
+.bench__hyperfocus:hover {
+  background: #f5efd0;
+}
+
+.bench__hyperfocus:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #2a4030;
+}

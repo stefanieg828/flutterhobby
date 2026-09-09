@@ -17,6 +17,7 @@ interface HobbyBenchProps {
   onTend: (id: string, amountPercent: number) => void
   onUpdate: (hobby: Hobby) => void
   onDelete: (id: string) => void
+  onEnterHyperfocus?: (id: string) => void
   justTended?: boolean
 }
 
@@ -33,6 +34,7 @@ export function HobbyBench({
   onTend,
   onUpdate,
   onDelete,
+  onEnterHyperfocus,
   justTended = false,
 }: HobbyBenchProps) {
   const { theme, copy } = useTheme()
@@ -284,6 +286,16 @@ export function HobbyBench({
             </div>
           </div>
         )}
+
+        {onEnterHyperfocus ? (
+          <button
+            type="button"
+            className="bench__hyperfocus"
+            onClick={() => onEnterHyperfocus(hobby.id)}
+          >
+            Enter hyperfocus
+          </button>
+        ) : null}
 
         <div className="bench__status">
           <p className="bench__section-label">Move to</p>

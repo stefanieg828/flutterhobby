@@ -42,3 +42,47 @@ export function saveHobbies(hobbies: Hobby[]): void {
 export function createHobbyId(): string {
   return `hobby-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
+
+const LAST_HYPERFOCUS_KEY = 'flutterhobby-last-hyperfocus-id'
+const HYPERFOCUS_NOTES_KEY = 'flutterhobby-hyperfocus-notes'
+
+/** Light memory of the last hobby opened in Hyperfocus — never used for guilt. */
+export function loadLastHyperfocusId(): string | null {
+  try {
+    return localStorage.getItem(LAST_HYPERFOCUS_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function saveLastHyperfocusId(id: string): void {
+  try {
+    localStorage.setItem(LAST_HYPERFOCUS_KEY, id)
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
+export function loadHyperfocusNote(hobbyId: string): string {
+  try {
+    const raw = localStorage.getItem(HYPERFOCUS_NOTES_KEY)
+    if (!raw) return ''
+    const map = JSON.parse(raw) as Record<string, string>
+    return typeof map[hobbyId] === 'string' ? map[hobbyId] : ''
+  } catch {
+    return ''
+  }
+}
+
+export function saveHyperfocusNote(hobbyId: string, note: string): void {
+  try {
+    const raw = localStorage.getItem(HYPERFOCUS_NOTES_KEY)
+    const map = (raw ? JSON.parse(raw) : {}) as Record<string, string>
+    const trimmed = note.trim()
+    if (trimmed) map[hobbyId] = trimmed
+    else delete map[hobbyId]
+    localStorage.setItem(HYPERFOCUS_NOTES_KEY, JSON.stringify(map))
+  } catch {
+    /* ignore */
+  }
+}

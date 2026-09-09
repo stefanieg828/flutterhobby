@@ -13,6 +13,7 @@ import { DesktopDecor } from '../components/DesktopDecor'
 import { WorkshopDecor } from '../components/WorkshopDecor'
 import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
+import { HyperfocusView } from '../components/HyperfocusView'
 import './Home.css'
 
 const SEED: Hobby[] = [
@@ -539,6 +540,8 @@ export function Home() {
   const [justTendedId, setJustTendedId] = useState<string | null>(null)
   const [showArchive, setShowArchive] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
+  const [hyperfocusId, setHyperfocusId] = useState<string | null>(null)
+  const [exitToast, setExitToast] = useState<string | null>(null)
 
   useEffect(() => {
     const stored = loadHobbies()
@@ -559,6 +562,11 @@ export function Home() {
   const selected = useMemo(
     () => hobbies.find((h) => h.id === selectedId) ?? null,
     [hobbies, selectedId],
+  )
+
+  const hyperfocusHobby = useMemo(
+    () => hobbies.find((h) => h.id === hyperfocusId) ?? null,
+    [hobbies, hyperfocusId],
   )
 
   const zones = useMemo(() => {
@@ -614,6 +622,18 @@ export function Home() {
   function handleDelete(id: string) {
     persist(hobbies.filter((h) => h.id !== id))
     setSelectedId(null)
+  }
+
+  function enterHyperfocus(id: string) {
+    setSelectedId(null)
+    setCreateOpen(false)
+    setHyperfocusId(id)
+  }
+
+  function leaveHyperfocus(message: string) {
+    setHyperfocusId(null)
+    setExitToast(message)
+    window.setTimeout(() => setExitToast((cur) => (cur === message ? null : cur)), 2200)
   }
 
   return (
@@ -751,15 +771,31 @@ export function Home() {
         </details>
       </div>
 
-      {selected ? (
+      {selected && !hyperfocusHobby ? (
         <HobbyBench
           hobby={selected}
           onClose={() => setSelectedId(null)}
           onTend={handleTend}
           onUpdate={handleUpdate}
           onDelete={handleDelete}
+          onEnterHyperfocus={enterHyperfocus}
           justTended={justTendedId === selected.id}
         />
+      ) : null}
+
+      {hyperfocusHobby ? (
+        <HyperfocusView
+          hobby={hyperfocusHobby}
+          onTend={handleTend}
+          onExit={leaveHyperfocus}
+          justTended={justTendedId === hyperfocusHobby.id}
+        />
+      ) : null}
+
+      {exitToast ? (
+        <div className="greenhouse__exit-toast" role="status" aria-live="polite">
+          {exitToast}
+        </div>
       ) : null}
     </section>
   )

@@ -1,0 +1,417 @@
+.hyperfocus {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  animation: hyperfocus-in 0.28s ease-out;
+}
+
+@keyframes hyperfocus-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hyperfocus__dim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(42, 64, 48, 0.35), transparent 55%),
+    rgba(28, 40, 32, 0.72);
+  pointer-events: none;
+}
+
+.hyperfocus__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  max-height: 100dvh;
+  overflow: auto;
+  padding: 1.1rem 1.1rem calc(1.4rem + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  background:
+    linear-gradient(180deg, #efe4d0 0%, #e8dcc4 12%, #f5f9f2 12%, #eef5ea 100%);
+  border-left: 2.5px solid #2a4030;
+  border-right: 2.5px solid #2a4030;
+  box-shadow: 0 0 48px rgba(20, 30, 24, 0.45);
+}
+
+.hyperfocus--splash .hyperfocus__panel {
+  animation: hyperfocus-glow 0.9s ease;
+}
+
+@keyframes hyperfocus-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 48px rgba(20, 30, 24, 0.45);
+  }
+  40% {
+    box-shadow: 0 0 56px rgba(90, 180, 130, 0.5);
+  }
+}
+
+.hyperfocus__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.hyperfocus__eyebrow {
+  margin: 0 0 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a6855e;
+}
+
+.hyperfocus__header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #2f4a38;
+  line-height: 1.2;
+}
+
+.hyperfocus__creating {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: #4a7a5c;
+}
+
+.hyperfocus__exit {
+  flex-shrink: 0;
+  border: 2px solid #2a4030;
+  background: #fffef9;
+  color: #3d5a45;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.hyperfocus__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 0.5rem 0.5rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 254, 248, 0.65);
+  border: 2px solid rgba(42, 64, 48, 0.18);
+}
+
+.hyperfocus__buddy {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: scale(0.92);
+  transform-origin: center top;
+}
+
+.hyperfocus__object {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: -0.4rem;
+}
+
+.hyperfocus__splash-emoji {
+  position: absolute;
+  top: -0.2rem;
+  right: 18%;
+  font-size: 1.4rem;
+  animation: hyperfocus-pop 0.9s ease;
+}
+
+@keyframes hyperfocus-pop {
+  0% {
+    transform: translateY(6px) scale(0.6);
+    opacity: 0;
+  }
+  35% {
+    transform: translateY(-4px) scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10px) scale(1);
+    opacity: 0;
+  }
+}
+
+.hyperfocus__progress-block {
+  margin-bottom: 0.85rem;
+}
+
+.hyperfocus__progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3d5a45;
+  margin-bottom: 0.3rem;
+}
+
+.hyperfocus__progress {
+  height: 0.65rem;
+  border-radius: 999px;
+  background: #dce8d8;
+  border: 1.5px solid #2a4030;
+  overflow: hidden;
+}
+
+.hyperfocus__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #8fbc8f, #5a8f6b);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.hyperfocus__tend {
+  width: 100%;
+  border: 2px solid #2a4030;
+  border-radius: 1rem 0.9rem 1.05rem 0.95rem;
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  background: #3d6b52;
+  color: #f7fbf5;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #2a4030;
+}
+
+.hyperfocus__tend:hover {
+  background: #2f5542;
+}
+
+.hyperfocus__tend:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #2a4030;
+}
+
+.hyperfocus__secondary {
+  border: 2px solid #2a4030;
+  background: #fffef9;
+  color: #3d5a45;
+  border-radius: 0.85rem;
+  padding: 0.45rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.hyperfocus__chooser {
+  margin-bottom: 0.5rem;
+  padding: 0.85rem;
+  border-radius: 1rem;
+  background: rgba(253, 251, 226, 0.7);
+  border: 2px solid rgba(42, 64, 48, 0.2);
+}
+
+.hyperfocus__chooser-title {
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+  color: #2f4a38;
+}
+
+.hyperfocus__chooser-copy {
+  margin: 0 0 0.7rem;
+  font-size: 0.85rem;
+  color: #4a7a5c;
+}
+
+.hyperfocus__presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.hyperfocus__preset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  border: 2px solid #2a4030;
+  background: #fffef9;
+  border-radius: 0.85rem;
+  padding: 0.5rem 0.45rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.hyperfocus__preset--active {
+  background: #3d6b52;
+  color: #f7fbf5;
+}
+
+.hyperfocus__preset--active .hyperfocus__preset-hint,
+.hyperfocus__preset--active .hyperfocus__preset-bump {
+  color: #dceee0;
+}
+
+.hyperfocus__preset-label {
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.hyperfocus__preset-bump {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3d6b52;
+}
+
+.hyperfocus__preset-hint {
+  font-size: 0.68rem;
+  color: #6b8f76;
+}
+
+.hyperfocus__slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #3d5a45;
+  margin-bottom: 0.25rem;
+}
+
+.hyperfocus__slider {
+  width: 100%;
+  accent-color: #3d6b52;
+}
+
+.hyperfocus__chooser-preview {
+  margin: 0.4rem 0 0.7rem;
+  font-size: 0.8rem;
+  color: #4a7a5c;
+}
+
+.hyperfocus__chooser-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.hyperfocus__notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.9rem 0;
+}
+
+.hyperfocus__notes-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #a6855e;
+}
+
+.hyperfocus__notes textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 3.2rem;
+  border: 2px solid #2a4030;
+  border-radius: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  background: #fffef9;
+  color: #2f4a38;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.hyperfocus__timer {
+  margin: 0.4rem 0 0.85rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 2px dashed rgba(42, 64, 48, 0.28);
+  background: rgba(255, 254, 248, 0.55);
+}
+
+.hyperfocus__timer-copy {
+  margin: 0 0 0.55rem;
+  font-size: 0.85rem;
+  color: #4a7a5c;
+}
+
+.hyperfocus__timer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.hyperfocus__timer-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.hyperfocus__timer-digits {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #2f4a38;
+  letter-spacing: 0.04em;
+}
+
+.hyperfocus__timer-hint {
+  font-size: 0.82rem;
+  color: #4a7a5c;
+  text-align: center;
+}
+
+.hyperfocus__timer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.hyperfocus__footer-hint {
+  margin: 0.5rem 0 0.75rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b8f76;
+}
+
+.hyperfocus__leave {
+  width: 100%;
+  border: 2px solid #2a4030;
+  background: #fdfbe2;
+  color: #3d5a45;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.hyperfocus__leave:hover {
+  background: #f5efd0;
+}
+
+@media (min-width: 480px) {
+  .hyperfocus {
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .hyperfocus__panel {
+    max-height: min(94dvh, 44rem);
+    border-radius: 1.4rem;
+    border: 2.5px solid #2a4030;
+  }
+}
