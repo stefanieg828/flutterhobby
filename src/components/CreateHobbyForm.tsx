@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import type { Hobby, NudgeCadence, PlantColor } from '../types'
-import { CADENCE_LABELS, PLANT_COLORS } from '../types'
+import { CADENCE_LABELS, PLANT_COLORS, computeNextNudgeAt } from '../types'
 import { createHobbyId } from '../storage'
 import { useTheme } from '../ThemeContext'
 import './CreateHobbyForm.css'
@@ -36,6 +36,7 @@ export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormPro
     e.preventDefault()
     if (!name.trim() || !creating.trim()) return
 
+    const createdAt = new Date().toISOString()
     const hobby: Hobby = {
       id: createHobbyId(),
       name: name.trim(),
@@ -45,7 +46,9 @@ export function CreateHobbyForm({ onCreate, open, onCancel }: CreateHobbyFormPro
       status: 'in-season',
       progress: 0,
       color,
-      createdAt: new Date().toISOString(),
+      createdAt,
+      items: [],
+      nextNudgeAt: computeNextNudgeAt(createdAt, cadence),
     }
 
     onCreate(hobby)

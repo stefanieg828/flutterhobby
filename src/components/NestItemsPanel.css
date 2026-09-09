@@ -1,0 +1,157 @@
+.nest-panel {
+  margin-top: 1rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 0.95rem;
+  border: 1.5px dashed #a8c9b0;
+  background: rgba(216, 243, 220, 0.35);
+}
+
+.nest-panel--dense {
+  margin-top: 0.85rem;
+  padding: 0.75rem 0.8rem;
+}
+
+.nest-panel__head {
+  margin-bottom: 0.55rem;
+}
+
+.nest-panel__title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a6855e;
+}
+
+.nest-panel__hint {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: #52796f;
+}
+
+.nest-panel__empty {
+  margin: 0 0 0.65rem;
+  font-size: 0.88rem;
+  color: #52796f;
+}
+
+.nest-panel__list {
+  list-style: none;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nest-panel__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: #fffef8;
+  border: 1px solid #c5dfc8;
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.nest-panel__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nest-panel__copy strong {
+  color: #1b4332;
+  font-size: 0.95rem;
+}
+
+.nest-panel__copy span {
+  color: #52796f;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.nest-panel__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.nest-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.nest-panel__form--add {
+  margin-top: 0.25rem;
+}
+
+.nest-panel__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #52796f;
+}
+
+.nest-panel__form input {
+  border: 1.5px solid #95d5b2;
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  font-weight: 500;
+  color: #1b4332;
+  background: #fff;
+}
+
+.nest-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.nest-panel__actions button,
+.nest-panel__add {
+  border: 1.5px solid #74a892;
+  background: #1b4332;
+  color: #f7fbf4;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+}
+
+.nest-panel__add {
+  width: 100%;
+  background: #d8f3dc;
+  color: #1b4332;
+}
+
+.nest-panel__ghost {
+  border: 1.5px solid #95d5b2 !important;
+  background: #f7fbf4 !important;
+  color: #1b4332 !important;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+
+.nest-panel__danger {
+  border: 1.5px solid #e8a0b0 !important;
+  background: #fff5f7 !important;
+  color: #8a4050 !important;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}

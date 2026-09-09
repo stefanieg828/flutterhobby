@@ -4,6 +4,14 @@ export type NudgeCadence = 'daily' | 'every-few-days' | 'weekly' | 'when-inspire
 
 export type PlantColor = 'sage' | 'blush' | 'sky' | 'honey' | 'lavender' | 'terracotta'
 
+/** Nested scrap / project / pile under a hobby. Keep shallow — one level only. */
+export interface HobbyItem {
+  id: string
+  name: string
+  note?: string
+  createdAt: string
+}
+
 export interface Hobby {
   id: string
   name: string
@@ -16,6 +24,10 @@ export interface Hobby {
   color?: PlantColor
   createdAt: string
   lastTendedAt?: string
+  /** When a soft in-app nudge may gently appear (ISO). Omitted for when-inspired. */
+  nextNudgeAt?: string
+  /** Nested projects / scraps / piles (optional; normalized to [] on load). */
+  items?: HobbyItem[]
 }
 
 export const THEMES = ['Greenhouse', 'Basement', 'Closet', 'Desktop', 'Workshop'] as const
@@ -59,6 +71,14 @@ export const TEND_PRESETS = [
   { id: 'lot', label: 'A lot', bump: 25, hint: 'A deep drink' },
 ] as const
 
+/** Days until the next soft nudge after a tend / cadence set. */
+export const CADENCE_DAYS: Record<NudgeCadence, number | null> = {
+  daily: 1,
+  'every-few-days': 3,
+  weekly: 7,
+  'when-inspired': null,
+}
+
 export function progressPercent(progress: number): number {
   return Math.min(100, Math.max(0, Math.round(progress)))
 }
@@ -66,4 +86,36 @@ export function progressPercent(progress: number): number {
 export function applyProgressBump(current: number, bumpPercent: number): number {
   const bump = Math.max(0, Math.round(bumpPercent))
   return Math.min(100, progressPercent(current) + bump)
+}
+
+export function hobbyItems(hobby: Hobby): HobbyItem[] {
+  return Array.isArray(hobby.items) ? hobby.items : []
+}
+
+/** Compute next soft-nudge time from a base ISO timestamp + cadence. */
+export function computeNextNudgeAt(
+  baseIso: string,
+  cadence: NudgeCadence,
+): string | undefined {
+  const days = CADENCE_DAYS[cadence]
+  if (days == null) return undefined
+  const base = new Date(baseIso)
+  if (Number.isNaN(base.getTime())) return undefined
+  const next = new Date(base.getTime() + days * 24 * 60 * 60 * 1000)
+  return next.toISOString()
+}
+
+/** True when an in-app gentle nudge may show (never for when-inspired). */
+export function isNudgeDue(hobby: Hobby, now = new Date()): boolean {
+  if (hobby.cadence === 'when-inspired') return false
+  if (hobby.status === 'archive') return false
+  if (!hobby.nextNudgeAt) return false
+  const due = new Date(hobby.nextNudgeAt)
+  if (Number.isNaN(due.getTime())) return false
+  return due.getTime() <= now.getTime()
+}
+
+export function nudgeHintCopy(hobby: Hobby): string {
+  const label = hobby.petName?.trim() || hobby.name
+  return `${label} might be ready for a sip — only if it feels nice.`
 }

@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react'
+import type { Hobby } from '../types'
 import { PLAYABLE_THEMES, THEME_COPY, type PlayableTheme } from '../theme'
 import { useTheme } from '../ThemeContext'
+import { loadHobbies } from '../storage'
+import { NudgeHints } from '../components/NudgeHints'
 import './You.css'
 
 export function You() {
   const { theme, setTheme, copy } = useTheme()
+  const [hobbies, setHobbies] = useState<Hobby[]>([])
+
+  useEffect(() => {
+    setHobbies(loadHobbies())
+  }, [])
 
   return (
     <section className="page you">
@@ -14,6 +23,8 @@ export function You() {
           Ad-free by design. No account, no payments — just local hobbies on this device for now.
         </p>
       </header>
+
+      <NudgeHints hobbies={hobbies} title="Might be ready for a sip" />
 
       <div className="you-card">
         <h2>Home theme</h2>
@@ -48,8 +59,8 @@ export function You() {
       <div className="you-card">
         <h2>Privacy</h2>
         <p>
-          Progress and theme choice are stored in your browser&apos;s localStorage. Nothing is sent
-          to a server yet. Clearing site data will reset your room.
+          Progress, nests, and theme choice are stored in your browser&apos;s localStorage. Nothing
+          is sent to a server yet. Clearing site data will reset your room.
         </p>
       </div>
 
@@ -59,6 +70,7 @@ export function You() {
           <li>Optional sync / account (still ad-free)</li>
           <li>Painted buddy &amp; room art polish</li>
           <li>Export / backup</li>
+          <li>Optional push nudges (in-app only for now)</li>
         </ul>
       </div>
     </section>

@@ -117,3 +117,68 @@
   padding: 0.2rem 0.5rem;
   border-radius: 999px;
 }
+
+.collections__sub {
+  margin: -0.35rem 0 0.85rem;
+  color: #52796f;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.collections__muted {
+  margin: 0;
+  color: #52796f;
+  font-size: 0.9rem;
+}
+
+.nest-hobby-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.nest-hobby {
+  background: #fff;
+  border: 1px solid #95d5b2;
+  border-radius: 0.95rem;
+  padding: 0.35rem 0.55rem 0.55rem;
+}
+
+.nest-hobby--open {
+  border-color: #74a892;
+  box-shadow: 0 0 0 2px rgba(116, 168, 146, 0.18);
+}
+
+.nest-hobby__toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  border: none;
+  background: transparent;
+  padding: 0.55rem 0.4rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.nest-hobby__name {
+  font-weight: 700;
+  color: #1b4332;
+  font-size: 0.98rem;
+}
+
+.nest-hobby__meta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #52796f;
+  background: #d8f3dc;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}

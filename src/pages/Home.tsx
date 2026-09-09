@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
-import { STATUS_LABELS, applyProgressBump } from '../types'
+import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
 import { useTheme } from '../ThemeContext'
 import { themeRoomClass } from '../theme'
@@ -14,6 +14,7 @@ import { WorkshopDecor } from '../components/WorkshopDecor'
 import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
 import { HyperfocusView } from '../components/HyperfocusView'
+import { NudgeHints } from '../components/NudgeHints'
 import './Home.css'
 
 const SEED: Hobby[] = [
@@ -27,6 +28,16 @@ const SEED: Hobby[] = [
     progress: 15,
     color: 'sage',
     createdAt: new Date().toISOString(),
+    lastTendedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    nextNudgeAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+    items: [
+      {
+        id: 'seed-item-washes',
+        name: 'Sky wash practice',
+        note: 'Try softer edges next time',
+        createdAt: new Date().toISOString(),
+      },
+    ],
   },
   {
     id: 'seed-knitting',
@@ -37,6 +48,8 @@ const SEED: Hobby[] = [
     progress: 5,
     color: 'blush',
     createdAt: new Date().toISOString(),
+    items: [],
+    nextNudgeAt: computeNextNudgeAt(new Date().toISOString(), 'weekly'),
   },
   {
     id: 'seed-zine',
@@ -48,6 +61,13 @@ const SEED: Hobby[] = [
     progress: 60,
     color: 'honey',
     createdAt: new Date().toISOString(),
+    items: [
+      {
+        id: 'seed-item-cover',
+        name: 'Cover collage scraps',
+        createdAt: new Date().toISOString(),
+      },
+    ],
   },
 ]
 
@@ -599,13 +619,15 @@ export function Home() {
   }
 
   function handleTend(id: string, amountPercent: number) {
+    const now = new Date().toISOString()
     persist(
       hobbies.map((h) =>
         h.id === id
           ? {
               ...h,
               progress: applyProgressBump(h.progress, amountPercent),
-              lastTendedAt: new Date().toISOString(),
+              lastTendedAt: now,
+              nextNudgeAt: computeNextNudgeAt(now, h.cadence),
               status: h.status === 'resting' || h.status === 'archive' ? 'in-season' : h.status,
             }
           : h,
@@ -654,6 +676,10 @@ export function Home() {
         <p className="greenhouse__whisper" aria-live="polite">
           {sproutMessage}
         </p>
+
+        {ready ? (
+          <NudgeHints hobbies={hobbies} onOpenHobby={setSelectedId} />
+        ) : null}
 
         {!ready ? (
           <p className="muted greenhouse__loading">{copy.whisperLoading}</p>

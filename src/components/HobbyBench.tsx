@@ -5,10 +5,13 @@ import {
   PLANT_COLORS,
   STATUS_LABELS,
   applyProgressBump,
+  computeNextNudgeAt,
+  hobbyItems,
   progressPercent,
 } from '../types'
 import { useTheme } from '../ThemeContext'
 import { ThemeObjectArt } from './ThemeObjectArt'
+import { NestItemsPanel } from './NestItemsPanel'
 import './HobbyBench.css'
 
 interface HobbyBenchProps {
@@ -85,6 +88,8 @@ export function HobbyBench({
   function handleSave(e: FormEvent) {
     e.preventDefault()
     if (!name.trim() || !creating.trim()) return
+    const cadenceChanged = cadence !== hobby.cadence
+    const baseForNudge = hobby.lastTendedAt || new Date().toISOString()
     onUpdate({
       ...hobby,
       name: name.trim(),
@@ -92,8 +97,15 @@ export function HobbyBench({
       cadence,
       petName: petName.trim() || undefined,
       color,
+      nextNudgeAt: cadenceChanged
+        ? computeNextNudgeAt(baseForNudge, cadence)
+        : hobby.nextNudgeAt,
     })
     setEditing(false)
+  }
+
+  function handleItemsChange(items: ReturnType<typeof hobbyItems>) {
+    onUpdate({ ...hobby, items })
   }
 
   function setStatus(status: HobbyStatus) {
@@ -296,6 +308,8 @@ export function HobbyBench({
             Enter hyperfocus
           </button>
         ) : null}
+
+        <NestItemsPanel hobby={hobby} onChange={handleItemsChange} dense />
 
         <div className="bench__status">
           <p className="bench__section-label">Move to</p>
