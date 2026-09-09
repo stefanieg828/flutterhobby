@@ -415,3 +415,53 @@
     border: 2.5px solid #2a4030;
   }
 }
+
+.hyperfocus__season {
+  margin: 0.4rem 0 0.85rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 2px dashed rgba(42, 64, 48, 0.28);
+  background: rgba(255, 254, 248, 0.55);
+}
+
+.hyperfocus__season-started {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  color: #6b8f76;
+}
+
+.hyperfocus__until-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3d5a45;
+  margin-bottom: 0.55rem;
+}
+
+.hyperfocus__until-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #2a4030;
+  border-radius: 0.85rem;
+  padding: 0.55rem 0.65rem;
+  background: #fffef9;
+  color: #2f4a38;
+  font: inherit;
+  font-weight: 600;
+}
+
+.hyperfocus__season-remaining {
+  margin: 0 0 0.55rem;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2f4a38;
+}
+
+.hyperfocus__season-open {
+  font-size: 0.82rem;
+  color: #4a7a5c;
+  font-weight: 600;
+}

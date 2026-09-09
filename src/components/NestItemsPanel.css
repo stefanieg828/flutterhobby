@@ -155,3 +155,13 @@
   padding: 0.35rem 0.7rem;
   cursor: pointer;
 }
+
+.nest-panel__item .photo-panel {
+  margin-top: 0.35rem;
+}
+
+.nest-panel__item .photo-panel--item {
+  border-style: dashed;
+  border-color: #b8c9d8;
+  background: rgba(230, 240, 248, 0.45);
+}

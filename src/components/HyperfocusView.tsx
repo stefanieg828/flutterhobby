@@ -3,20 +3,20 @@ import type { Hobby } from '../types'
 import { applyProgressBump, progressPercent } from '../types'
 import { useTheme } from '../ThemeContext'
 import {
+  clearHyperfocusSession,
+  formatFocusRemaining,
+  fromDatetimeLocalValue,
   loadHyperfocusNote,
+  loadHyperfocusSession,
   saveHyperfocusNote,
+  saveHyperfocusSession,
   saveLastHyperfocusId,
+  toDatetimeLocalValue,
+  type HyperfocusSession,
 } from '../storage'
 import { ThemeBuddy } from './ThemeBuddy'
 import { ThemeObjectArt } from './ThemeObjectArt'
 import './HyperfocusView.css'
-
-const TIMER_PRESETS = [
-  { minutes: 5, label: '5 min' },
-  { minutes: 10, label: '10 min' },
-  { minutes: 15, label: '15 min' },
-  { minutes: 25, label: '25 min' },
-] as const
 
 const EXIT_LINES = [
   'Nice sip.',
@@ -37,10 +37,27 @@ interface HyperfocusViewProps {
   justTended?: boolean
 }
 
-function formatCountdown(totalSeconds: number): string {
-  const m = Math.floor(totalSeconds / 60)
-  const s = totalSeconds % 60
-  return `${m}:${s.toString().padStart(2, '0')}`
+function ensureSession(hobbyId: string): HyperfocusSession {
+  const existing = loadHyperfocusSession()
+  if (existing && existing.hobbyId === hobbyId) return existing
+  const session: HyperfocusSession = {
+    hobbyId,
+    startedAt: new Date().toISOString(),
+  }
+  saveHyperfocusSession(session)
+  return session
+}
+
+function formatStartedAt(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return 'Recently'
+  return d.toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
 }
 
 export function HyperfocusView({
@@ -58,27 +75,24 @@ export function HyperfocusView({
   const [note, setNote] = useState(() => loadHyperfocusNote(hobby.id))
   const noteSaveTimer = useRef<number | null>(null)
 
-  // Timer is OFF by default — opt-in only, never guilt.
-  const [timerOn, setTimerOn] = useState(false)
-  const [timerMinutes, setTimerMinutes] = useState(15)
-  const [remaining, setRemaining] = useState(15 * 60)
-  const [running, setRunning] = useState(false)
-  const [timerRested, setTimerRested] = useState(false)
+  const [session, setSession] = useState<HyperfocusSession>(() => ensureSession(hobby.id))
+  const [untilLocal, setUntilLocal] = useState(() =>
+    session.until ? toDatetimeLocalValue(session.until) : '',
+  )
+  const [nowTick, setNowTick] = useState(() => Date.now())
 
   useEffect(() => {
     saveLastHyperfocusId(hobby.id)
   }, [hobby.id])
 
   useEffect(() => {
+    const next = ensureSession(hobby.id)
+    setSession(next)
+    setUntilLocal(next.until ? toDatetimeLocalValue(next.until) : '')
     setNote(loadHyperfocusNote(hobby.id))
     setChoosing(false)
     setAmount(15)
     setPresetId('some')
-    setTimerOn(false)
-    setRunning(false)
-    setTimerRested(false)
-    setRemaining(15 * 60)
-    setTimerMinutes(15)
   }, [hobby.id])
 
   useEffect(() => {
@@ -88,20 +102,12 @@ export function HyperfocusView({
     return () => window.clearTimeout(t)
   }, [justTended, hobby.progress])
 
+  // Soft refresh of remaining-time copy while a focus-until is set.
   useEffect(() => {
-    if (!timerOn || !running) return
-    const id = window.setInterval(() => {
-      setRemaining((r) => {
-        if (r <= 1) {
-          setRunning(false)
-          setTimerRested(true)
-          return 0
-        }
-        return r - 1
-      })
-    }, 1000)
+    if (!session.until) return
+    const id = window.setInterval(() => setNowTick(Date.now()), 60_000)
     return () => window.clearInterval(id)
-  }, [timerOn, running])
+  }, [session.until])
 
   const pct = progressPercent(hobby.progress)
   const roomLeft = Math.max(0, 100 - pct)
@@ -113,6 +119,11 @@ export function HyperfocusView({
     if (appliedBump < amount) return `+${appliedBump}% (caps at 100%)`
     return copy.amountHint(amount)
   }, [amount, appliedBump, roomLeft, copy])
+
+  const remainingCopy = useMemo(() => {
+    if (!session.until) return 'Open-ended — stay as long as this season feels good.'
+    return formatFocusRemaining(session.until, new Date(nowTick))
+  }, [session.until, nowTick])
 
   function openChooser() {
     setChoosing(true)
@@ -145,22 +156,32 @@ export function HyperfocusView({
     }, 400)
   }
 
-  function enableTimer(minutes: number) {
-    setTimerMinutes(minutes)
-    setRemaining(minutes * 60)
-    setTimerOn(true)
-    setRunning(false)
-    setTimerRested(false)
+  function persistSession(next: HyperfocusSession) {
+    setSession(next)
+    saveHyperfocusSession(next)
   }
 
-  function turnTimerOff() {
-    setTimerOn(false)
-    setRunning(false)
-    setTimerRested(false)
+  function applyUntilFromInput(value: string) {
+    setUntilLocal(value)
+    const until = fromDatetimeLocalValue(value)
+    persistSession({
+      hobbyId: hobby.id,
+      startedAt: session.startedAt,
+      until,
+    })
+  }
+
+  function clearUntil() {
+    setUntilLocal('')
+    persistSession({
+      hobbyId: hobby.id,
+      startedAt: session.startedAt,
+    })
   }
 
   function handleExit() {
     saveHyperfocusNote(hobby.id, note)
+    clearHyperfocusSession()
     onExit(pickGentleExitLine())
   }
 
@@ -300,61 +321,38 @@ export function HyperfocusView({
           />
         </label>
 
-        <section className="hyperfocus__timer" aria-label="Optional timer">
-          {!timerOn ? (
-            <div className="hyperfocus__timer-off">
-              <p className="hyperfocus__timer-copy">
-                Optional timer — off. Turn it on only if you want a soft countdown.
-              </p>
-              <div className="hyperfocus__timer-presets">
-                {TIMER_PRESETS.map((p) => (
-                  <button
-                    key={p.minutes}
-                    type="button"
-                    className="hyperfocus__secondary"
-                    onClick={() => enableTimer(p.minutes)}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="hyperfocus__timer-on">
-              <div className="hyperfocus__timer-display" aria-live="polite">
-                <span className="hyperfocus__timer-digits">{formatCountdown(remaining)}</span>
-                <span className="hyperfocus__timer-hint">
-                  {timerRested
-                    ? 'Timer rested. Stay as long as you like.'
-                    : running
-                      ? 'Soft countdown — leave anytime.'
-                      : `${timerMinutes} min ready when you are.`}
-                </span>
-              </div>
-              <div className="hyperfocus__timer-actions">
-                {!timerRested ? (
-                  <button
-                    type="button"
-                    className="hyperfocus__secondary"
-                    onClick={() => setRunning((r) => !r)}
-                  >
-                    {running ? 'Pause' : remaining < timerMinutes * 60 ? 'Resume' : 'Start'}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="hyperfocus__secondary"
-                    onClick={() => enableTimer(timerMinutes)}
-                  >
-                    Reset
-                  </button>
-                )}
-                <button type="button" className="hyperfocus__secondary" onClick={turnTimerOff}>
-                  Turn timer off
-                </button>
-              </div>
-            </div>
-          )}
+        <section className="hyperfocus__season" aria-label="Optional focus season">
+          <p className="hyperfocus__timer-copy">
+            Focus seasons can last days or weeks — optional end date, never a streak.
+          </p>
+          <p className="hyperfocus__season-started">
+            Soft start: {formatStartedAt(session.startedAt)}
+          </p>
+
+          <label className="hyperfocus__until-label">
+            <span>Focus until (optional)</span>
+            <input
+              type="datetime-local"
+              className="hyperfocus__until-input"
+              value={untilLocal}
+              onChange={(e) => applyUntilFromInput(e.target.value)}
+              aria-describedby="hyperfocus-remaining"
+            />
+          </label>
+
+          <p id="hyperfocus-remaining" className="hyperfocus__season-remaining" aria-live="polite">
+            {remainingCopy}
+          </p>
+
+          <div className="hyperfocus__timer-actions">
+            {session.until ? (
+              <button type="button" className="hyperfocus__secondary" onClick={clearUntil}>
+                Make open-ended
+              </button>
+            ) : (
+              <span className="hyperfocus__season-open">Open-ended hyperfocus</span>
+            )}
+          </div>
         </section>
 
         <p className="hyperfocus__footer-hint">

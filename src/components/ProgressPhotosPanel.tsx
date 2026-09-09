@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
+  addItemPhoto,
   addProgressPhoto,
+  deleteItemPhoto,
   deleteProgressPhoto,
+  getItemPhotoBlob,
   getPhotoBlob,
+  listItemPhotoMeta,
   listPhotoMeta,
   type ProgressPhotoMeta,
 } from '../photoStorage'
@@ -10,7 +14,11 @@ import './ProgressPhotosPanel.css'
 
 interface ProgressPhotosPanelProps {
   hobbyId: string
+  /** When set, photos attach to a nested collection item instead of the hobby. */
+  itemId?: string
   dense?: boolean
+  /** Softer nested-item copy when true (default when itemId is set). */
+  forItem?: boolean
 }
 
 interface GalleryItem extends ProgressPhotoMeta {
@@ -29,7 +37,13 @@ function formatPhotoDate(iso: string): string {
   })
 }
 
-export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPanelProps) {
+export function ProgressPhotosPanel({
+  hobbyId,
+  itemId,
+  dense = false,
+  forItem,
+}: ProgressPhotosPanelProps) {
+  const nested = Boolean(itemId) || forItem === true
   const [items, setItems] = useState<GalleryItem[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -45,11 +59,15 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
   }, [])
 
   const refresh = useCallback(async () => {
-    const meta = listPhotoMeta(hobbyId)
+    const meta =
+      itemId != null ? listItemPhotoMeta(hobbyId, itemId) : listPhotoMeta(hobbyId)
     revokeAll()
     const loaded: GalleryItem[] = []
     for (const m of meta) {
-      const blob = await getPhotoBlob(hobbyId, m.id)
+      const blob =
+        itemId != null
+          ? await getItemPhotoBlob(hobbyId, itemId, m.id)
+          : await getPhotoBlob(hobbyId, m.id)
       if (!blob) {
         loaded.push(m)
         continue
@@ -59,7 +77,7 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
       loaded.push({ ...m, url })
     }
     setItems(loaded)
-  }, [hobbyId, revokeAll])
+  }, [hobbyId, itemId, revokeAll])
 
   useEffect(() => {
     void refresh()
@@ -76,7 +94,8 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
     setBusy(true)
     setError(null)
     try {
-      await addProgressPhoto(hobbyId, file)
+      if (itemId != null) await addItemPhoto(hobbyId, itemId, file)
+      else await addProgressPhoto(hobbyId, file)
       await refresh()
     } catch {
       setError('Could not save that photo on this device. Try a smaller image.')
@@ -91,7 +110,8 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
     setBusy(true)
     setError(null)
     try {
-      await deleteProgressPhoto(hobbyId, photoId)
+      if (itemId != null) await deleteItemPhoto(hobbyId, itemId, photoId)
+      else await deleteProgressPhoto(hobbyId, photoId)
       setConfirmId(null)
       if (lightbox?.id === photoId) setLightbox(null)
       await refresh()
@@ -102,19 +122,30 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
     }
   }
 
+  const title = nested ? 'Item photos' : 'Progress photos'
+  const hint = nested
+    ? 'Optional — snap a scrap or pile whenever it feels nice.'
+    : 'Optional — a soft timeline of how things grew. Never required to tend.'
+  const empty = nested
+    ? 'No photos for this item yet.'
+    : 'No progress pics yet. Snap one whenever it feels nice.'
+  const ariaGallery = nested ? 'Item photo gallery' : 'Progress photo timeline'
+  const ariaThumb = nested ? 'Item photo' : 'Progress photo'
+  const lightboxLabel = nested ? 'Item photo' : 'Progress photo'
+
   return (
-    <div className={`photo-panel${dense ? ' photo-panel--dense' : ''}`}>
+    <div
+      className={`photo-panel${dense ? ' photo-panel--dense' : ''}${nested ? ' photo-panel--item' : ''}`}
+    >
       <div className="photo-panel__head">
-        <p className="photo-panel__title">Progress photos</p>
-        <p className="photo-panel__hint">
-          Optional — a soft timeline of how things grew. Never required to tend.
-        </p>
+        <p className="photo-panel__title">{title}</p>
+        <p className="photo-panel__hint">{hint}</p>
       </div>
 
       {items.length === 0 ? (
-        <p className="photo-panel__empty">No progress pics yet. Snap one whenever it feels nice.</p>
+        <p className="photo-panel__empty">{empty}</p>
       ) : (
-        <ul className="photo-panel__gallery" aria-label="Progress photo timeline">
+        <ul className="photo-panel__gallery" aria-label={ariaGallery}>
           {items.map((item) => (
             <li key={item.id} className="photo-panel__tile">
               <button
@@ -122,7 +153,7 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
                 className="photo-panel__thumb-btn"
                 onClick={() => item.url && setLightbox(item)}
                 disabled={!item.url}
-                aria-label={`Progress photo from ${formatPhotoDate(item.createdAt)}`}
+                aria-label={`${ariaThumb} from ${formatPhotoDate(item.createdAt)}`}
               >
                 {item.url ? (
                   <img src={item.url} alt="" className="photo-panel__thumb" loading="lazy" />
@@ -211,7 +242,7 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
       ) : null}
 
       {lightbox?.url ? (
-        <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label="Progress photo">
+        <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label={lightboxLabel}>
           <button
             type="button"
             className="photo-lightbox__scrim"
@@ -219,7 +250,7 @@ export function ProgressPhotosPanel({ hobbyId, dense = false }: ProgressPhotosPa
             onClick={() => setLightbox(null)}
           />
           <div className="photo-lightbox__card">
-            <img src={lightbox.url} alt={`Progress from ${formatPhotoDate(lightbox.createdAt)}`} />
+            <img src={lightbox.url} alt={`${ariaThumb} from ${formatPhotoDate(lightbox.createdAt)}`} />
             <p>{formatPhotoDate(lightbox.createdAt)}</p>
             <button type="button" className="photo-panel__ghost" onClick={() => setLightbox(null)}>
               Close

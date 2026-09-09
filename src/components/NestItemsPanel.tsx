@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react'
 import type { Hobby, HobbyItem } from '../types'
 import { hobbyItems } from '../types'
 import { createItemId } from '../storage'
+import { deleteAllPhotosForItem } from '../photoStorage'
+import { ProgressPhotosPanel } from './ProgressPhotosPanel'
 import './NestItemsPanel.css'
 
 interface NestItemsPanelProps {
@@ -19,6 +21,7 @@ export function NestItemsPanel({ hobby, onChange, dense = false }: NestItemsPane
   const [editId, setEditId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
   const [editNote, setEditNote] = useState('')
+  const [photosOpenId, setPhotosOpenId] = useState<string | null>(null)
 
   function resetAdd() {
     setAdding(false)
@@ -65,13 +68,17 @@ export function NestItemsPanel({ hobby, onChange, dense = false }: NestItemsPane
   function handleDelete(id: string) {
     onChange(items.filter((item) => item.id !== id))
     if (editId === id) setEditId(null)
+    if (photosOpenId === id) setPhotosOpenId(null)
+    void deleteAllPhotosForItem(hobby.id, id)
   }
 
   return (
     <div className={`nest-panel${dense ? ' nest-panel--dense' : ''}`}>
       <div className="nest-panel__head">
         <p className="nest-panel__title">Nested items</p>
-        <p className="nest-panel__hint">Projects, scraps, or piles — keep it light.</p>
+        <p className="nest-panel__hint">
+          Projects, scraps, or piles — keep it light. Photos are optional.
+        </p>
       </div>
 
       {items.length === 0 && !adding ? (
@@ -118,12 +125,30 @@ export function NestItemsPanel({ hobby, onChange, dense = false }: NestItemsPane
                     </button>
                     <button
                       type="button"
+                      className="nest-panel__ghost"
+                      aria-expanded={photosOpenId === item.id}
+                      onClick={() =>
+                        setPhotosOpenId((cur) => (cur === item.id ? null : item.id))
+                      }
+                    >
+                      {photosOpenId === item.id ? 'Hide photos' : 'Photos'}
+                    </button>
+                    <button
+                      type="button"
                       className="nest-panel__danger"
                       onClick={() => handleDelete(item.id)}
                     >
                       Delete
                     </button>
                   </div>
+                  {photosOpenId === item.id ? (
+                    <ProgressPhotosPanel
+                      hobbyId={hobby.id}
+                      itemId={item.id}
+                      dense={dense}
+                      forItem
+                    />
+                  ) : null}
                 </>
               )}
             </li>

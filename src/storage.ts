@@ -175,3 +175,85 @@ export function isNudgeDismissed(
   if (!nextNudgeAt) return false
   return dismissed[hobbyId] === nextNudgeAt
 }
+
+/** Active hyperfocus season — survives refresh across days. Gentle, no streaks. */
+export interface HyperfocusSession {
+  hobbyId: string
+  startedAt: string
+  /** ISO datetime when focus gently ends; omit for open-ended. */
+  until?: string
+}
+
+const HYPERFOCUS_SESSION_KEY = 'flutterhobby-hyperfocus-session'
+
+export function loadHyperfocusSession(): HyperfocusSession | null {
+  try {
+    const raw = localStorage.getItem(HYPERFOCUS_SESSION_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as Partial<HyperfocusSession>
+    if (!parsed || typeof parsed.hobbyId !== 'string' || typeof parsed.startedAt !== 'string') {
+      return null
+    }
+    const until =
+      typeof parsed.until === 'string' && parsed.until.trim() ? parsed.until.trim() : undefined
+    return { hobbyId: parsed.hobbyId, startedAt: parsed.startedAt, until }
+  } catch {
+    return null
+  }
+}
+
+export function saveHyperfocusSession(session: HyperfocusSession): void {
+  try {
+    const payload: HyperfocusSession = {
+      hobbyId: session.hobbyId,
+      startedAt: session.startedAt,
+    }
+    if (session.until) payload.until = session.until
+    localStorage.setItem(HYPERFOCUS_SESSION_KEY, JSON.stringify(payload))
+  } catch {
+    /* ignore */
+  }
+}
+
+export function clearHyperfocusSession(): void {
+  try {
+    localStorage.removeItem(HYPERFOCUS_SESSION_KEY)
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Human-friendly remaining time for a focus-until moment. */
+export function formatFocusRemaining(untilIso: string, now = new Date()): string {
+  const until = new Date(untilIso)
+  if (Number.isNaN(until.getTime())) return 'Sometime'
+  const ms = until.getTime() - now.getTime()
+  if (ms <= 0) return 'Focus window rested — stay as long as you like'
+  const minutes = Math.round(ms / 60000)
+  if (minutes < 60) return `~${Math.max(1, minutes)} min left`
+  const hours = Math.round(minutes / 60)
+  if (hours < 36) return `~${hours} hour${hours === 1 ? '' : 's'} left`
+  const days = Math.round(hours / 24)
+  if (days < 14) return `~${days} day${days === 1 ? '' : 's'} left`
+  const weeks = Math.round(days / 7)
+  if (weeks < 8) return `~${weeks} week${weeks === 1 ? '' : 's'} left`
+  const months = Math.round(days / 30)
+  return `~${months} month${months === 1 ? '' : 's'} left`
+}
+
+/** Value for <input type="datetime-local"> from an ISO string (local wall clock). */
+export function toDatetimeLocalValue(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return ''
+  const pad = (n: number) => n.toString().padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+/** Parse datetime-local value into ISO (or undefined if empty/invalid). */
+export function fromDatetimeLocalValue(value: string): string | undefined {
+  const trimmed = value.trim()
+  if (!trimmed) return undefined
+  const d = new Date(trimmed)
+  if (Number.isNaN(d.getTime())) return undefined
+  return d.toISOString()
+}

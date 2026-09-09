@@ -222,3 +222,7 @@
   font-size: 0.85rem;
   color: #52796f;
 }
+
+.photo-panel--item {
+  margin-top: 0.5rem;
+}

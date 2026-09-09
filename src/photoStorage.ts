@@ -4,16 +4,27 @@ import { get, set, del, keys } from 'idb-keyval'
 export interface ProgressPhotoMeta {
   id: string
   hobbyId: string
+  /** Present for nested-item photos. */
+  itemId?: string
   createdAt: string
   /** Optional soft caption later; unused for now. */
   note?: string
 }
 
 const META_KEY = 'flutterhobby-progress-photos'
+const ITEM_META_KEY = 'flutterhobby-item-photos'
 const IDB_PREFIX = 'fh-photo:'
 
 function photoKey(hobbyId: string, photoId: string): string {
   return `${IDB_PREFIX}${hobbyId}:${photoId}`
+}
+
+function itemPhotoKey(hobbyId: string, itemId: string, photoId: string): string {
+  return `${IDB_PREFIX}${hobbyId}:${itemId}:${photoId}`
+}
+
+function itemMetaBucket(hobbyId: string, itemId: string): string {
+  return `${hobbyId}:${itemId}`
 }
 
 export function createPhotoId(): string {
@@ -40,6 +51,26 @@ function saveAllMeta(map: Record<string, ProgressPhotoMeta[]>): void {
   }
 }
 
+function loadAllItemMeta(): Record<string, ProgressPhotoMeta[]> {
+  try {
+    const raw = localStorage.getItem(ITEM_META_KEY)
+    if (!raw) return {}
+    const parsed = JSON.parse(raw) as Record<string, ProgressPhotoMeta[]>
+    if (!parsed || typeof parsed !== 'object') return {}
+    return parsed
+  } catch {
+    return {}
+  }
+}
+
+function saveAllItemMeta(map: Record<string, ProgressPhotoMeta[]>): void {
+  try {
+    localStorage.setItem(ITEM_META_KEY, JSON.stringify(map))
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
 /** Newest first. */
 export function listPhotoMeta(hobbyId: string): ProgressPhotoMeta[] {
   const list = loadAllMeta()[hobbyId] ?? []
@@ -48,9 +79,30 @@ export function listPhotoMeta(hobbyId: string): ProgressPhotoMeta[] {
   )
 }
 
+/** Newest first — nested collection item photos. */
+export function listItemPhotoMeta(hobbyId: string, itemId: string): ProgressPhotoMeta[] {
+  const list = loadAllItemMeta()[itemMetaBucket(hobbyId, itemId)] ?? []
+  return [...list].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  )
+}
+
 export async function getPhotoBlob(hobbyId: string, photoId: string): Promise<Blob | undefined> {
   try {
     const blob = await get<Blob>(photoKey(hobbyId, photoId))
+    return blob instanceof Blob ? blob : undefined
+  } catch {
+    return undefined
+  }
+}
+
+export async function getItemPhotoBlob(
+  hobbyId: string,
+  itemId: string,
+  photoId: string,
+): Promise<Blob | undefined> {
+  try {
+    const blob = await get<Blob>(itemPhotoKey(hobbyId, itemId, photoId))
     return blob instanceof Blob ? blob : undefined
   } catch {
     return undefined
@@ -144,6 +196,24 @@ export async function addProgressPhoto(
   return entry
 }
 
+export async function addItemPhoto(
+  hobbyId: string,
+  itemId: string,
+  file: File,
+): Promise<ProgressPhotoMeta> {
+  const id = createPhotoId()
+  const createdAt = new Date().toISOString()
+  const blob = await compressImageFile(file)
+  await set(itemPhotoKey(hobbyId, itemId, id), blob)
+
+  const map = loadAllItemMeta()
+  const bucket = itemMetaBucket(hobbyId, itemId)
+  const entry: ProgressPhotoMeta = { id, hobbyId, itemId, createdAt }
+  map[bucket] = [entry, ...(map[bucket] ?? [])]
+  saveAllItemMeta(map)
+  return entry
+}
+
 export async function deleteProgressPhoto(hobbyId: string, photoId: string): Promise<void> {
   try {
     await del(photoKey(hobbyId, photoId))
@@ -155,6 +225,54 @@ export async function deleteProgressPhoto(hobbyId: string, photoId: string): Pro
   if (next.length === 0) delete map[hobbyId]
   else map[hobbyId] = next
   saveAllMeta(map)
+}
+
+export async function deleteItemPhoto(
+  hobbyId: string,
+  itemId: string,
+  photoId: string,
+): Promise<void> {
+  try {
+    await del(itemPhotoKey(hobbyId, itemId, photoId))
+  } catch {
+    /* ignore */
+  }
+  const map = loadAllItemMeta()
+  const bucket = itemMetaBucket(hobbyId, itemId)
+  const next = (map[bucket] ?? []).filter((p) => p.id !== photoId)
+  if (next.length === 0) delete map[bucket]
+  else map[bucket] = next
+  saveAllItemMeta(map)
+}
+
+/** Drop all photos for a nested item. */
+export async function deleteAllPhotosForItem(hobbyId: string, itemId: string): Promise<void> {
+  const map = loadAllItemMeta()
+  const bucket = itemMetaBucket(hobbyId, itemId)
+  const list = map[bucket] ?? []
+  await Promise.all(
+    list.map(async (p) => {
+      try {
+        await del(itemPhotoKey(hobbyId, itemId, p.id))
+      } catch {
+        /* ignore */
+      }
+    }),
+  )
+  delete map[bucket]
+  saveAllItemMeta(map)
+
+  try {
+    const all = await keys()
+    const prefix = `${IDB_PREFIX}${hobbyId}:${itemId}:`
+    await Promise.all(
+      all
+        .filter((k) => typeof k === 'string' && k.startsWith(prefix))
+        .map((k) => del(k)),
+    )
+  } catch {
+    /* ignore */
+  }
 }
 
 /** Drop all photos for a hobby (call when the hobby itself is deleted). */
@@ -172,6 +290,25 @@ export async function deleteAllPhotosForHobby(hobbyId: string): Promise<void> {
   )
   delete map[hobbyId]
   saveAllMeta(map)
+
+  // Nested item photos for this hobby
+  const itemMap = loadAllItemMeta()
+  const itemBuckets = Object.keys(itemMap).filter((k) => k.startsWith(`${hobbyId}:`))
+  for (const bucket of itemBuckets) {
+    const itemId = bucket.slice(hobbyId.length + 1)
+    const itemList = itemMap[bucket] ?? []
+    await Promise.all(
+      itemList.map(async (p) => {
+        try {
+          await del(itemPhotoKey(hobbyId, itemId, p.id))
+        } catch {
+          /* ignore */
+        }
+      }),
+    )
+    delete itemMap[bucket]
+  }
+  saveAllItemMeta(itemMap)
 
   // Best-effort sweep for orphaned keys for this hobby.
   try {

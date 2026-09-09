@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
-import { loadHobbies, saveHobbies } from '../storage'
+import {
+  clearHyperfocusSession,
+  loadHobbies,
+  loadHyperfocusSession,
+  saveHobbies,
+  saveHyperfocusSession,
+} from '../storage'
 import { deleteAllPhotosForHobby } from '../photoStorage'
 import { deleteAllAudioForHobby } from '../audioStorage'
 import { deleteAllAchievementsForHobby } from '../achievementStorage'
@@ -568,11 +574,21 @@ export function Home() {
 
   useEffect(() => {
     const stored = loadHobbies()
+    let list = stored
     if (stored.length === 0) {
       saveHobbies(SEED)
+      list = SEED
       setHobbies(SEED)
     } else {
       setHobbies(stored)
+    }
+
+    // Restore an open hyperfocus season across refresh / days.
+    const session = loadHyperfocusSession()
+    if (session && list.some((h) => h.id === session.hobbyId)) {
+      setHyperfocusId(session.hobbyId)
+    } else if (session) {
+      clearHyperfocusSession()
     }
     setReady(true)
   }, [])
@@ -647,6 +663,10 @@ export function Home() {
   function handleDelete(id: string) {
     persist(hobbies.filter((h) => h.id !== id))
     setSelectedId(null)
+    if (hyperfocusId === id) {
+      clearHyperfocusSession()
+      setHyperfocusId(null)
+    }
     void deleteAllPhotosForHobby(id)
     void deleteAllAudioForHobby(id)
     deleteAllAchievementsForHobby(id)
@@ -655,10 +675,16 @@ export function Home() {
   function enterHyperfocus(id: string) {
     setSelectedId(null)
     setCreateOpen(false)
+    const existing = loadHyperfocusSession()
+    const startedAt =
+      existing && existing.hobbyId === id ? existing.startedAt : new Date().toISOString()
+    const until = existing && existing.hobbyId === id ? existing.until : undefined
+    saveHyperfocusSession({ hobbyId: id, startedAt, until })
     setHyperfocusId(id)
   }
 
   function leaveHyperfocus(message: string) {
+    clearHyperfocusSession()
     setHyperfocusId(null)
     setExitToast(message)
     window.setTimeout(() => setExitToast((cur) => (cur === message ? null : cur)), 2200)
