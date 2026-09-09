@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import { loadHobbies, saveHobbies } from '../storage'
+import { deleteAllPhotosForHobby } from '../photoStorage'
 import { useTheme } from '../ThemeContext'
 import { themeRoomClass } from '../theme'
 import { CreateHobbyForm } from '../components/CreateHobbyForm'
@@ -644,6 +645,7 @@ export function Home() {
   function handleDelete(id: string) {
     persist(hobbies.filter((h) => h.id !== id))
     setSelectedId(null)
+    void deleteAllPhotosForHobby(id)
   }
 
   function enterHyperfocus(id: string) {

@@ -59,8 +59,9 @@ export function You() {
       <div className="you-card">
         <h2>Privacy</h2>
         <p>
-          Progress, nests, and theme choice are stored in your browser&apos;s localStorage. Nothing
-          is sent to a server yet. Clearing site data will reset your room.
+          Hobby metadata, nests, and theme choice live in localStorage. Optional progress photos
+          are stored as image blobs in IndexedDB on this device. Nothing is sent to a server yet.
+          Clearing site data will reset your room.
         </p>
       </div>
 
