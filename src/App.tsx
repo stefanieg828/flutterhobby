@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { BottomNav } from './components/BottomNav'
+import { RotateTip } from './components/InstallApp'
 import { Home } from './pages/Home'
 import { Collections } from './pages/Collections'
 import { Solstice } from './pages/Solstice'
@@ -15,6 +16,7 @@ export default function App() {
     <ThemeProvider>
       <BrowserRouter basename={basename === '/' ? undefined : basename}>
         <div className="app-shell">
+          <RotateTip />
           <main className="app-main">
             <Routes>
               <Route path="/" element={<Home />} />

@@ -24,6 +24,7 @@ import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
 import { HyperfocusView } from '../components/HyperfocusView'
 import { NudgeHints } from '../components/NudgeHints'
+import { InstallAppButton } from '../components/InstallApp'
 import './Home.css'
 
 const SEED: Hobby[] = [
@@ -616,13 +617,18 @@ export function Home() {
   return (
     <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${theme === 'Greenhouse' ? ' greenhouse--painted' : ''}`}>
       <header className="greenhouse__header">
-        <p className="greenhouse__brand">
-          <span className="greenhouse__butterfly" aria-hidden="true">
-            {copy.brandMark}
-          </span>
-          FlutterHobby
-        </p>
-        <p className="greenhouse__tagline">{copy.tagline}</p>
+        <div className="greenhouse__header-row">
+          <div className="greenhouse__header-text">
+            <p className="greenhouse__brand">
+              <span className="greenhouse__butterfly" aria-hidden="true">
+                {copy.brandMark}
+              </span>
+              FlutterHobby
+            </p>
+            <p className="greenhouse__tagline">{copy.tagline}</p>
+          </div>
+          <InstallAppButton variant="chip" />
+        </div>
       </header>
 
       <div className="greenhouse__room">

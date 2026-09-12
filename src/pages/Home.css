@@ -1731,3 +1731,80 @@
     transform: translateX(-50%) translateY(0);
   }
 }
+
+
+/* ——— mobile landscape + install chip ——— */
+
+.greenhouse__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.greenhouse__header-text {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+@media (orientation: landscape) {
+  .greenhouse {
+    gap: 0.25rem;
+  }
+
+  .greenhouse__header {
+    text-align: left;
+    padding: 0 0.15rem;
+  }
+
+  .greenhouse__brand {
+    font-size: 1.05rem;
+  }
+
+  .greenhouse__tagline {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .app-main:has(.greenhouse--painted) .greenhouse--painted .greenhouse__room {
+    /* Prefer width — painted scene is wide */
+    max-height: calc(100dvh - 5.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .greenhouse--painted .greenhouse__room {
+    aspect-ratio: 1280 / 475;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  .greenhouse--painted .greenhouse__whisper {
+    font-size: 0.62rem;
+    padding: 0.18rem 0.55rem;
+    max-width: 14rem;
+  }
+
+  .greenhouse--painted .nudge-hints {
+    top: 8%;
+    width: min(62%, 20rem);
+    padding: 0.3rem 0.5rem;
+  }
+
+  .greenhouse--painted .potting-bench--painted .potting-bench__fab {
+    width: 2.2rem;
+    height: 2.2rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .greenhouse__exit-toast {
+    bottom: calc(3.1rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .greenhouse--painted .greenhouse__room {
+    /* Still usable; tip encourages rotate */
+    aspect-ratio: 1280 / 560;
+  }
+}

@@ -1,0 +1,213 @@
+/* ——— Install / Add to Home ——— */
+
+.install-card__lede {
+  margin-bottom: 0.85rem !important;
+}
+
+.install-card__hint {
+  margin-top: 0.65rem !important;
+  font-size: 0.8rem !important;
+  color: #52796f !important;
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  border: 2px solid #2a4030;
+  background: linear-gradient(180deg, #4a8a62 0%, #2d6a4f 100%);
+  color: #f7fbf5;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 2px 3px 0 rgba(42, 64, 48, 0.18);
+}
+
+.install-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #3d6b52 0%, #1b4332 100%);
+}
+
+.install-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.install-btn--done,
+.install-btn:disabled {
+  background: #d8f3dc;
+  color: #1b4332;
+  border-color: #95d5b2;
+  box-shadow: none;
+  cursor: default;
+}
+
+.install-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid #95d5b2;
+  background: #f7fbf4;
+  color: #1b4332;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.install-chip:hover {
+  background: #d8f3dc;
+}
+
+.install-chip--done {
+  background: #d8f3dc;
+  border-color: transparent;
+  cursor: default;
+  color: #2d6a4f;
+}
+
+.install-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.65rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.85rem;
+  border: 1.5px solid #95d5b2;
+  background: rgba(216, 243, 220, 0.85);
+}
+
+.install-banner__text {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1b4332;
+}
+
+.install-banner__btn {
+  min-height: 44px;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid #2a4030;
+  background: #2d6a4f;
+  color: #f7fbf5;
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.install-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(42, 64, 48, 0.35);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.install-sheet {
+  width: min(100%, 26rem);
+  margin: 0.75rem;
+  padding: 1.25rem 1.15rem calc(1.15rem + env(safe-area-inset-bottom));
+  border-radius: 1.15rem 1.15rem 0.85rem 0.85rem;
+  background: #fdfbe2;
+  border: 2.5px solid #2a4030;
+  box-shadow: 0 -8px 28px rgba(42, 64, 48, 0.2);
+}
+
+.install-sheet h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.1rem;
+  color: #1b4332;
+}
+
+.install-sheet p {
+  margin: 0 0 0.85rem;
+  color: #40916c;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.install-sheet__steps {
+  margin: 0 0 0.85rem;
+  padding-left: 1.25rem;
+  color: #40916c;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.install-sheet__note {
+  font-size: 0.8rem !important;
+  color: #52796f !important;
+  font-style: italic;
+}
+
+/* ——— Rotate tip (portrait) ——— */
+
+.rotate-tip {
+  position: fixed;
+  top: calc(0.55rem + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: min(92vw, 22rem);
+  padding: 0.45rem 0.55rem 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid #c9b48a;
+  background: rgba(253, 251, 226, 0.94);
+  box-shadow: 0 4px 14px rgba(42, 64, 48, 0.14);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+}
+
+.rotate-tip__text {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #2f4a38;
+  white-space: nowrap;
+}
+
+.rotate-tip__dismiss {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #52796f;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.rotate-tip__dismiss:hover {
+  background: #e8f4e4;
+}
+
+@media (orientation: landscape) {
+  .rotate-tip {
+    display: none;
+  }
+}
+
+/* Hide rotate tip when already installed as standalone landscape app */
+@media (display-mode: standalone) and (orientation: landscape) {
+  .rotate-tip {
+    display: none;
+  }
+}

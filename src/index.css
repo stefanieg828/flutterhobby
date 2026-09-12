@@ -9,6 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 *,
@@ -17,10 +18,22 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100%;
   min-height: 100dvh;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  /* Reduce iOS rubber-band / bounce weirdness with fixed nav */
+  position: relative;
   background:
     radial-gradient(ellipse at top left, #eef6ea, transparent 50%),
     radial-gradient(ellipse at bottom right, #f7ecd0, transparent 45%),
@@ -29,6 +42,8 @@ body {
 
 #root {
   min-height: 100dvh;
+  min-height: 100svh;
+  overflow-x: hidden;
 }
 
 button,

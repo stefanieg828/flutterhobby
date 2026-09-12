@@ -1,8 +1,14 @@
 .app-shell {
   min-height: 100dvh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   background: transparent;
+  overflow-x: hidden;
+  /* Avoid rubber-band bounce fighting the app chrome */
+  overscroll-behavior-y: none;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .app-main {
@@ -11,7 +17,10 @@
   max-width: 36rem;
   margin: 0 auto;
   padding: 0.85rem 0.85rem 5.5rem;
+  padding-top: calc(0.85rem + env(safe-area-inset-top));
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .page__header {
@@ -43,4 +52,34 @@
 
 .app-main:has(.greenhouse--painted) {
   max-width: min(52rem, 100%);
+}
+
+/* Landscape: use horizontal space, compact bottom padding for shorter nav */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app-main {
+    max-width: min(56rem, 100%);
+    padding: 0.45rem 0.75rem 3.4rem;
+    padding-top: calc(0.45rem + env(safe-area-inset-top));
+    padding-bottom: calc(3.25rem + env(safe-area-inset-bottom));
+    padding-left: calc(0.75rem + env(safe-area-inset-left));
+    padding-right: calc(0.75rem + env(safe-area-inset-right));
+  }
+
+  .app-main:has(.greenhouse--painted) {
+    max-width: min(72rem, 100%);
+  }
+
+  .page__header h1 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (orientation: landscape) and (min-height: 561px) {
+  .app-main {
+    max-width: min(48rem, 100%);
+  }
+
+  .app-main:has(.greenhouse--painted) {
+    max-width: min(64rem, 100%);
+  }
 }

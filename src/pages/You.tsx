@@ -4,6 +4,7 @@ import { PLAYABLE_THEMES, THEME_COPY, type PlayableTheme } from '../theme'
 import { useTheme } from '../ThemeContext'
 import { loadHobbies } from '../storage'
 import { NudgeHints } from '../components/NudgeHints'
+import { InstallAppButton } from '../components/InstallApp'
 import './You.css'
 
 export function You() {
@@ -25,6 +26,8 @@ export function You() {
       </header>
 
       <NudgeHints hobbies={hobbies} title="Might be ready for a sip" />
+
+      <InstallAppButton variant="card" />
 
       <div className="you-card">
         <h2>Home theme</h2>
