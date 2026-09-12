@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './SproutBuddy.css'
 
 interface SproutBuddyProps {
@@ -10,6 +11,8 @@ interface SproutBuddyProps {
   watering?: boolean
 }
 
+const PAINTED_SRC = `${import.meta.env.BASE_URL}art/greenhouse/sprout-buddy.png`
+
 /** Painted-cozy Sprout — purple winged buddy matching the theme character sheet. */
 export function SproutBuddy({
   message,
@@ -18,11 +21,13 @@ export function SproutBuddy({
   watering = false,
 }: SproutBuddyProps) {
   const showBubble = Boolean(message) && !quiet
+  const [usePainted, setUsePainted] = useState(true)
   const classes = [
     'sprout-buddy',
     scene ? 'sprout-buddy--scene' : '',
     quiet ? 'sprout-buddy--quiet' : '',
     watering ? 'sprout-buddy--watering' : '',
+    usePainted ? 'sprout-buddy--painted' : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -30,6 +35,30 @@ export function SproutBuddy({
   return (
     <aside className={classes} aria-label="Sprout, your greenhouse buddy">
       <div className="sprout-buddy__avatar" aria-hidden="true">
+        {usePainted ? (
+          <img
+            className="sprout-buddy__painted"
+            src={PAINTED_SRC}
+            alt=""
+            draggable={false}
+            onError={() => setUsePainted(false)}
+          />
+        ) : (
+          <SproutSvg watering={watering} quiet={quiet} />
+        )}
+      </div>
+      {showBubble ? (
+        <div className="sprout-buddy__bubble">
+          <p className="sprout-buddy__name">Sprout</p>
+          <p className="sprout-buddy__msg">{message}</p>
+        </div>
+      ) : null}
+    </aside>
+  )
+}
+
+function SproutSvg({ watering, quiet }: { watering: boolean; quiet: boolean }) {
+  return (
         <svg viewBox="0 0 160 170" width="160" height="170" role="img">
           <defs>
             <radialGradient id="sproutBodyGrad" cx="45%" cy="35%" r="65%">
@@ -329,13 +358,5 @@ export function SproutBuddy({
             </g>
           ) : null}
         </svg>
-      </div>
-      {showBubble ? (
-        <div className="sprout-buddy__bubble">
-          <p className="sprout-buddy__name">Sprout</p>
-          <p className="sprout-buddy__msg">{message}</p>
-        </div>
-      ) : null}
-    </aside>
   )
 }

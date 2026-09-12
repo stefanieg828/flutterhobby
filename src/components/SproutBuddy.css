@@ -102,3 +102,38 @@
     height: 136px;
   }
 }
+
+/* Painted Sprout sprite — match prior SVG footprint */
+.sprout-buddy__painted {
+  display: block;
+  width: 96px;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sprout-buddy--scene .sprout-buddy__painted {
+  width: 142px;
+}
+
+.sprout-buddy--quiet .sprout-buddy__painted {
+  width: 138px;
+}
+
+.sprout-buddy--watering .sprout-buddy__painted {
+  width: 152px;
+  transform: rotate(-6deg) translateY(2px);
+  transform-origin: 55% 70%;
+}
+
+@media (max-width: 420px) {
+  .sprout-buddy--quiet .sprout-buddy__painted,
+  .sprout-buddy--scene .sprout-buddy__painted {
+    width: 118px;
+  }
+
+  .sprout-buddy--watering .sprout-buddy__painted {
+    width: 128px;
+  }
+}

@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import type { HobbyStatus, PlantColor } from '../types'
+import './PlantIllustration.css'
 
 export type PlantShape = 'fern' | 'bloom' | 'sprout' | 'bush' | 'cactus' | 'vine'
 
@@ -28,6 +30,18 @@ export function plantShapeForId(id: string, status?: HobbyStatus): PlantShape {
   return SHAPES[h % SHAPES.length]
 }
 
+/** Stable hash → painted pot sprite index 1..8 (Greenhouse PNGs). */
+export function plantSpriteIndexForId(id: string): number {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0
+  return (h % 8) + 1
+}
+
+export function plantPaintedSrcForId(id: string): string {
+  const n = String(plantSpriteIndexForId(id)).padStart(2, '0')
+  return `${import.meta.env.BASE_URL}art/greenhouse/plants/plant-${n}.png`
+}
+
 function potStyleFor(id: string | undefined, color: PlantColor, status?: HobbyStatus): PotStyle {
   if (status === 'proud-shelf') return 'heart'
   if (status === 'resting') {
@@ -50,9 +64,11 @@ interface PlantIllustrationProps {
   size?: number
   className?: string
   heart?: boolean
-  /** optional id for pot-style variation */
+  /** optional id for pot-style variation / painted sprite hash */
   plantId?: string
   status?: HobbyStatus
+  /** Prefer painted Greenhouse plant-01..08 PNGs when plantId is set */
+  painted?: boolean
 }
 
 function Foliage({ shape }: { shape: PlantShape }) {
@@ -306,9 +322,41 @@ export function PlantIllustration({
   heart = false,
   plantId,
   status,
+  /** Prefer painted Greenhouse pot sprites when plantId is known. */
+  painted = true,
 }: PlantIllustrationProps) {
+  const [usePainted, setUsePainted] = useState(Boolean(painted && plantId))
   const pot = POT_PALETTE[color] ?? POT_PALETTE.sage
   const style = potStyleFor(plantId, color, status ?? (heart ? 'proud-shelf' : undefined))
+  const paintedSrc = plantId ? plantPaintedSrcForId(plantId) : null
+  const showHeart = heart || style === 'heart' || status === 'proud-shelf'
+  const statusClass =
+    status === 'resting'
+      ? 'plant-painted--resting'
+      : status === 'archive'
+        ? 'plant-painted--archive'
+        : status === 'proud-shelf'
+          ? 'plant-painted--proud'
+          : ''
+
+  if (usePainted && paintedSrc) {
+    return (
+      <span
+        className={['plant-painted', statusClass, className].filter(Boolean).join(' ')}
+        style={{ width: size, height: size * 1.1 }}
+        aria-hidden="true"
+      >
+        <img
+          className="plant-painted__img"
+          src={paintedSrc}
+          alt=""
+          draggable={false}
+          onError={() => setUsePainted(false)}
+        />
+        {showHeart ? <span className="plant-painted__heart" /> : null}
+      </span>
+    )
+  }
 
   return (
     <svg

@@ -86,7 +86,10 @@ function GreenhouseDecor() {
   const art = `${import.meta.env.BASE_URL}art/greenhouse`
   return (
     <div className="gh-decor" aria-hidden="true">
-      {/* soft outdoor trees through glass */}
+      {/* painted greenhouse room — primary cover background */}
+      <img className="gh-decor__room-bg" src={`${art}/room-bg.png`} alt="" />
+
+      {/* soft outdoor trees through glass (toned down under painted room) */}
       <img className="gh-decor__trees" src={`${art}/outdoor-trees.svg`} alt="" />
 
       {/* warm sunbeams */}
