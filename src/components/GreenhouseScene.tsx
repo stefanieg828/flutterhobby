@@ -268,12 +268,6 @@ export const GreenhouseScene = forwardRef<GreenhouseSceneHandle, GreenhouseScene
         >
           <div className="gh-actor__body">
             <SproutSprite src={sproutSrc} />
-            <span className="gh-actor__gleams" aria-hidden="true">
-              <i className="gh-actor__gleam gh-actor__gleam--l1" />
-              <i className="gh-actor__gleam gh-actor__gleam--l2" />
-              <i className="gh-actor__gleam gh-actor__gleam--r1" />
-              <i className="gh-actor__gleam gh-actor__gleam--r2" />
-            </span>
             {holding && hobby ? (
               <span className="gh-actor__plant" aria-hidden="true">
                 <ThemeObjectArt

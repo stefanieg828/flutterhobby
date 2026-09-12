@@ -1,22 +1,20 @@
-/* Cover any leftover baked Sprout/watering pose in room-bg (BG is also inpainted) */
+/* Cover painted Sprout (and watering can) baked into room-bg while live actor is present */
 .gh-sprout-fog {
   position: absolute;
-  left: 34%;
-  top: 28%;
-  width: 34%;
-  height: 58%;
+  left: 39%;
+  top: 38%;
+  width: 24%;
+  height: 46%;
   pointer-events: none;
   z-index: 2;
   background:
     radial-gradient(
-      ellipse 62% 58% at 48% 52%,
-      rgba(236, 214, 168, 1) 0%,
-      rgba(242, 226, 180, 0.98) 22%,
-      rgba(236, 220, 173, 0.96) 40%,
-      rgba(248, 230, 188, 0.88) 55%,
-      rgba(243, 230, 196, 0.55) 70%,
-      rgba(243, 230, 196, 0.2) 82%,
-      transparent 92%
+      ellipse 58% 52% at 48% 52%,
+      rgba(242, 226, 180, 0.98) 0%,
+      rgba(236, 220, 173, 0.94) 28%,
+      rgba(248, 230, 188, 0.78) 48%,
+      rgba(243, 230, 196, 0.35) 68%,
+      transparent 82%
     );
   opacity: 1;
 }
@@ -25,7 +23,7 @@
 .gh-actor {
   position: absolute;
   z-index: 7;
-  width: clamp(3.7rem, 10.2vw, 6rem);
+  width: clamp(3.4rem, 9.5vw, 5.6rem);
   pointer-events: none;
   transform: translate(-50%, -70%);
   transition-property: left, top;
@@ -39,16 +37,7 @@
   align-items: flex-end;
   justify-content: center;
   line-height: 0;
-  /* Light shadow only — heavy filters crush eye highlights when downscaled */
-  filter: drop-shadow(1px 2px 0 rgba(42, 64, 48, 0.12));
-}
-
-/* Walking: drop filter entirely so sparkle pupils stay crisp */
-.gh-actor--walkingToShelf .gh-actor__body,
-.gh-actor--walkingToBench .gh-actor__body,
-.gh-actor--returning .gh-actor__body,
-.gh-actor--pickingUp .gh-actor__body {
-  filter: none;
+  filter: drop-shadow(1px 3px 0 rgba(42, 64, 48, 0.16));
 }
 
 .gh-actor__sprite {
@@ -57,50 +46,6 @@
   height: auto;
   user-select: none;
   -webkit-user-drag: none;
-  image-rendering: auto;
-}
-
-/* Crisp white eye gleams that survive downscale / GPU walk transforms */
-.gh-actor__gleams {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.gh-actor__gleam {
-  position: absolute;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0.5px rgba(255, 255, 255, 0.9);
-}
-
-.gh-actor__gleam--l1 {
-  left: 28.5%;
-  top: 38.5%;
-  width: 7.5%;
-  height: 6.5%;
-}
-
-.gh-actor__gleam--l2 {
-  left: 32%;
-  top: 45%;
-  width: 3.2%;
-  height: 2.8%;
-}
-
-.gh-actor__gleam--r1 {
-  left: 52.5%;
-  top: 39%;
-  width: 7.5%;
-  height: 6.5%;
-}
-
-.gh-actor__gleam--r2 {
-  left: 56%;
-  top: 45.5%;
-  width: 3.2%;
-  height: 2.8%;
 }
 
 .gh-actor--flip .gh-actor__body {
@@ -189,15 +134,8 @@
 }
 
 .gh-actor--sparkle .gh-actor__body {
-  filter: drop-shadow(1px 2px 0 rgba(42, 64, 48, 0.12))
-    drop-shadow(0 0 5px rgba(255, 230, 120, 0.35));
-}
-
-.gh-actor--sparkle.gh-actor--walkingToShelf .gh-actor__body,
-.gh-actor--sparkle.gh-actor--walkingToBench .gh-actor__body,
-.gh-actor--sparkle.gh-actor--returning .gh-actor__body,
-.gh-actor--sparkle.gh-actor--pickingUp .gh-actor__body {
-  filter: drop-shadow(0 0 4px rgba(255, 230, 120, 0.3));
+  filter: drop-shadow(1px 3px 0 rgba(42, 64, 48, 0.16))
+    drop-shadow(0 0 6px rgba(255, 230, 120, 0.4));
 }
 
 /* Shelf tile hidden while that pot is being carried */
