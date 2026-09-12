@@ -9,9 +9,11 @@ interface PlantTileProps {
   onSelect: (id: string) => void
   /** Tiny pot-on-shelf look: art + name tag only, no Material chrome. */
   compact?: boolean
+  /** Hide art while Sprout is carrying this pot (keeps layout slot). */
+  carried?: boolean
 }
 
-export function PlantTile({ hobby, onSelect, compact = false }: PlantTileProps) {
+export function PlantTile({ hobby, onSelect, compact = false, carried = false }: PlantTileProps) {
   const { theme, copy } = useTheme()
   const pct = progressPercent(hobby.progress)
   const color = hobby.color ?? 'sage'
@@ -21,10 +23,14 @@ export function PlantTile({ hobby, onSelect, compact = false }: PlantTileProps) 
   return (
     <button
       type="button"
-      className={`plant-tile${compact ? ' plant-tile--compact' : ''} plant-tile--${color}`}
+      className={`plant-tile${compact ? ' plant-tile--compact' : ''} plant-tile--${color}${
+        carried ? ' plant-tile--carried' : ''
+      }`}
       onClick={() => onSelect(hobby.id)}
       aria-label={`${hobby.name}, ${pct}% tended. Open ${copy.benchEyebrow.toLowerCase()}.`}
       title={hobby.name}
+      data-hobby-id={hobby.id}
+      disabled={carried}
     >
       <span className="plant-tile__art">
         <ThemeObjectArt

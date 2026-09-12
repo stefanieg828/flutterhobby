@@ -73,7 +73,7 @@ export const THEME_COPY: Record<PlayableTheme, ThemeCopy> = {
     whisperEmpty: 'Empty shelves — plant something!',
     whisperLoading: 'Opening the greenhouse…',
     whisperTended: 'That sip counted ♡',
-    whisperIdle: 'Tap a pot to tend on the bench.',
+    whisperIdle: 'Tap a pot — Sprout will bring it to the bench',
     whisperNoActive: 'Wake a plant or plant something new.',
     createTitle: 'Plant a new hobby',
     createFab: 'Plant a new hobby',

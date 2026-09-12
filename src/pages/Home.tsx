@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import {
@@ -22,6 +22,11 @@ import { DesktopDecor } from '../components/DesktopDecor'
 import { WorkshopDecor } from '../components/WorkshopDecor'
 import { PlantTile } from '../components/PlantTile'
 import { HobbyBench } from '../components/HobbyBench'
+import {
+  GreenhouseScene,
+  shouldSkipGreenhouseCarry,
+  type GreenhouseSceneHandle,
+} from '../components/GreenhouseScene'
 import { HyperfocusView } from '../components/HyperfocusView'
 import { NudgeHints } from '../components/NudgeHints'
 import { InstallAppButton } from '../components/InstallApp'
@@ -185,18 +190,26 @@ function ShelfBay({
   slots = EMPTY_SLOTS,
   emptyKind = 'pot',
   hideEmpty = false,
+  carriedId = null,
 }: {
   hobbies: Hobby[]
   onSelect: (id: string) => void
   slots?: number
   emptyKind?: 'pot' | 'crate' | 'hanger' | 'icon' | 'peg'
   hideEmpty?: boolean
+  carriedId?: string | null
 }) {
   const empties = hideEmpty ? 0 : Math.max(0, slots - hobbies.length)
   return (
     <div className="shelf-bay">
       {hobbies.map((hobby) => (
-        <PlantTile key={hobby.id} hobby={hobby} onSelect={onSelect} compact />
+        <PlantTile
+          key={hobby.id}
+          hobby={hobby}
+          onSelect={onSelect}
+          compact
+          carried={carriedId === hobby.id}
+        />
       ))}
       {Array.from({ length: empties }, (_, i) => (
         <EmptyRing key={`empty-${i}`} kind={emptyKind} />
@@ -228,20 +241,7 @@ function CenterWateringScene({
     <div
       className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}${skin}`}
     >
-      {theme === 'Greenhouse' ? (
-        <>
-          <span className="center-stage__painted-sprout" aria-hidden="true" />
-          {sparkles ? (
-            <svg className="center-stage__sparkles center-stage__sparkles--hot" viewBox="0 0 80 60" aria-hidden="true">
-              <g fill="#f5d76e" stroke="#c4a24e" strokeWidth="0.8">
-                <path d="M18 28 L20 22 L22 28 L28 30 L22 32 L20 38 L18 32 L12 30 Z" />
-                <path d="M42 14 L43.5 10 L45 14 L49 15.5 L45 17 L43.5 21 L42 17 L38 15.5 Z" />
-                <path d="M58 34 L59.5 30 L61 34 L65 35.5 L61 37 L59.5 41 L58 37 L54 35.5 Z" />
-              </g>
-            </svg>
-          ) : null}
-        </>
-      ) : (
+      {theme === 'Greenhouse' ? null : (
         <div className="center-stage__sprout">
           <ThemeBuddy theme={theme} scene quiet tending={watering} />
         </div>
@@ -448,7 +448,7 @@ function PottingBenchScene({
   const painted = theme === 'Greenhouse'
   const skin = painted ? ' potting-bench--painted' : ` potting-bench--${theme.toLowerCase()}`
   return (
-    <div className={`potting-bench${skin}`}>
+    <div className={`potting-bench${skin}`} data-bench-anchor>
       <div className="potting-bench__surface">
         {painted ? null : <BenchProps theme={theme} chalkLine1={line1} chalkLine2={line2} />}
         <button
@@ -495,6 +495,9 @@ export function Home() {
   const [createOpen, setCreateOpen] = useState(false)
   const [hyperfocusId, setHyperfocusId] = useState<string | null>(null)
   const [exitToast, setExitToast] = useState<string | null>(null)
+  const [carriedShelfId, setCarriedShelfId] = useState<string | null>(null)
+  const roomRef = useRef<HTMLDivElement>(null)
+  const greenhouseSceneRef = useRef<GreenhouseSceneHandle>(null)
 
   useEffect(() => {
     const stored = loadHobbies()
@@ -587,6 +590,10 @@ export function Home() {
   function handleDelete(id: string) {
     persist(hobbies.filter((h) => h.id !== id))
     setSelectedId(null)
+    setCarriedShelfId(null)
+    if (theme === 'Greenhouse') {
+      greenhouseSceneRef.current?.startReturn()
+    }
     if (hyperfocusId === id) {
       clearHyperfocusSession()
       setHyperfocusId(null)
@@ -599,6 +606,9 @@ export function Home() {
   function enterHyperfocus(id: string) {
     setSelectedId(null)
     setCreateOpen(false)
+    if (theme === 'Greenhouse') {
+      greenhouseSceneRef.current?.startReturn()
+    }
     const existing = loadHyperfocusSession()
     const startedAt =
       existing && existing.hobbyId === id ? existing.startedAt : new Date().toISOString()
@@ -613,6 +623,38 @@ export function Home() {
     setExitToast(message)
     window.setTimeout(() => setExitToast((cur) => (cur === message ? null : cur)), 2200)
   }
+
+  const handleSelectHobby = useCallback(
+    (id: string) => {
+      const hobby = hobbies.find((h) => h.id === id)
+      if (!hobby) return
+      if (theme !== 'Greenhouse' || hobby.status === 'archive') {
+        setSelectedId(id)
+        return
+      }
+      if (shouldSkipGreenhouseCarry()) {
+        setSelectedId(id)
+        return
+      }
+      if (greenhouseSceneRef.current?.isBusy()) return
+      const started = greenhouseSceneRef.current?.startCarry(id)
+      if (!started) setSelectedId(id)
+    },
+    [hobbies, theme],
+  )
+
+  const handleArriveAtBench = useCallback((id: string) => {
+    setSelectedId(id)
+  }, [])
+
+  const handleCloseBench = useCallback(() => {
+    setSelectedId(null)
+    if (theme === 'Greenhouse') {
+      greenhouseSceneRef.current?.startReturn()
+    } else {
+      setCarriedShelfId(null)
+    }
+  }, [theme])
 
   return (
     <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${theme === 'Greenhouse' ? ' greenhouse--painted' : ''}`}>
@@ -631,15 +673,26 @@ export function Home() {
         </div>
       </header>
 
-      <div className="greenhouse__room">
+      <div className="greenhouse__room" ref={roomRef}>
         <RoomDecor theme={theme} />
+
+        {theme === 'Greenhouse' ? (
+          <GreenhouseScene
+            ref={greenhouseSceneRef}
+            roomRef={roomRef}
+            hobbies={hobbies}
+            sparkles={showSparkles}
+            onArriveAtBench={handleArriveAtBench}
+            onCarriedChange={setCarriedShelfId}
+          />
+        ) : null}
 
         <p className="greenhouse__whisper" aria-live="polite">
           {sproutMessage}
         </p>
 
         {ready ? (
-          <NudgeHints hobbies={hobbies} onOpenHobby={setSelectedId} />
+          <NudgeHints hobbies={hobbies} onOpenHobby={handleSelectHobby} />
         ) : null}
 
         {!ready ? (
@@ -663,10 +716,11 @@ export function Home() {
                   <WoodSign status="in-season" count={zones['in-season'].length} id="shelf-in-season" />
                   <ShelfBay
                     hobbies={zones['in-season']}
-                    onSelect={setSelectedId}
+                    onSelect={handleSelectHobby}
                     slots={3}
                     emptyKind={copy.emptyKind}
                     hideEmpty={theme === 'Greenhouse'}
+                    carriedId={carriedShelfId}
                   />
                   <WoodShelf tone="warm" />
                 </div>
@@ -675,10 +729,11 @@ export function Home() {
                   <WoodSign status="resting" count={zones.resting.length} id="shelf-resting" />
                   <ShelfBay
                     hobbies={zones.resting}
-                    onSelect={setSelectedId}
+                    onSelect={handleSelectHobby}
                     slots={3}
                     emptyKind={copy.emptyKind}
                     hideEmpty={theme === 'Greenhouse'}
+                    carriedId={carriedShelfId}
                   />
                   <WoodShelf tone="cool" />
                 </div>
@@ -707,10 +762,11 @@ export function Home() {
                 />
                 <ShelfBay
                   hobbies={zones['proud-shelf']}
-                  onSelect={setSelectedId}
+                  onSelect={handleSelectHobby}
                   slots={2}
                   emptyKind={copy.emptyKind}
                   hideEmpty={theme === 'Greenhouse'}
+                  carriedId={carriedShelfId}
                 />
                 <WoodShelf tone="gold" />
               </div>
@@ -764,7 +820,7 @@ export function Home() {
       {selected && !hyperfocusHobby ? (
         <HobbyBench
           hobby={selected}
-          onClose={() => setSelectedId(null)}
+          onClose={handleCloseBench}
           onTend={handleTend}
           onUpdate={handleUpdate}
           onDelete={handleDelete}

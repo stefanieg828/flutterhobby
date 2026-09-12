@@ -100,3 +100,9 @@
   padding: 0.04rem 0.18rem;
   max-width: 3.7rem;
 }
+
+
+.plant-tile--carried {
+  visibility: hidden;
+  pointer-events: none;
+}
