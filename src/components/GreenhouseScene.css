@@ -1,22 +1,22 @@
-/* Soft fog over the painted Sprout baked into room-bg */
+/* Cover painted Sprout (and watering can) baked into room-bg while live actor is present */
 .gh-sprout-fog {
   position: absolute;
-  left: 34%;
-  top: 22%;
-  width: 32%;
-  height: 58%;
+  left: 39%;
+  top: 38%;
+  width: 24%;
+  height: 46%;
   pointer-events: none;
   z-index: 2;
   background:
     radial-gradient(
-      ellipse 70% 65% at 48% 58%,
-      rgba(232, 220, 180, 0.78) 0%,
-      rgba(220, 210, 160, 0.55) 38%,
-      rgba(212, 200, 150, 0.22) 62%,
-      transparent 78%
+      ellipse 58% 52% at 48% 52%,
+      rgba(242, 226, 180, 0.98) 0%,
+      rgba(236, 220, 173, 0.94) 28%,
+      rgba(248, 230, 188, 0.78) 48%,
+      rgba(243, 230, 196, 0.35) 68%,
+      transparent 82%
     );
-  mix-blend-mode: soft-light;
-  opacity: 0.92;
+  opacity: 1;
 }
 
 /* Live Sprout actor — % positions relative to .greenhouse__room */
@@ -77,13 +77,13 @@
 }
 
 @keyframes gh-actor-walk {
-  from { transform: translateY(0) rotate(-1.5deg); }
-  to { transform: translateY(-2px) rotate(1.5deg); }
+  from { transform: translateY(0) rotate(-0.8deg); }
+  to { transform: translateY(-1px) rotate(0.8deg); }
 }
 
 @keyframes gh-actor-scoop {
   0% { transform: translateY(0) scale(1); }
-  45% { transform: translateY(4px) scale(0.96); }
+  45% { transform: translateY(2px) scale(0.985); }
   100% { transform: translateY(0) scale(1); }
 }
 
@@ -103,8 +103,8 @@
 }
 
 @keyframes gh-actor-walk-flip {
-  from { transform: scaleX(-1) translateY(0) rotate(1.5deg); }
-  to { transform: scaleX(-1) translateY(-2px) rotate(-1.5deg); }
+  from { transform: scaleX(-1) translateY(0) rotate(0.8deg); }
+  to { transform: scaleX(-1) translateY(-1px) rotate(-0.8deg); }
 }
 
 .gh-actor__plant {

@@ -238,10 +238,8 @@ export const GreenhouseScene = forwardRef<GreenhouseSceneHandle, GreenhouseScene
 
     const hobby = carriedId ? hobbies.find((h) => h.id === carriedId) : null
     const base = import.meta.env.BASE_URL
-    const sproutSrc =
-      phase === 'idle' && !holding
-        ? `${base}art/greenhouse/sprout-idle.png`
-        : `${base}art/buddies/sprout.png`
+    // One clean Sprout for every phase — never swap to the buddy lineup vignette
+    const sproutSrc = `${base}art/greenhouse/sprout-idle.png`
 
     const busy = phase !== 'idle' && phase !== 'atBench'
     const aria =
@@ -269,7 +267,7 @@ export const GreenhouseScene = forwardRef<GreenhouseSceneHandle, GreenhouseScene
           data-carry-phase={phase}
         >
           <div className="gh-actor__body">
-            <SproutSprite src={sproutSrc} fallback={`${base}art/buddies/sprout.png`} />
+            <SproutSprite src={sproutSrc} />
             {holding && hobby ? (
               <span className="gh-actor__plant" aria-hidden="true">
                 <ThemeObjectArt
@@ -299,17 +297,13 @@ export const GreenhouseScene = forwardRef<GreenhouseSceneHandle, GreenhouseScene
 )
 
 
-function SproutSprite({ src, fallback }: { src: string; fallback: string }) {
-  const [failed, setFailed] = useState(false)
-  const active = failed ? fallback : src
+function SproutSprite({ src }: { src: string }) {
   return (
     <img
-      key={src}
       className="gh-actor__sprite"
-      src={active}
+      src={src}
       alt=""
       draggable={false}
-      onError={() => setFailed(true)}
     />
   )
 }
