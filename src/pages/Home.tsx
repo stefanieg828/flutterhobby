@@ -86,197 +86,8 @@ function GreenhouseDecor() {
   const art = `${import.meta.env.BASE_URL}art/greenhouse`
   return (
     <div className="gh-decor" aria-hidden="true">
-      {/* painted greenhouse room — primary cover background */}
       <img className="gh-decor__room-bg" src={`${art}/room-bg.png`} alt="" />
-
-      {/* soft outdoor trees through glass (toned down under painted room) */}
-      <img className="gh-decor__trees" src={`${art}/outdoor-trees.svg`} alt="" />
-
-      {/* warm sunbeams */}
-      <div className="gh-decor__sunbeams" />
       <div className="gh-decor__haze" />
-
-      {/* greenhouse glass + white wood frames */}
-      <svg className="gh-decor__panes" viewBox="0 0 400 560" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="paneGlass" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#fffef8" stopOpacity="0.4" />
-            <stop offset="35%" stopColor="#fdfbe2" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#c8e0c0" stopOpacity="0.14" />
-          </linearGradient>
-          <linearGradient id="frameWood" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f5f0e6" />
-            <stop offset="100%" stopColor="#d8d0c0" />
-          </linearGradient>
-        </defs>
-        <rect x="3" y="3" width="394" height="554" rx="18" fill="url(#paneGlass)" stroke="#c8bca8" strokeWidth="8" />
-        <rect x="10" y="10" width="380" height="540" rx="14" fill="none" stroke="#f5f0e6" strokeWidth="3.5" opacity="0.75" />
-        {/* white wood muntins */}
-        <line x1="134" y1="10" x2="134" y2="550" stroke="#efe8da" strokeWidth="6" opacity="0.9" />
-        <line x1="266" y1="10" x2="266" y2="550" stroke="#efe8da" strokeWidth="6" opacity="0.9" />
-        <line x1="10" y1="140" x2="390" y2="140" stroke="#efe8da" strokeWidth="5" opacity="0.8" />
-        <line x1="10" y1="280" x2="390" y2="280" stroke="#efe8da" strokeWidth="5" opacity="0.7" />
-        <line x1="10" y1="410" x2="390" y2="410" stroke="#efe8da" strokeWidth="5" opacity="0.6" />
-        {/* soft glass glare */}
-        <rect x="20" y="22" width="100" height="58" rx="6" fill="#fffef8" opacity="0.32" />
-        <rect x="148" y="155" width="105" height="50" rx="5" fill="#fdfbe2" opacity="0.2" />
-        <rect x="278" y="26" width="98" height="52" rx="6" fill="#fffef8" opacity="0.26" />
-        <rect x="22" y="300" width="90" height="40" rx="5" fill="#fffef8" opacity="0.12" />
-      </svg>
-
-      {/* wooden rafters */}
-      <img className="gh-decor__rafters" src={`${art}/rafters.svg`} alt="" />
-
-      {/* dense hanging vines left */}
-      <svg className="gh-decor__vines gh-decor__vines--left" viewBox="0 0 90 360">
-        <path d="M44 0 C30 55 56 95 32 150 C12 205 52 245 36 320 C28 340 40 355 44 360" stroke="#3d6b42" strokeWidth="3.4" fill="none" />
-        <path d="M58 8 C66 75 40 115 62 180 C76 225 50 265 66 320" stroke="#4a7a4e" strokeWidth="2.4" fill="none" opacity="0.85" />
-        <path d="M36 20 C22 80 48 120 28 190" stroke="#2f5a38" strokeWidth="1.8" fill="none" opacity="0.7" />
-        {[
-          [26, 42, -35, '#6aaa6a', 15],
-          [52, 68, 28, '#7cb87c', 14],
-          [20, 105, -22, '#8fbc8f', 13],
-          [56, 132, 32, '#6aaa6a', 14],
-          [24, 168, -18, '#9fd49f', 12],
-          [54, 200, 24, '#7cb87c', 13],
-          [28, 238, -26, '#8fbc8f', 12],
-          [50, 272, 20, '#6aaa6a', 11],
-          [34, 308, -14, '#9fd49f', 10],
-          [48, 338, 16, '#7cb87c', 9],
-        ].map(([cx, cy, rot, fill, rx], i) => (
-          <g key={i}>
-            <ellipse
-              cx={cx}
-              cy={cy}
-              rx={rx}
-              ry={Number(rx) * 0.58}
-              fill={String(fill)}
-              stroke="#2a4030"
-              strokeWidth="1.35"
-              transform={`rotate(${rot} ${cx} ${cy})`}
-            />
-            <ellipse
-              cx={cx}
-              cy={cy}
-              rx={Number(rx) * 0.4}
-              ry={Number(rx) * 0.22}
-              fill="#c8f0c0"
-              opacity="0.4"
-              transform={`rotate(${rot} ${cx} ${cy})`}
-            />
-          </g>
-        ))}
-        <circle cx="40" cy="90" r="3.2" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="48" cy="188" r="2.8" fill="#c47a5a" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="38" cy="255" r="2.5" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
-      </svg>
-
-      {/* dense vines right */}
-      <svg className="gh-decor__vines gh-decor__vines--right" viewBox="0 0 90 320">
-        <path d="M46 0 C58 48 30 90 54 145 C72 190 34 230 50 295" stroke="#3d6b42" strokeWidth="3.4" fill="none" />
-        <path d="M32 6 C20 65 46 108 24 165 C10 210 38 250 28 300" stroke="#4a7a4e" strokeWidth="2.4" fill="none" opacity="0.85" />
-        {[
-          [58, 38, 32, '#8fbc8f', 15],
-          [30, 72, -28, '#6aaa6a', 13],
-          [60, 112, 22, '#7cb87c', 14],
-          [26, 148, -30, '#9fd49f', 12],
-          [56, 182, 18, '#6aaa6a', 13],
-          [30, 220, -24, '#8fbc8f', 12],
-          [52, 255, 16, '#7cb87c', 11],
-          [36, 290, -12, '#9fd49f', 10],
-        ].map(([cx, cy, rot, fill, rx], i) => (
-          <g key={i}>
-            <ellipse
-              cx={cx}
-              cy={cy}
-              rx={rx}
-              ry={Number(rx) * 0.58}
-              fill={String(fill)}
-              stroke="#2a4030"
-              strokeWidth="1.35"
-              transform={`rotate(${rot} ${cx} ${cy})`}
-            />
-            <ellipse
-              cx={cx}
-              cy={cy}
-              rx={Number(rx) * 0.4}
-              ry={Number(rx) * 0.22}
-              fill="#c8f0c0"
-              opacity="0.4"
-              transform={`rotate(${rot} ${cx} ${cy})`}
-            />
-          </g>
-        ))}
-        <circle cx="42" cy="95" r="3" fill="#e6b84d" stroke="#2a4030" strokeWidth="1" />
-        <circle cx="40" cy="200" r="2.6" fill="#e8a0b0" stroke="#2a4030" strokeWidth="1" />
-      </svg>
-
-      {/* top draping vines */}
-      <svg className="gh-decor__vines-top" viewBox="0 0 360 80">
-        <path d="M0 10 Q40 32 80 12 T160 16 T240 10 T320 18 T360 12" stroke="#3d6b42" strokeWidth="2.8" fill="none" />
-        <path d="M16 6 Q60 26 100 8 T200 14 T300 6" stroke="#4a7a4e" strokeWidth="2" fill="none" opacity="0.85" />
-        <path d="M40 4 Q90 20 140 6 T260 12 T340 4" stroke="#2f5a38" strokeWidth="1.5" fill="none" opacity="0.55" />
-        {[
-          [48, 24, 40, '#6aaa6a'],
-          [108, 20, -35, '#8fbc8f'],
-          [168, 26, 25, '#7cb87c'],
-          [228, 18, -40, '#9fd49f'],
-          [288, 24, 30, '#6aaa6a'],
-          [328, 20, -20, '#8fbc8f'],
-        ].map(([cx, cy, rot, fill], i) => (
-          <ellipse
-            key={i}
-            cx={cx}
-            cy={cy}
-            rx="12"
-            ry="7"
-            fill={String(fill)}
-            stroke="#2a4030"
-            strokeWidth="1.25"
-            transform={`rotate(${rot} ${cx} ${cy})`}
-          />
-        ))}
-        <circle cx="130" cy="28" r="2.8" fill="#e8a0b0" stroke="#2a4030" strokeWidth="0.9" />
-        <circle cx="250" cy="22" r="2.5" fill="#e6b84d" stroke="#2a4030" strokeWidth="0.9" />
-      </svg>
-
-      {/* glowing string lights */}
-      <svg className="gh-decor__lights" viewBox="0 0 360 48">
-        <defs>
-          <filter id="bulbGlow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="2.8" result="b" />
-            <feMerge>
-              <feMergeNode in="b" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <path d="M6 12 Q55 32 115 14 T235 16 T354 12" stroke="#a88840" strokeWidth="1.8" fill="none" />
-        <path d="M6 12 Q55 32 115 14 T235 16 T354 12" stroke="#c4a24e" strokeWidth="1" fill="none" opacity="0.7" />
-        {[
-          [34, 18, '#ffe9a0'],
-          [72, 26, '#fff4c8'],
-          [112, 14, '#ffe0b0'],
-          [152, 24, '#fff8d8'],
-          [192, 16, '#ffe9a0'],
-          [232, 24, '#fff4c8'],
-          [272, 14, '#ffe0b0'],
-          [312, 20, '#fff8d8'],
-          [342, 14, '#ffe9a0'],
-        ].map(([cx, cy, fill], i) => (
-          <g key={i} filter="url(#bulbGlow)">
-            <circle cx={cx} cy={cy} r="6.2" fill={String(fill)} opacity="0.55" />
-            <circle cx={cx} cy={cy} r="4.6" fill={String(fill)} opacity="0.95" />
-            <circle cx={cx} cy={Number(cy) - 0.8} r="2.4" fill="#fffef8" opacity="0.9" />
-            <rect x={Number(cx) - 1.6} y={Number(cy) - 9} width="3.2" height="3.8" rx="0.6" fill="#8a7040" stroke="#3d2e1f" strokeWidth="0.6" />
-          </g>
-        ))}
-      </svg>
-
-      {/* wooden plank floor */}
-      <div className="gh-decor__floor">
-        <img className="gh-decor__floor-img" src={`${art}/floor-planks.svg`} alt="" />
-      </div>
     </div>
   )
 }
@@ -372,13 +183,15 @@ function ShelfBay({
   onSelect,
   slots = EMPTY_SLOTS,
   emptyKind = 'pot',
+  hideEmpty = false,
 }: {
   hobbies: Hobby[]
   onSelect: (id: string) => void
   slots?: number
   emptyKind?: 'pot' | 'crate' | 'hanger' | 'icon' | 'peg'
+  hideEmpty?: boolean
 }) {
-  const empties = Math.max(0, slots - hobbies.length)
+  const empties = hideEmpty ? 0 : Math.max(0, slots - hobbies.length)
   return (
     <div className="shelf-bay">
       {hobbies.map((hobby) => (
@@ -409,14 +222,30 @@ function CenterWateringScene({
   sparkles: boolean
   theme: import('../theme').PlayableTheme
 }) {
-  const skin = theme === 'Greenhouse' ? '' : ` center-stage--${theme.toLowerCase()}`
+  const skin = theme === 'Greenhouse' ? ' center-stage--painted' : ` center-stage--${theme.toLowerCase()}`
   return (
     <div
       className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}${skin}`}
     >
-      <div className="center-stage__sprout">
-        <ThemeBuddy theme={theme} scene quiet tending={watering} />
-      </div>
+      {theme === 'Greenhouse' ? (
+        <>
+          <span className="center-stage__painted-sprout" aria-hidden="true" />
+          {sparkles ? (
+            <svg className="center-stage__sparkles center-stage__sparkles--hot" viewBox="0 0 80 60" aria-hidden="true">
+              <g fill="#f5d76e" stroke="#c4a24e" strokeWidth="0.8">
+                <path d="M18 28 L20 22 L22 28 L28 30 L22 32 L20 38 L18 32 L12 30 Z" />
+                <path d="M42 14 L43.5 10 L45 14 L49 15.5 L45 17 L43.5 21 L42 17 L38 15.5 Z" />
+                <path d="M58 34 L59.5 30 L61 34 L65 35.5 L61 37 L59.5 41 L58 37 L54 35.5 Z" />
+              </g>
+            </svg>
+          ) : null}
+        </>
+      ) : (
+        <div className="center-stage__sprout">
+          <ThemeBuddy theme={theme} scene quiet tending={watering} />
+        </div>
+      )}
+      {theme === 'Greenhouse' ? null : (
       <div className="center-stage__plant" aria-hidden="true">
         <ThemeObjectArt theme={theme} id="center-demo" size={88} demo />
         {watering ? (
@@ -428,22 +257,15 @@ function CenterWateringScene({
               <circle cx="32" cy="42" r="2" fill="#ffe9a0" stroke="none" />
               <circle cx="52" cy="24" r="1.6" fill="#fffef8" stroke="none" />
             </g>
-            {theme === 'Greenhouse' ? (
-              <g fill="#7eb8da" opacity="0.85">
-                <ellipse cx="28" cy="18" rx="2" ry="3.2" transform="rotate(12 28 18)" />
-                <ellipse cx="36" cy="12" rx="1.6" ry="2.6" transform="rotate(-8 36 12)" />
-                <ellipse cx="44" cy="20" rx="1.8" ry="2.8" transform="rotate(18 44 20)" />
-              </g>
-            ) : (
-              <g fill="#c4ad8c" opacity="0.75">
-                <circle cx="28" cy="18" r="1.8" />
-                <circle cx="36" cy="12" r="1.4" />
-                <circle cx="44" cy="20" r="1.6" />
-              </g>
-            )}
+            <g fill="#c4ad8c" opacity="0.75">
+              <circle cx="28" cy="18" r="1.8" />
+              <circle cx="36" cy="12" r="1.4" />
+              <circle cx="44" cy="20" r="1.6" />
+            </g>
           </svg>
         ) : null}
       </div>
+      )}
     </div>
   )
 }
@@ -622,11 +444,12 @@ function PottingBenchScene({
     line1 = words.slice(0, mid).join(' ')
     line2 = words.slice(mid).join(' ')
   }
-  const skin = theme === 'Greenhouse' ? '' : ` potting-bench--${theme.toLowerCase()}`
+  const painted = theme === 'Greenhouse'
+  const skin = painted ? ' potting-bench--painted' : ` potting-bench--${theme.toLowerCase()}`
   return (
     <div className={`potting-bench${skin}`}>
       <div className="potting-bench__surface">
-        <BenchProps theme={theme} chalkLine1={line1} chalkLine2={line2} />
+        {painted ? null : <BenchProps theme={theme} chalkLine1={line1} chalkLine2={line2} />}
         <button
           type="button"
           className="potting-bench__fab"
@@ -640,7 +463,7 @@ function PottingBenchScene({
       <div className="potting-bench__legs">
         <span className="potting-bench__plaque">{plaque}</span>
       </div>
-      <p className="potting-bench__chalk">{chalk}</p>
+      {painted ? null : <p className="potting-bench__chalk">{chalk}</p>}
     </div>
   )
 }
@@ -791,7 +614,7 @@ export function Home() {
   }
 
   return (
-    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}`}>
+    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${theme === 'Greenhouse' ? ' greenhouse--painted' : ''}`}>
       <header className="greenhouse__header">
         <p className="greenhouse__brand">
           <span className="greenhouse__butterfly" aria-hidden="true">
@@ -837,6 +660,7 @@ export function Home() {
                     onSelect={setSelectedId}
                     slots={3}
                     emptyKind={copy.emptyKind}
+                    hideEmpty={theme === 'Greenhouse'}
                   />
                   <WoodShelf tone="warm" />
                 </div>
@@ -848,6 +672,7 @@ export function Home() {
                     onSelect={setSelectedId}
                     slots={3}
                     emptyKind={copy.emptyKind}
+                    hideEmpty={theme === 'Greenhouse'}
                   />
                   <WoodShelf tone="cool" />
                 </div>
@@ -879,6 +704,7 @@ export function Home() {
                   onSelect={setSelectedId}
                   slots={2}
                   emptyKind={copy.emptyKind}
+                  hideEmpty={theme === 'Greenhouse'}
                 />
                 <WoodShelf tone="gold" />
               </div>
@@ -896,6 +722,7 @@ export function Home() {
         {hobbies.length === 0 && ready ? (
           <p className="muted greenhouse__empty">{copy.emptyHint}</p>
         ) : null}
+      </div>
 
         {createOpen ? (
           <div className="greenhouse__create">
@@ -927,7 +754,6 @@ export function Home() {
             </div>
           )}
         </details>
-      </div>
 
       {selected && !hyperfocusHobby ? (
         <HobbyBench

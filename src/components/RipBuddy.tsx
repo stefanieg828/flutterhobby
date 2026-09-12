@@ -1,3 +1,4 @@
+import { PaintedBuddyArt } from './PaintedBuddyArt'
 import './RipBuddy.css'
 
 interface RipBuddyProps {
@@ -21,8 +22,10 @@ export function RipBuddy({ message, scene = false, quiet = false, tending = fals
   return (
     <aside className={classes} aria-label="Rip, your workshop buddy">
       <div className="rip-buddy__avatar" aria-hidden="true">
-        {/* taller viewBox */}
-        <svg viewBox="0 0 140 170" width="140" height="165" role="img">
+        <PaintedBuddyArt
+          name="rip"
+          className="rip-buddy__painted"
+          fallback={<svg viewBox="0 0 140 170" width="140" height="165" role="img">
           <ellipse cx="64" cy="160" rx="34" ry="6" fill="#3a3228" opacity="0.4" />
 
           {/* overalls body — tall */}
@@ -55,7 +58,8 @@ export function RipBuddy({ message, scene = false, quiet = false, tending = fals
             <rect x="10" y="0" width="8" height="36" rx="1" fill="#8a7040" stroke="#2a3028" strokeWidth="1.6" />
             <rect x="0" y="0" width="28" height="14" rx="2" fill="#8a9aa8" stroke="#2a3028" strokeWidth="1.8" />
           </g>
-        </svg>
+        </svg>}
+        />
       </div>
       {showBubble ? (
         <div className="rip-buddy__bubble">

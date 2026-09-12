@@ -1415,6 +1415,292 @@
 }
 
 
+
+
+/* ——— Painted Greenhouse (locked mock as the room) ——— */
+
+.greenhouse--painted .greenhouse__header {
+  padding-bottom: 0.15rem;
+}
+
+.greenhouse--painted .greenhouse__room {
+  aspect-ratio: 1280 / 475;
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  gap: 0;
+  border: 2px solid #e2d2b0;
+  border-radius: 1.15rem;
+  background: #f3e6c4;
+  box-shadow: 0 8px 24px rgba(90, 70, 40, 0.12);
+  overflow: hidden;
+}
+
+.greenhouse--painted .gh-decor__room-bg {
+  object-fit: fill;
+  object-position: center;
+}
+
+.greenhouse--painted .gh-decor__haze {
+  opacity: 0.18;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 252, 230, 0.35), transparent 55%);
+}
+
+.greenhouse--painted .gh-decor__sunbeams,
+.greenhouse--painted .gh-decor__lights,
+.greenhouse--painted .gh-decor__trees,
+.greenhouse--painted .gh-decor__panes,
+.greenhouse--painted .gh-decor__rafters,
+.greenhouse--painted .gh-decor__vines,
+.greenhouse--painted .gh-decor__vines-top,
+.greenhouse--painted .gh-decor__floor {
+  display: none;
+}
+
+.greenhouse--painted .greenhouse__whisper {
+  position: absolute;
+  top: 1.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  margin: 0;
+  max-width: 16rem;
+  background: rgba(255, 254, 248, 0.78);
+  border: 1px solid rgba(196, 176, 144, 0.55);
+  box-shadow: none;
+}
+
+.greenhouse--painted .nudge-hints {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: min(70%, 22rem);
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+}
+
+.greenhouse--painted .gh-scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  min-height: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.greenhouse--painted .gh-scene > * {
+  pointer-events: auto;
+}
+
+.greenhouse--painted .gh-left {
+  position: absolute;
+  left: 1.2%;
+  top: 20%;
+  width: 26%;
+  height: 74%;
+  display: block;
+}
+
+.greenhouse--painted .left-unit {
+  position: relative;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  gap: 0;
+}
+
+.greenhouse--painted .left-unit__back,
+.greenhouse--painted .left-unit__posts,
+.greenhouse--painted .wood-shelf,
+.greenhouse--painted .wood-sign__twine {
+  display: none;
+}
+
+.greenhouse--painted .left-tier {
+  position: absolute;
+  left: 0;
+  right: 4%;
+  margin: 0;
+}
+
+.greenhouse--painted .left-tier:first-child {
+  top: 22%;
+}
+
+.greenhouse--painted .left-tier:last-child {
+  bottom: 2%;
+}
+
+.greenhouse--painted .gh-center {
+  position: absolute;
+  left: 30%;
+  top: 16%;
+  width: 40%;
+  height: 72%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.greenhouse--painted .center-stage--painted {
+  width: 100%;
+  height: 100%;
+  filter: none;
+}
+
+.greenhouse--painted .center-stage__sparkles {
+  top: 18%;
+  left: 12%;
+  width: 5.5rem;
+  height: 4rem;
+}
+
+.greenhouse--painted .gh-right {
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  width: 28%;
+  height: 96%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.greenhouse--painted .proud-unit {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0.15rem 0.2rem 0;
+}
+
+.greenhouse--painted .wood-sign {
+  margin: 0 0 0.1rem 0.2rem;
+}
+
+.greenhouse--painted .wood-sign__plank {
+  background: #f4ead4;
+  border: 1.5px solid #c9b48a;
+  border-radius: 0.55rem;
+  box-shadow: 1px 2px 0 rgba(90, 70, 40, 0.08);
+  transform: none;
+  padding: 0.14rem 0.45rem 0.16rem;
+}
+
+.greenhouse--painted .wood-sign--resting .wood-sign__plank,
+.greenhouse--painted .wood-sign--proud-shelf .wood-sign__plank {
+  background: #f4ead4;
+  transform: none;
+}
+
+.greenhouse--painted .wood-sign__label {
+  font-size: 0.62rem;
+  color: #5a4630;
+}
+
+.greenhouse--painted .wood-sign__count {
+  border-color: #c9b48a;
+  background: #fff8ee;
+  font-size: 0.52rem;
+}
+
+.greenhouse--painted .shelf-bay {
+  min-height: 0;
+  padding: 0;
+  gap: 0.05rem;
+}
+
+.greenhouse--painted .potting-bench--painted {
+  margin-top: auto;
+  padding: 0 0.35rem 0.55rem 0;
+}
+
+.greenhouse--painted .potting-bench--painted .potting-bench__surface {
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-height: 0;
+  padding: 0;
+  justify-content: flex-end;
+}
+
+.greenhouse--painted .potting-bench--painted .potting-bench__legs {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0.2rem 0 0;
+}
+
+.greenhouse--painted .potting-bench--painted .potting-bench__plaque {
+  background: #f4ead4;
+  border-color: #c9b48a;
+  box-shadow: none;
+  font-size: 0.58rem;
+}
+
+.greenhouse--painted .potting-bench--painted .potting-bench__fab {
+  width: 2.15rem;
+  height: 2.15rem;
+  font-size: 1.25rem;
+  margin: 0 0.15rem 0.15rem 0;
+  border-width: 2px;
+  box-shadow: 1px 2px 0 rgba(42, 64, 48, 0.16);
+}
+
+.greenhouse--painted .greenhouse__loading,
+.greenhouse--painted .greenhouse__empty {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  background: rgba(255, 254, 248, 0.86);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+}
+
+.greenhouse--painted .plant-tile--compact {
+  width: 3.15rem;
+  min-width: 2.6rem;
+}
+
+.greenhouse--painted .plant-tile--compact .plant-tile__art svg,
+.greenhouse--painted .plant-tile--compact .plant-tile__art .plant-painted {
+  width: 44px;
+  height: 52px;
+}
+
+.greenhouse--painted .plant-tile__tag {
+  background: rgba(244, 234, 212, 0.92);
+  border-color: #c9b48a;
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .greenhouse--painted .greenhouse__room {
+    aspect-ratio: 1280 / 520;
+  }
+
+  .greenhouse--painted .wood-sign__label {
+    font-size: 0.52rem;
+  }
+
+  .greenhouse--painted .plant-tile--compact {
+    width: 2.7rem;
+    min-width: 2.3rem;
+  }
+
+  .greenhouse--painted .potting-bench--painted .potting-bench__fab {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+}
+
 .greenhouse__exit-toast {
   position: fixed;
   left: 50%;

@@ -59,3 +59,16 @@
   line-height: 1.35;
   color: #3d2e1f;
 }
+
+.pixel-buddy__painted {
+  display: block;
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+.pixel-buddy--scene .pixel-buddy__painted,
+.pixel-buddy--quiet .pixel-buddy__painted {
+  width: min(118px, 26vw);
+}

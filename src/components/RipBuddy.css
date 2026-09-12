@@ -58,3 +58,16 @@
   line-height: 1.35;
   color: #3d2e1f;
 }
+
+.rip-buddy__painted {
+  display: block;
+  width: 92px;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+.rip-buddy--scene .rip-buddy__painted,
+.rip-buddy--quiet .rip-buddy__painted {
+  width: min(128px, 27vw);
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { PaintedBuddyArt } from './PaintedBuddyArt'
 import './SproutBuddy.css'
 
 interface SproutBuddyProps {
@@ -11,9 +11,7 @@ interface SproutBuddyProps {
   watering?: boolean
 }
 
-const PAINTED_SRC = `${import.meta.env.BASE_URL}art/greenhouse/sprout-buddy.png`
-
-/** Painted-cozy Sprout — purple winged buddy matching the theme character sheet. */
+/** Painted-cozy Sprout — lineup face/body, watering pose when tending. */
 export function SproutBuddy({
   message,
   scene = false,
@@ -21,13 +19,12 @@ export function SproutBuddy({
   watering = false,
 }: SproutBuddyProps) {
   const showBubble = Boolean(message) && !quiet
-  const [usePainted, setUsePainted] = useState(true)
   const classes = [
     'sprout-buddy',
     scene ? 'sprout-buddy--scene' : '',
     quiet ? 'sprout-buddy--quiet' : '',
     watering ? 'sprout-buddy--watering' : '',
-    usePainted ? 'sprout-buddy--painted' : '',
+    'sprout-buddy--painted',
   ]
     .filter(Boolean)
     .join(' ')
@@ -35,17 +32,12 @@ export function SproutBuddy({
   return (
     <aside className={classes} aria-label="Sprout, your greenhouse buddy">
       <div className="sprout-buddy__avatar" aria-hidden="true">
-        {usePainted ? (
-          <img
-            className="sprout-buddy__painted"
-            src={PAINTED_SRC}
-            alt=""
-            draggable={false}
-            onError={() => setUsePainted(false)}
-          />
-        ) : (
-          <SproutSvg watering={watering} quiet={quiet} />
-        )}
+        <PaintedBuddyArt
+          name="sprout"
+          watering={watering}
+          className="sprout-buddy__painted"
+          fallback={<SproutSvg watering={watering} quiet={quiet} />}
+        />
       </div>
       {showBubble ? (
         <div className="sprout-buddy__bubble">

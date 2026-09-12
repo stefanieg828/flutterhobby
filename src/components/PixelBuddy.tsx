@@ -1,3 +1,4 @@
+import { PaintedBuddyArt } from './PaintedBuddyArt'
 import './PixelBuddy.css'
 
 interface PixelBuddyProps {
@@ -21,8 +22,10 @@ export function PixelBuddy({ message, scene = false, quiet = false, tending = fa
   return (
     <aside className={classes} aria-label="Pixel, your desktop buddy">
       <div className="pixel-buddy__avatar" aria-hidden="true">
-        {/* shorter overall viewBox character */}
-        <svg viewBox="0 0 140 130" width="140" height="120" role="img">
+        <PaintedBuddyArt
+          name="pixel"
+          className="pixel-buddy__painted"
+          fallback={<svg viewBox="0 0 140 130" width="140" height="120" role="img">
           <ellipse cx="64" cy="122" rx="30" ry="5" fill="#5a6a70" opacity="0.35" />
 
           {/* stubby folder body */}
@@ -63,7 +66,8 @@ export function PixelBuddy({ message, scene = false, quiet = false, tending = fa
           <g transform={tending ? 'translate(104 58) scale(0.95)' : 'translate(106 88) scale(0.55)'}>
             <path d="M0 0 L0 22 L6 16 L10 26 L14 24 L10 14 L18 14 Z" fill="#fffef8" stroke="#2a3028" strokeWidth="1.6" />
           </g>
-        </svg>
+        </svg>}
+        />
       </div>
       {showBubble ? (
         <div className="pixel-buddy__bubble">

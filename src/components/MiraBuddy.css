@@ -58,3 +58,16 @@
   line-height: 1.35;
   color: #5a4060;
 }
+
+.mira-buddy__painted {
+  display: block;
+  width: 96px;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+.mira-buddy--scene .mira-buddy__painted,
+.mira-buddy--quiet .mira-buddy__painted {
+  width: min(132px, 28vw);
+}

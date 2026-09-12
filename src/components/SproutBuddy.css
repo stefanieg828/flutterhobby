@@ -122,9 +122,8 @@
 }
 
 .sprout-buddy--watering .sprout-buddy__painted {
-  width: 152px;
-  transform: rotate(-6deg) translateY(2px);
-  transform-origin: 55% 70%;
+  width: 200px;
+  transform: none;
 }
 
 @media (max-width: 420px) {
@@ -134,6 +133,6 @@
   }
 
   .sprout-buddy--watering .sprout-buddy__painted {
-    width: 128px;
+    width: 168px;
   }
 }

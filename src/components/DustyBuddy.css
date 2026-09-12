@@ -58,3 +58,16 @@
   line-height: 1.35;
   color: #f0e6d4;
 }
+
+.dusty-buddy__painted {
+  display: block;
+  width: 96px;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+.dusty-buddy--scene .dusty-buddy__painted,
+.dusty-buddy--quiet .dusty-buddy__painted {
+  width: min(132px, 28vw);
+}

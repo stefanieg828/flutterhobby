@@ -1,3 +1,4 @@
+import { PaintedBuddyArt } from './PaintedBuddyArt'
 import './DustyBuddy.css'
 
 interface DustyBuddyProps {
@@ -27,7 +28,10 @@ export function DustyBuddy({
   return (
     <aside className={classes} aria-label="Dusty, your basement buddy">
       <div className="dusty-buddy__avatar" aria-hidden="true">
-        <svg viewBox="0 0 140 150" width="140" height="150" role="img">
+        <PaintedBuddyArt
+          name="dusty"
+          className="dusty-buddy__painted"
+          fallback={<svg viewBox="0 0 140 150" width="140" height="150" role="img">
           <defs>
             <radialGradient id="dustyBeam" cx="20%" cy="50%" r="80%">
               <stop offset="0%" stopColor="#ffe9a0" stopOpacity="0.55" />
@@ -153,7 +157,8 @@ export function DustyBuddy({
             <circle cx="42" cy="15" r="2.5" fill="#fffef8" opacity="0.9" />
             <rect x="6" y="11" width="8" height="8" rx="1" fill="#3d4a40" stroke="#3d2e1f" strokeWidth="1" />
           </g>
-        </svg>
+        </svg>}
+        />
       </div>
       {showBubble ? (
         <div className="dusty-buddy__bubble">

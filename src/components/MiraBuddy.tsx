@@ -1,3 +1,4 @@
+import { PaintedBuddyArt } from './PaintedBuddyArt'
 import './MiraBuddy.css'
 
 interface MiraBuddyProps {
@@ -21,7 +22,10 @@ export function MiraBuddy({ message, scene = false, quiet = false, tending = fal
   return (
     <aside className={classes} aria-label="Mira, your closet buddy">
       <div className="mira-buddy__avatar" aria-hidden="true">
-        <svg viewBox="0 0 140 150" width="140" height="150" role="img">
+        <PaintedBuddyArt
+          name="mira"
+          className="mira-buddy__painted"
+          fallback={<svg viewBox="0 0 140 150" width="140" height="150" role="img">
           <ellipse cx="64" cy="140" rx="32" ry="6" fill="#e8d4e0" opacity="0.55" />
 
           {/* soft scarf wings */}
@@ -70,7 +74,8 @@ export function MiraBuddy({ message, scene = false, quiet = false, tending = fal
               <path d="M108 74 Q118 66 114 56" />
             </g>
           ) : null}
-        </svg>
+        </svg>}
+        />
       </div>
       {showBubble ? (
         <div className="mira-buddy__bubble">
