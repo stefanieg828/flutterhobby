@@ -1418,6 +1418,12 @@
 
 
 /* ——— Painted Greenhouse (locked mock as the room) ——— */
+/* Positions tuned to public/art/greenhouse/room-bg.png (1280×475 empty room):
+   Left top shelf ~40%h / plaque ~44–52%h @ ~15%w
+   Left bottom shelf ~78%h / plaque ~86–91%h @ ~15%w
+   Proud plaque ~5–20%h @ ~79–96%w; pots on wood ledge ~48–55%h
+   Potting bench surface ~78–85%h; chalkboard ~85–94%w × ~73–87%h
+*/
 
 .greenhouse--painted .greenhouse__header {
   padding-bottom: 0.15rem;
@@ -1495,12 +1501,16 @@
   pointer-events: auto;
 }
 
+/* ——— Left: two-tier shelf (In season / Resting) ——— */
+/* NOTE: .left-tier is NOT :first-child — left-unit has posts/back first.
+   Target tiers via aria-labelledby. */
+
 .greenhouse--painted .gh-left {
   position: absolute;
-  left: 1.2%;
-  top: 20%;
-  width: 26%;
-  height: 74%;
+  left: 1%;
+  top: 0;
+  width: 30%;
+  height: 100%;
   display: block;
 }
 
@@ -1521,25 +1531,76 @@
 
 .greenhouse--painted .left-tier {
   position: absolute;
-  left: 0;
-  right: 4%;
+  left: 2%;
+  right: 6%;
   margin: 0;
+  display: block;
 }
 
-.greenhouse--painted .left-tier:first-child {
-  top: 22%;
+/* In season — pots on top ledge (~40%), sign on cream plaque (~44–52%) */
+.greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] {
+  top: 24%;
+  height: 32%;
 }
 
-.greenhouse--painted .left-tier:last-child {
-  bottom: 2%;
+.greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] .shelf-bay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 60%;
+  min-height: 0;
+  padding: 0 0.1rem;
+  gap: 0.15rem;
+  justify-content: center;
+  align-items: flex-end;
 }
+
+.greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] .wood-sign {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 2;
+}
+
+/* Resting — pots on bottom ledge (~78%), sign on lower plaque (~86–91%) */
+.greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] {
+  top: 62%;
+  height: 36%;
+}
+
+.greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] .shelf-bay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 52%;
+  min-height: 0;
+  padding: 0 0.1rem;
+  gap: 0.15rem;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] .wood-sign {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 2;
+}
+
+/* ——— Center: Sprout idle zone ——— */
 
 .greenhouse--painted .gh-center {
   position: absolute;
-  left: 30%;
-  top: 16%;
-  width: 40%;
-  height: 72%;
+  left: 32%;
+  top: 28%;
+  width: 36%;
+  height: 55%;
   padding: 0;
   display: flex;
   align-items: center;
@@ -1560,96 +1621,214 @@
   height: 4rem;
 }
 
+/* ——— Right: Proud shelf + potting bench ——— */
+
 .greenhouse--painted .gh-right {
   position: absolute;
-  right: 1%;
-  top: 1%;
-  width: 28%;
-  height: 96%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0;
+  right: 0.5%;
+  top: 0;
+  width: 29%;
+  height: 100%;
+  display: block;
 }
 
 .greenhouse--painted .proud-unit {
+  position: absolute;
+  top: 1%;
+  left: 8%;
+  right: 1%;
+  height: 56%;
   background: none;
   border: none;
   box-shadow: none;
-  padding: 0.15rem 0.2rem 0;
+  padding: 0;
+  display: block;
 }
 
+.greenhouse--painted .proud-unit .wood-sign {
+  position: absolute;
+  top: 14%;
+  left: 52%;
+  right: auto;
+  transform: translateX(-50%);
+  width: max-content;
+  margin: 0;
+  align-items: center;
+  z-index: 2;
+}
+
+.greenhouse--painted .proud-unit .wood-sign--proud-shelf {
+  align-items: center;
+  align-self: auto;
+  margin: 0;
+  width: max-content;
+}
+
+.greenhouse--painted .proud-unit .shelf-bay {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 52%;
+  height: 40%;
+  min-height: 0;
+  padding: 0;
+  gap: 0.25rem;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* Signs: transparent so cream painted plaques show through */
 .greenhouse--painted .wood-sign {
-  margin: 0 0 0.1rem 0.2rem;
+  margin: 0;
 }
 
 .greenhouse--painted .wood-sign__plank {
-  background: #f4ead4;
-  border: 1.5px solid #c9b48a;
-  border-radius: 0.55rem;
-  box-shadow: 1px 2px 0 rgba(90, 70, 40, 0.08);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   transform: none;
-  padding: 0.14rem 0.45rem 0.16rem;
+  padding: 0.08rem 0.28rem 0.1rem;
+  gap: 0.2rem;
 }
 
 .greenhouse--painted .wood-sign--resting .wood-sign__plank,
 .greenhouse--painted .wood-sign--proud-shelf .wood-sign__plank {
-  background: #f4ead4;
+  background: transparent;
   transform: none;
 }
 
 .greenhouse--painted .wood-sign__label {
-  font-size: 0.62rem;
-  color: #5a4630;
+  font-size: 0.58rem;
+  color: #4a3828;
+  text-shadow: 0 1px 0 rgba(255, 250, 235, 0.55);
 }
 
 .greenhouse--painted .wood-sign__count {
-  border-color: #c9b48a;
-  background: #fff8ee;
-  font-size: 0.52rem;
+  border-color: rgba(120, 95, 60, 0.45);
+  background: rgba(255, 248, 238, 0.82);
+  font-size: 0.48rem;
+  color: #5a4630;
+}
+
+.greenhouse--painted .wood-sign__icon {
+  font-size: 0.58rem;
+  opacity: 0.85;
 }
 
 .greenhouse--painted .shelf-bay {
   min-height: 0;
   padding: 0;
-  gap: 0.05rem;
+  gap: 0.08rem;
+  align-items: flex-end;
+  width: auto;
+  max-width: 100%;
 }
 
+/* Potting bench — FAB on bench surface; plaque text on painted chalkboard */
 .greenhouse--painted .potting-bench--painted {
-  margin-top: auto;
-  padding: 0 0.35rem 0.55rem 0;
+  position: absolute;
+  left: 2%;
+  right: 1%;
+  top: 58%;
+  bottom: 1%;
+  margin: 0;
+  padding: 0;
+  width: auto;
 }
 
 .greenhouse--painted .potting-bench--painted .potting-bench__surface {
+  position: absolute;
+  /* Left of chalkboard (~88% room); sits on bench surface */
+  right: 30%;
+  top: 34%;
+  left: auto;
   background: none;
   border: none;
   box-shadow: none;
   min-height: 0;
   padding: 0;
+  width: auto;
   justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .greenhouse--painted .potting-bench--painted .potting-bench__legs {
+  position: absolute;
+  /* Center on chalkboard ~88–92% room width, ~78–82% height */
+  right: 12%;
+  top: 56%;
+  left: auto;
+  width: auto;
   background: none;
   border: none;
   box-shadow: none;
-  padding: 0.2rem 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .greenhouse--painted .potting-bench--painted .potting-bench__plaque {
-  background: #f4ead4;
-  border-color: #c9b48a;
+  background: transparent;
+  border: none;
   box-shadow: none;
-  font-size: 0.58rem;
+  font-size: 0.48rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #e8e2c8;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.45),
+    0 0 2px rgba(0, 0, 0, 0.25);
+  padding: 0.1rem 0.15rem;
+  max-width: 3.8rem;
+  text-align: center;
+  line-height: 1.1;
+  white-space: normal;
 }
 
 .greenhouse--painted .potting-bench--painted .potting-bench__fab {
-  width: 2.15rem;
-  height: 2.15rem;
-  font-size: 1.25rem;
-  margin: 0 0.15rem 0.15rem 0;
+  width: 2.05rem;
+  height: 2.05rem;
+  font-size: 1.2rem;
+  margin: 0;
   border-width: 2px;
-  box-shadow: 1px 2px 0 rgba(42, 64, 48, 0.16);
+  box-shadow:
+    1px 2px 0 rgba(42, 64, 48, 0.18),
+    0 3px 6px rgba(60, 40, 20, 0.2);
+}
+
+/* Plant tiles: pot sits on wood; name tag hangs below out of flow */
+.greenhouse--painted .plant-tile--compact {
+  width: 2.75rem;
+  min-width: 2.3rem;
+  position: relative;
+  padding-bottom: 0;
+  filter: drop-shadow(1px 3px 2px rgba(60, 40, 20, 0.28));
+}
+
+.greenhouse--painted .plant-tile--compact .plant-tile__art svg,
+.greenhouse--painted .plant-tile--compact .plant-tile__art .plant-painted {
+  width: 38px;
+  height: 46px;
+}
+
+.greenhouse--painted .plant-tile--compact .plant-tile__tag {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.05rem);
+  transform: translateX(-50%);
+  background: rgba(244, 234, 212, 0.92);
+  border-color: #c9b48a;
+  box-shadow: none;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.greenhouse--painted .plant-tile__tag {
+  background: rgba(244, 234, 212, 0.92);
+  border-color: #c9b48a;
+  box-shadow: none;
 }
 
 .greenhouse--painted .greenhouse__loading,
@@ -1665,14 +1844,15 @@
 }
 
 .greenhouse--painted .plant-tile--compact {
-  width: 3.15rem;
-  min-width: 2.6rem;
+  width: 2.85rem;
+  min-width: 2.35rem;
+  filter: drop-shadow(1px 3px 2px rgba(60, 40, 20, 0.28));
 }
 
 .greenhouse--painted .plant-tile--compact .plant-tile__art svg,
 .greenhouse--painted .plant-tile--compact .plant-tile__art .plant-painted {
-  width: 44px;
-  height: 52px;
+  width: 40px;
+  height: 48px;
 }
 
 .greenhouse--painted .plant-tile__tag {
@@ -1687,17 +1867,22 @@
   }
 
   .greenhouse--painted .wood-sign__label {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
   }
 
   .greenhouse--painted .plant-tile--compact {
-    width: 2.7rem;
-    min-width: 2.3rem;
+    width: 2.45rem;
+    min-width: 2.1rem;
   }
 
   .greenhouse--painted .potting-bench--painted .potting-bench__fab {
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .greenhouse--painted .potting-bench--painted .potting-bench__plaque {
+    font-size: 0.42rem;
+    max-width: 3.8rem;
   }
 }
 

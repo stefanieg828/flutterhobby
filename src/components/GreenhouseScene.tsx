@@ -26,8 +26,8 @@ export interface GreenhouseSceneHandle {
   carriedId: string | null
 }
 
-const IDLE_POS = { x: 48, y: 58 }
-const BENCH_FALLBACK = { x: 78, y: 72 }
+const IDLE_POS = { x: 48, y: 76 }
+const BENCH_FALLBACK = { x: 86, y: 78 }
 const WALK_MS = 900
 const PICKUP_MS = 320
 const RETURN_MS = 850
