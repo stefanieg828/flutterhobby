@@ -1,22 +1,6 @@
-/* Cover painted Sprout (and watering can) baked into room-bg while live actor is present */
+/* Painted Sprout scrubbed from room-bg — fog unused */
 .gh-sprout-fog {
-  position: absolute;
-  left: 39%;
-  top: 38%;
-  width: 24%;
-  height: 46%;
-  pointer-events: none;
-  z-index: 2;
-  background:
-    radial-gradient(
-      ellipse 58% 52% at 48% 52%,
-      rgba(242, 226, 180, 0.98) 0%,
-      rgba(236, 220, 173, 0.94) 28%,
-      rgba(248, 230, 188, 0.78) 48%,
-      rgba(243, 230, 196, 0.35) 68%,
-      transparent 82%
-    );
-  opacity: 1;
+  display: none;
 }
 
 /* Live Sprout actor — % positions relative to .greenhouse__room */
