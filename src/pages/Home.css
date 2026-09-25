@@ -1886,6 +1886,70 @@
   }
 }
 
+
+/* ——— Painted room decor (Basement / Closet / Desktop / Workshop) ——— */
+.bm-decor--painted,
+.cl-decor--painted,
+.dk-decor--painted,
+.ws-decor--painted {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.bm-decor__room-bg,
+.cl-decor__room-bg,
+.dk-decor__room-bg,
+.ws-decor__room-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bm-decor__haze,
+.cl-decor__haze,
+.dk-decor__haze,
+.ws-decor__haze {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 252, 230, 0.28), transparent 55%);
+  opacity: 0.18;
+  z-index: 1;
+}
+
+.greenhouse--painted .bm-decor__gloom,
+.greenhouse--painted .bm-decor__beam,
+.greenhouse--painted .bm-decor__walls,
+.greenhouse--painted .bm-decor__bulbs,
+.greenhouse--painted .bm-decor__crates,
+.greenhouse--painted .bm-decor__floor,
+.greenhouse--painted .cl-decor__blush,
+.greenhouse--painted .cl-decor__glow,
+.greenhouse--painted .cl-decor__walls,
+.greenhouse--painted .cl-decor__lights,
+.greenhouse--painted .cl-decor__floor,
+.greenhouse--painted .dk-decor__wallpaper,
+.greenhouse--painted .dk-decor__scan,
+.greenhouse--painted .dk-decor__walls,
+.greenhouse--painted .dk-decor__icons,
+.greenhouse--painted .dk-decor__taskbar,
+.greenhouse--painted .dk-decor__floor,
+.greenhouse--painted .ws-decor__dust,
+.greenhouse--painted .ws-decor__lamp,
+.greenhouse--painted .ws-decor__walls,
+.greenhouse--painted .ws-decor__lights,
+.greenhouse--painted .ws-decor__floor {
+  display: none;
+}
+
 .greenhouse__exit-toast {
   position: fixed;
   left: 50%;

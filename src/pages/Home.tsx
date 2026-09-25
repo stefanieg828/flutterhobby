@@ -27,6 +27,8 @@ import {
   shouldSkipGreenhouseCarry,
   type GreenhouseSceneHandle,
 } from '../components/GreenhouseScene'
+import { ThemeIdleScene } from '../components/ThemeIdleScene'
+import { themeUsesPaintedRoom } from '../themeArt'
 import { HyperfocusView } from '../components/HyperfocusView'
 import { NudgeHints } from '../components/NudgeHints'
 import { InstallAppButton } from '../components/InstallApp'
@@ -236,17 +238,18 @@ function CenterWateringScene({
   sparkles: boolean
   theme: import('../theme').PlayableTheme
 }) {
-  const skin = theme === 'Greenhouse' ? ' center-stage--painted' : ` center-stage--${theme.toLowerCase()}`
+  const painted = themeUsesPaintedRoom(theme)
+  const skin = painted ? ' center-stage--painted' : ` center-stage--${theme.toLowerCase()}`
   return (
     <div
       className={`center-stage${watering ? ' center-stage--watering' : ''}${sparkles ? ' center-stage--sparkle' : ''}${skin}`}
     >
-      {theme === 'Greenhouse' ? null : (
+      {painted ? null : (
         <div className="center-stage__sprout">
           <ThemeBuddy theme={theme} scene quiet tending={watering} />
         </div>
       )}
-      {theme === 'Greenhouse' ? null : (
+      {painted ? null : (
       <div className="center-stage__plant" aria-hidden="true">
         <ThemeObjectArt theme={theme} id="center-demo" size={88} demo />
         {watering ? (
@@ -445,7 +448,7 @@ function PottingBenchScene({
     line1 = words.slice(0, mid).join(' ')
     line2 = words.slice(mid).join(' ')
   }
-  const painted = theme === 'Greenhouse'
+  const painted = themeUsesPaintedRoom(theme)
   const skin = painted ? ' potting-bench--painted' : ` potting-bench--${theme.toLowerCase()}`
   return (
     <div className={`potting-bench${skin}`} data-bench-anchor>
@@ -657,7 +660,7 @@ export function Home() {
   }, [theme])
 
   return (
-    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${theme === 'Greenhouse' ? ' greenhouse--painted' : ''}`}>
+    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${themeUsesPaintedRoom(theme) ? ' greenhouse--painted' : ''}`}>
       <header className="greenhouse__header">
         <div className="greenhouse__header-row">
           <div className="greenhouse__header-text">
@@ -685,6 +688,8 @@ export function Home() {
             onArriveAtBench={handleArriveAtBench}
             onCarriedChange={setCarriedShelfId}
           />
+        ) : themeUsesPaintedRoom(theme) ? (
+          <ThemeIdleScene theme={theme} sparkles={showSparkles} />
         ) : null}
 
         <p className="greenhouse__whisper" aria-live="polite">
@@ -719,7 +724,7 @@ export function Home() {
                     onSelect={handleSelectHobby}
                     slots={3}
                     emptyKind={copy.emptyKind}
-                    hideEmpty={theme === 'Greenhouse'}
+                    hideEmpty={themeUsesPaintedRoom(theme)}
                     carriedId={carriedShelfId}
                   />
                   <WoodShelf tone="warm" />
@@ -732,7 +737,7 @@ export function Home() {
                     onSelect={handleSelectHobby}
                     slots={3}
                     emptyKind={copy.emptyKind}
-                    hideEmpty={theme === 'Greenhouse'}
+                    hideEmpty={themeUsesPaintedRoom(theme)}
                     carriedId={carriedShelfId}
                   />
                   <WoodShelf tone="cool" />
@@ -765,7 +770,7 @@ export function Home() {
                   onSelect={handleSelectHobby}
                   slots={2}
                   emptyKind={copy.emptyKind}
-                  hideEmpty={theme === 'Greenhouse'}
+                  hideEmpty={themeUsesPaintedRoom(theme)}
                   carriedId={carriedShelfId}
                 />
                 <WoodShelf tone="gold" />
