@@ -28,7 +28,7 @@ export function ThemeIdleScene({ theme, sparkles = false }: ThemeIdleSceneProps)
 
   return (
     <div
-      className={`gh-actor gh-actor--idle${sparkles ? ' gh-actor--sparkle' : ''}`}
+      className={`gh-actor gh-actor--idle gh-actor--${theme.toLowerCase()}${sparkles ? ' gh-actor--sparkle' : ''}`}
       style={{
         left: `${IDLE_POS.x}%`,
         top: `${IDLE_POS.y}%`,

@@ -24,6 +24,12 @@
   filter: drop-shadow(1px 3px 0 rgba(42, 64, 48, 0.16));
 }
 
+/* Per-buddy widths so every jacket stands about as tall as Sprout */
+.gh-actor--basement { width: clamp(3.7rem, 10.4vw, 6.15rem); }
+.gh-actor--closet { width: clamp(3.1rem, 8.7vw, 5.15rem); }
+.gh-actor--desktop { width: clamp(3.9rem, 10.9vw, 6.4rem); }
+.gh-actor--workshop { width: clamp(3.05rem, 8.6vw, 5.05rem); }
+
 .gh-actor__sprite {
   display: block;
   width: 100%;
