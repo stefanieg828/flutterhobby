@@ -1497,7 +1497,22 @@
   pointer-events: none;
 }
 
-.greenhouse--painted .gh-scene > * {
+/* Box positions (columns, tiers, bays, signs, bench) come from
+   src/themeLayout.ts as inline styles. Non-Greenhouse rooms use full-room
+   boxes that overlap, so only real tap targets take pointer events. */
+.greenhouse--painted .gh-scene > *,
+.greenhouse--painted .left-unit,
+.greenhouse--painted .left-tier,
+.greenhouse--painted .shelf-bay,
+.greenhouse--painted .wood-sign,
+.greenhouse--painted .proud-unit,
+.greenhouse--painted .potting-bench--painted,
+.greenhouse--painted .potting-bench--painted .potting-bench__surface {
+  pointer-events: none;
+}
+
+.greenhouse--painted .plant-tile:not(.plant-tile--carried),
+.greenhouse--painted .potting-bench--painted .potting-bench__fab {
   pointer-events: auto;
 }
 
@@ -1507,10 +1522,6 @@
 
 .greenhouse--painted .gh-left {
   position: absolute;
-  left: 1%;
-  top: 0;
-  width: 30%;
-  height: 100%;
   display: block;
 }
 
@@ -1531,24 +1542,13 @@
 
 .greenhouse--painted .left-tier {
   position: absolute;
-  left: 2%;
-  right: 6%;
   margin: 0;
   display: block;
 }
 
 /* In season — pots on top ledge (~40%), sign on cream plaque (~44–52%) */
-.greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] {
-  top: 24%;
-  height: 32%;
-}
-
 .greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] .shelf-bay {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 60%;
   min-height: 0;
   padding: 0 0.1rem;
   gap: 0.15rem;
@@ -1558,25 +1558,13 @@
 
 .greenhouse--painted .left-tier[aria-labelledby="shelf-in-season"] .wood-sign {
   position: absolute;
-  left: 50%;
-  top: 70%;
-  transform: translateX(-50%);
   margin: 0;
   z-index: 2;
 }
 
 /* Resting — pots on bottom ledge (~78%), sign on lower plaque (~86–91%) */
-.greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] {
-  top: 62%;
-  height: 36%;
-}
-
 .greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] .shelf-bay {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 52%;
   min-height: 0;
   padding: 0 0.1rem;
   gap: 0.15rem;
@@ -1586,9 +1574,6 @@
 
 .greenhouse--painted .left-tier[aria-labelledby="shelf-resting"] .wood-sign {
   position: absolute;
-  left: 50%;
-  top: 70%;
-  transform: translateX(-50%);
   margin: 0;
   z-index: 2;
 }
@@ -1625,19 +1610,11 @@
 
 .greenhouse--painted .gh-right {
   position: absolute;
-  right: 0.5%;
-  top: 0;
-  width: 29%;
-  height: 100%;
   display: block;
 }
 
 .greenhouse--painted .proud-unit {
   position: absolute;
-  top: 1%;
-  left: 8%;
-  right: 1%;
-  height: 56%;
   background: none;
   border: none;
   box-shadow: none;
@@ -1647,10 +1624,6 @@
 
 .greenhouse--painted .proud-unit .wood-sign {
   position: absolute;
-  top: 14%;
-  left: 52%;
-  right: auto;
-  transform: translateX(-50%);
   width: max-content;
   margin: 0;
   align-items: center;
@@ -1666,10 +1639,6 @@
 
 .greenhouse--painted .proud-unit .shelf-bay {
   position: absolute;
-  left: 10%;
-  right: 10%;
-  top: 52%;
-  height: 40%;
   min-height: 0;
   padding: 0;
   gap: 0.25rem;
@@ -1728,10 +1697,6 @@
 /* Potting bench — FAB on bench surface; plaque text on painted chalkboard */
 .greenhouse--painted .potting-bench--painted {
   position: absolute;
-  left: 2%;
-  right: 1%;
-  top: 58%;
-  bottom: 1%;
   margin: 0;
   padding: 0;
   width: auto;
@@ -1739,10 +1704,6 @@
 
 .greenhouse--painted .potting-bench--painted .potting-bench__surface {
   position: absolute;
-  /* Left of chalkboard (~88% room); sits on bench surface */
-  right: 30%;
-  top: 34%;
-  left: auto;
   background: none;
   border: none;
   box-shadow: none;
@@ -1755,10 +1716,6 @@
 
 .greenhouse--painted .potting-bench--painted .potting-bench__legs {
   position: absolute;
-  /* Center on chalkboard ~88–92% room width, ~78–82% height */
-  right: 12%;
-  top: 56%;
-  left: auto;
   width: auto;
   background: none;
   border: none;
@@ -1796,6 +1753,62 @@
   box-shadow:
     1px 2px 0 rgba(42, 64, 48, 0.18),
     0 3px 6px rgba(60, 40, 20, 0.2);
+}
+
+/* Bench name on a cream plaque / light wood instead of a chalkboard */
+.greenhouse--painted .potting-bench--label-plaque .potting-bench__plaque {
+  font-size: 0.52rem;
+  color: #4a3828;
+  text-shadow: 0 1px 0 rgba(255, 250, 235, 0.6);
+  max-width: none;
+  white-space: nowrap;
+}
+
+/* Bench name as a little cream tag on bare furniture */
+.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque {
+  font-size: 0.5rem;
+  color: #4a3828;
+  text-shadow: none;
+  max-width: none;
+  white-space: nowrap;
+  padding: 0.04rem 0.32rem 0.06rem;
+  border: 1px solid #c9b48a;
+  border-radius: 0.35rem;
+  background: rgba(244, 234, 212, 0.94);
+}
+
+/* Objects hanging from a rail: hooks at the bay's top edge */
+.greenhouse--painted .gh-scene .shelf-bay.shelf-bay--hang {
+  align-items: flex-start;
+}
+
+/* Signs squeezed onto narrow painted plaques/tags: wrap, centred */
+.greenhouse--painted .wood-sign--wrap {
+  align-items: center;
+}
+
+.greenhouse--painted .wood-sign--wrap .wood-sign__plank {
+  max-width: 100%;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.15rem;
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
+  text-align: center;
+}
+
+.greenhouse--painted .wood-sign--wrap .wood-sign__icon {
+  display: none;
+}
+
+.greenhouse--painted .wood-sign--wrap .wood-sign__label {
+  min-width: 0;
+  white-space: normal;
+  line-height: 1.05;
+}
+
+.greenhouse--painted .wood-sign--wrap .wood-sign__count {
+  flex-shrink: 0;
 }
 
 /* Plant tiles: pot sits on wood; name tag hangs below out of flow */

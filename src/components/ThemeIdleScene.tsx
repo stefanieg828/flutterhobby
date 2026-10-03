@@ -1,8 +1,7 @@
 import type { PlayableTheme } from '../theme'
 import { themeIdleSrc } from '../themeArt'
+import { themeLayout } from '../themeLayout'
 import './GreenhouseScene.css'
-
-const IDLE_POS = { x: 48, y: 76 }
 
 interface ThemeIdleSceneProps {
   theme: PlayableTheme
@@ -15,6 +14,7 @@ interface ThemeIdleSceneProps {
  */
 export function ThemeIdleScene({ theme, sparkles = false }: ThemeIdleSceneProps) {
   const src = themeIdleSrc(theme)
+  const idle = themeLayout(theme).idle
   const name =
     theme === 'Basement'
       ? 'Dusty'
@@ -30,8 +30,8 @@ export function ThemeIdleScene({ theme, sparkles = false }: ThemeIdleSceneProps)
     <div
       className={`gh-actor gh-actor--idle gh-actor--${theme.toLowerCase()}${sparkles ? ' gh-actor--sparkle' : ''}`}
       style={{
-        left: `${IDLE_POS.x}%`,
-        top: `${IDLE_POS.y}%`,
+        left: `${idle.x}%`,
+        top: `${idle.y}%`,
       }}
       aria-label={`${name} waiting in the room`}
       data-carry-phase="idle"

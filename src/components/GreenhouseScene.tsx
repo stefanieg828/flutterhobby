@@ -8,6 +8,7 @@ import {
 } from 'react'
 import type { Hobby } from '../types'
 import { ThemeObjectArt } from './ThemeObjectArt'
+import { THEME_LAYOUT } from '../themeLayout'
 import './GreenhouseScene.css'
 
 export type CarryPhase =
@@ -26,8 +27,7 @@ export interface GreenhouseSceneHandle {
   carriedId: string | null
 }
 
-const IDLE_POS = { x: 48, y: 76 }
-const BENCH_FALLBACK = { x: 86, y: 78 }
+const { idle: IDLE_POS, benchFallback: BENCH_FALLBACK } = THEME_LAYOUT.Greenhouse
 const WALK_MS = 900
 const PICKUP_MS = 320
 const RETURN_MS = 850

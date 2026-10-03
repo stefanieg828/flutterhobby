@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import type { Hobby, HobbyStatus } from '../types'
 import { STATUS_LABELS, applyProgressBump, computeNextNudgeAt } from '../types'
 import {
@@ -29,6 +29,7 @@ import {
 } from '../components/GreenhouseScene'
 import { ThemeIdleScene } from '../components/ThemeIdleScene'
 import { themeUsesPaintedRoom } from '../themeArt'
+import { placeStyle, themeLayout, type BenchLayout } from '../themeLayout'
 import { HyperfocusView } from '../components/HyperfocusView'
 import { NudgeHints } from '../components/NudgeHints'
 import { InstallAppButton } from '../components/InstallApp'
@@ -104,17 +105,22 @@ function WoodSign({
   status,
   count,
   id,
+  style,
+  wrap = false,
 }: {
   status: HobbyStatus
   count: number
   id: string
+  style?: CSSProperties
+  /** Wrap the label inside a narrow painted plaque. */
+  wrap?: boolean
 }) {
   const icon = status === 'proud-shelf' ? '♡' : status === 'resting' ? '❀' : '❀'
   const label =
     status === 'proud-shelf' ? `${STATUS_LABELS[status]} ♡` : STATUS_LABELS[status]
 
   return (
-    <div className={`wood-sign wood-sign--${status}`}>
+    <div className={`wood-sign wood-sign--${status}${wrap ? ' wood-sign--wrap' : ''}`} style={style}>
       <span className="wood-sign__twine" aria-hidden="true" />
       <div className="wood-sign__plank">
         <span className="wood-sign__icon" aria-hidden="true">
@@ -193,6 +199,8 @@ function ShelfBay({
   emptyKind = 'pot',
   hideEmpty = false,
   carriedId = null,
+  style,
+  hang = false,
 }: {
   hobbies: Hobby[]
   onSelect: (id: string) => void
@@ -200,10 +208,13 @@ function ShelfBay({
   emptyKind?: 'pot' | 'crate' | 'hanger' | 'icon' | 'peg'
   hideEmpty?: boolean
   carriedId?: string | null
+  style?: CSSProperties
+  /** Objects hang from the top edge (rails) instead of standing on the bottom. */
+  hang?: boolean
 }) {
   const empties = hideEmpty ? 0 : Math.max(0, slots - hobbies.length)
   return (
-    <div className="shelf-bay">
+    <div className={`shelf-bay${hang ? ' shelf-bay--hang' : ''}`} style={style}>
       {hobbies.map((hobby) => (
         <PlantTile
           key={hobby.id}
@@ -428,12 +439,15 @@ function PottingBenchScene({
   plaque,
   chalk,
   fabLabel,
+  layout,
 }: {
   onPlantClick: () => void
   theme: import('../theme').PlayableTheme
   plaque: string
   chalk: string
   fabLabel: string
+  /** Painted-room placement; omitted for the classic CSS rooms. */
+  layout?: BenchLayout
 }) {
   // Prefer splitting on comma for chalkboard lines; fall back to ~half
   let line1 = chalk
@@ -450,9 +464,15 @@ function PottingBenchScene({
   }
   const painted = themeUsesPaintedRoom(theme)
   const skin = painted ? ' potting-bench--painted' : ` potting-bench--${theme.toLowerCase()}`
+  const labelSkin =
+    layout && layout.labelOn !== 'chalkboard' ? ` potting-bench--label-${layout.labelOn}` : ''
   return (
-    <div className={`potting-bench${skin}`} data-bench-anchor>
-      <div className="potting-bench__surface">
+    <div
+      className={`potting-bench${skin}${labelSkin}`}
+      data-bench-anchor
+      style={layout ? placeStyle(layout.box) : undefined}
+    >
+      <div className="potting-bench__surface" style={layout ? placeStyle(layout.fab) : undefined}>
         {painted ? null : <BenchProps theme={theme} chalkLine1={line1} chalkLine2={line2} />}
         <button
           type="button"
@@ -464,7 +484,7 @@ function PottingBenchScene({
           <span aria-hidden="true">+</span>
         </button>
       </div>
-      <div className="potting-bench__legs">
+      <div className="potting-bench__legs" style={layout ? placeStyle(layout.label) : undefined}>
         <span className="potting-bench__plaque">{plaque}</span>
       </div>
       {painted ? null : <p className="potting-bench__chalk">{chalk}</p>}
@@ -490,6 +510,9 @@ function RoomDecor({ theme }: { theme: import('../theme').PlayableTheme }) {
 export function Home() {
   const { theme, copy } = useTheme()
   const roomSkin = themeRoomClass(theme)
+  const painted = themeUsesPaintedRoom(theme)
+  // Painted rooms read every overlay position from the per-theme table.
+  const layout = painted ? themeLayout(theme) : null
   const [hobbies, setHobbies] = useState<Hobby[]>([])
   const [ready, setReady] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -660,7 +683,7 @@ export function Home() {
   }, [theme])
 
   return (
-    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${themeUsesPaintedRoom(theme) ? ' greenhouse--painted' : ''}`}>
+    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${painted ? ' greenhouse--painted' : ''}`}>
       <header className="greenhouse__header">
         <div className="greenhouse__header-row">
           <div className="greenhouse__header-text">
@@ -709,7 +732,11 @@ export function Home() {
             aria-label={copy.roomAria}
           >
             {/* LEFT — In season + Resting furniture shelves */}
-            <aside className="gh-left" aria-label="In season and Resting shelves">
+            <aside
+              className="gh-left"
+              aria-label="In season and Resting shelves"
+              style={layout ? placeStyle(layout.leftColumn) : undefined}
+            >
               <div className="left-unit">
                 <div className="left-unit__posts" aria-hidden="true">
                   <span className="left-unit__post left-unit__post--left" />
@@ -717,9 +744,21 @@ export function Home() {
                 </div>
                 <div className="left-unit__back" aria-hidden="true" />
 
-                <div className="left-tier" aria-labelledby="shelf-in-season">
-                  <WoodSign status="in-season" count={zones['in-season'].length} id="shelf-in-season" />
+                <div
+                  className="left-tier"
+                  aria-labelledby="shelf-in-season"
+                  style={layout ? placeStyle(layout.inSeason.tier) : undefined}
+                >
+                  <WoodSign
+                    status="in-season"
+                    count={zones['in-season'].length}
+                    id="shelf-in-season"
+                    style={layout ? placeStyle(layout.inSeason.sign) : undefined}
+                    wrap={layout?.inSeason.signWrap}
+                  />
                   <ShelfBay
+                    style={layout ? placeStyle(layout.inSeason.bay) : undefined}
+                    hang={layout?.inSeason.hang}
                     hobbies={zones['in-season']}
                     onSelect={handleSelectHobby}
                     slots={3}
@@ -730,9 +769,21 @@ export function Home() {
                   <WoodShelf tone="warm" />
                 </div>
 
-                <div className="left-tier" aria-labelledby="shelf-resting">
-                  <WoodSign status="resting" count={zones.resting.length} id="shelf-resting" />
+                <div
+                  className="left-tier"
+                  aria-labelledby="shelf-resting"
+                  style={layout ? placeStyle(layout.resting.tier) : undefined}
+                >
+                  <WoodSign
+                    status="resting"
+                    count={zones.resting.length}
+                    id="shelf-resting"
+                    style={layout ? placeStyle(layout.resting.sign) : undefined}
+                    wrap={layout?.resting.signWrap}
+                  />
                   <ShelfBay
+                    style={layout ? placeStyle(layout.resting.bay) : undefined}
+                    hang={layout?.resting.hang}
                     hobbies={zones.resting}
                     onSelect={handleSelectHobby}
                     slots={3}
@@ -758,14 +809,23 @@ export function Home() {
             <aside
               className="gh-right"
               aria-label={copy.rightAria}
+              style={layout ? placeStyle(layout.rightColumn) : undefined}
             >
-              <div className="proud-unit" aria-labelledby="shelf-proud-shelf">
+              <div
+                className="proud-unit"
+                aria-labelledby="shelf-proud-shelf"
+                style={layout ? placeStyle(layout.proud.tier) : undefined}
+              >
                 <WoodSign
                   status="proud-shelf"
                   count={zones['proud-shelf'].length}
                   id="shelf-proud-shelf"
+                  style={layout ? placeStyle(layout.proud.sign) : undefined}
+                  wrap={layout?.proud.signWrap}
                 />
                 <ShelfBay
+                  style={layout ? placeStyle(layout.proud.bay) : undefined}
+                  hang={layout?.proud.hang}
                   hobbies={zones['proud-shelf']}
                   onSelect={handleSelectHobby}
                   slots={2}
@@ -781,6 +841,7 @@ export function Home() {
                 plaque={copy.workbenchPlaque}
                 chalk={copy.workbenchChalk}
                 fabLabel={copy.createFab}
+                layout={layout?.bench}
               />
             </aside>
           </div>
