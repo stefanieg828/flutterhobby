@@ -29,7 +29,7 @@ import {
 } from '../components/GreenhouseScene'
 import { ThemeIdleScene } from '../components/ThemeIdleScene'
 import { themeUsesPaintedRoom } from '../themeArt'
-import { placeStyle, themeLayout, type BenchLayout } from '../themeLayout'
+import { placeStyle, themeLayout, type BenchLayout, type SignStyle } from '../themeLayout'
 import { HyperfocusView } from '../components/HyperfocusView'
 import { NudgeHints } from '../components/NudgeHints'
 import { InstallAppButton } from '../components/InstallApp'
@@ -106,21 +106,25 @@ function WoodSign({
   count,
   id,
   style,
-  wrap = false,
+  signStyle,
 }: {
   status: HobbyStatus
   count: number
   id: string
   style?: CSSProperties
-  /** Wrap the label inside a narrow painted plaque. */
-  wrap?: boolean
+  /** Painted-room sign treatment from the theme layout table. */
+  signStyle?: SignStyle
 }) {
   const icon = status === 'proud-shelf' ? '♡' : status === 'resting' ? '❀' : '❀'
+  // The ♡ already leads the sign; painted-room signs skip the trailing one to stay short.
   const label =
-    status === 'proud-shelf' ? `${STATUS_LABELS[status]} ♡` : STATUS_LABELS[status]
+    status === 'proud-shelf' && !signStyle ? `${STATUS_LABELS[status]} ♡` : STATUS_LABELS[status]
 
   return (
-    <div className={`wood-sign wood-sign--${status}${wrap ? ' wood-sign--wrap' : ''}`} style={style}>
+    <div
+      className={`wood-sign wood-sign--${status}${signStyle ? ` wood-sign--${signStyle}` : ''}`}
+      style={style}
+    >
       <span className="wood-sign__twine" aria-hidden="true" />
       <div className="wood-sign__plank">
         <span className="wood-sign__icon" aria-hidden="true">
@@ -511,8 +515,6 @@ export function Home() {
   const { theme, copy } = useTheme()
   const roomSkin = themeRoomClass(theme)
   const painted = themeUsesPaintedRoom(theme)
-  // Painted rooms read every overlay position from the per-theme table.
-  const layout = painted ? themeLayout(theme) : null
   const [hobbies, setHobbies] = useState<Hobby[]>([])
   const [ready, setReady] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -682,8 +684,18 @@ export function Home() {
     }
   }, [theme])
 
+  // Painted rooms read every overlay position from the per-theme table.
+  const layout = painted ? themeLayout(theme) : null
+  const objects = layout?.objects
+  const objectVars = objects
+    ? ({ '--obj-tile': `${objects.tile}cqw`, '--obj-scale': objects.scale } as CSSProperties)
+    : undefined
+
   return (
-    <section className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${painted ? ' greenhouse--painted' : ''}`}>
+    <section
+      className={`page home greenhouse${roomSkin ? ` ${roomSkin}` : ''}${painted ? ' greenhouse--painted' : ''}${objects ? ' greenhouse--drawn' : ''}`}
+      style={objectVars}
+    >
       <header className="greenhouse__header">
         <div className="greenhouse__header-row">
           <div className="greenhouse__header-text">
@@ -754,7 +766,7 @@ export function Home() {
                     count={zones['in-season'].length}
                     id="shelf-in-season"
                     style={layout ? placeStyle(layout.inSeason.sign) : undefined}
-                    wrap={layout?.inSeason.signWrap}
+                    signStyle={layout?.objects ? (layout.inSeason.signStyle ?? 'plaque') : undefined}
                   />
                   <ShelfBay
                     style={layout ? placeStyle(layout.inSeason.bay) : undefined}
@@ -779,7 +791,7 @@ export function Home() {
                     count={zones.resting.length}
                     id="shelf-resting"
                     style={layout ? placeStyle(layout.resting.sign) : undefined}
-                    wrap={layout?.resting.signWrap}
+                    signStyle={layout?.objects ? (layout.resting.signStyle ?? 'plaque') : undefined}
                   />
                   <ShelfBay
                     style={layout ? placeStyle(layout.resting.bay) : undefined}
@@ -821,7 +833,7 @@ export function Home() {
                   count={zones['proud-shelf'].length}
                   id="shelf-proud-shelf"
                   style={layout ? placeStyle(layout.proud.sign) : undefined}
-                  wrap={layout?.proud.signWrap}
+                  signStyle={layout?.objects ? (layout.proud.signStyle ?? 'plaque') : undefined}
                 />
                 <ShelfBay
                   style={layout ? placeStyle(layout.proud.bay) : undefined}

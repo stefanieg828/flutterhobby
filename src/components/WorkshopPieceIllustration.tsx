@@ -100,8 +100,9 @@ function Body({ shape, fill }: { shape: WorkshopShape; fill: { body: string; rim
         </g>
       )
     case 'plank':
+      // Lies low so it rests on whatever shelf/crate it's placed on.
       return (
-        <g>
+        <g transform="translate(0 16)">
           <rect x="18" y="48" width="64" height="18" rx="2" fill={fill.body} stroke="#3d2e1f" strokeWidth="2" transform="rotate(-12 50 57)" />
           <line x1="28" y1="50" x2="70" y2="42" stroke="#3d2e1f" strokeWidth="1.2" opacity="0.35" transform="rotate(-12 50 57)" />
           <circle cx="30" cy="62" r="3" fill={fill.accent} stroke="#3d2e1f" strokeWidth="1" />

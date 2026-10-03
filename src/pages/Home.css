@@ -1764,51 +1764,10 @@
   white-space: nowrap;
 }
 
-/* Bench name as a little cream tag on bare furniture */
-.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque {
-  font-size: 0.5rem;
-  color: #4a3828;
-  text-shadow: none;
-  max-width: none;
-  white-space: nowrap;
-  padding: 0.04rem 0.32rem 0.06rem;
-  border: 1px solid #c9b48a;
-  border-radius: 0.35rem;
-  background: rgba(244, 234, 212, 0.94);
-}
 
 /* Objects hanging from a rail: hooks at the bay's top edge */
 .greenhouse--painted .gh-scene .shelf-bay.shelf-bay--hang {
   align-items: flex-start;
-}
-
-/* Signs squeezed onto narrow painted plaques/tags: wrap, centred */
-.greenhouse--painted .wood-sign--wrap {
-  align-items: center;
-}
-
-.greenhouse--painted .wood-sign--wrap .wood-sign__plank {
-  max-width: 100%;
-  flex-wrap: nowrap;
-  justify-content: center;
-  gap: 0.15rem;
-  padding-left: 0.1rem;
-  padding-right: 0.1rem;
-  text-align: center;
-}
-
-.greenhouse--painted .wood-sign--wrap .wood-sign__icon {
-  display: none;
-}
-
-.greenhouse--painted .wood-sign--wrap .wood-sign__label {
-  min-width: 0;
-  white-space: normal;
-  line-height: 1.05;
-}
-
-.greenhouse--painted .wood-sign--wrap .wood-sign__count {
-  flex-shrink: 0;
 }
 
 /* Plant tiles: pot sits on wood; name tag hangs below out of flow */
@@ -2029,17 +1988,29 @@
     letter-spacing: 0.1em;
   }
 
-  .app-main:has(.greenhouse--painted) .greenhouse--painted .greenhouse__room {
-    /* Prefer width — painted scene is wide */
-    max-height: calc(100dvh - 5.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  }
-
+  /* The painted room takes the full width unless the height left between the
+     header row and the bottom toolbar is the tighter fit; either way it keeps
+     the art's exact aspect ratio. --gh-chrome-h = toolbar + header row +
+     .app-main padding. (No container query on .app-main: containment would
+     trap the fixed bench/hyperfocus overlays under the toolbar.) */
   .greenhouse--painted .greenhouse__room {
     aspect-ratio: 1280 / 475;
+    width: min(
+      100%,
+      calc(
+        (100dvh - var(--gh-chrome-h, 8.1rem) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) *
+          1280 / 475
+      )
+    );
+    align-self: center;
   }
 }
 
 @media (orientation: landscape) and (max-height: 560px) {
+  .greenhouse--painted {
+    --gh-chrome-h: 7rem;
+  }
+
   .greenhouse--painted .greenhouse__whisper {
     font-size: 0.62rem;
     padding: 0.18rem 0.55rem;
@@ -2060,7 +2031,7 @@
   }
 
   .greenhouse__exit-toast {
-    bottom: calc(3.1rem + env(safe-area-inset-bottom));
+    bottom: calc(4rem + env(safe-area-inset-bottom));
   }
 }
 
@@ -2068,5 +2039,200 @@
   .greenhouse--painted .greenhouse__room {
     /* Still usable; tip encourages rotate */
     aspect-ratio: 1280 / 560;
+  }
+}
+
+
+/* ——— Drawn-object rooms (Basement / Closet / Desktop / Workshop) ———
+   .greenhouse--drawn = painted room whose hobby objects are SVG drawings.
+   The room is a size container so objects and signs scale with the painted
+   furniture (cqw = 1% of room width); sizes come from themeLayout.ts. */
+.greenhouse--drawn .greenhouse__room {
+  container-type: inline-size;
+}
+
+.greenhouse--painted.greenhouse--drawn .plant-tile--compact {
+  width: var(--obj-tile, 5.5cqw);
+  min-width: 0;
+  /* grow the tap target over the zoomed drawing */
+  padding-top: calc((var(--obj-scale, 1) - 1) * 5.6cqw);
+}
+
+.greenhouse--painted.greenhouse--drawn .plant-tile--compact .plant-tile__art svg {
+  width: 4.8cqw;
+  height: 5.76cqw;
+  transform: scale(var(--obj-scale, 1));
+  /* grow upward from where the drawing stands */
+  transform-origin: 50% 94%;
+}
+
+/* hanging looks grow downward from the hook */
+.greenhouse--painted.greenhouse--drawn .shelf-bay--hang .plant-tile--compact {
+  padding-top: 0;
+  padding-bottom: calc((var(--obj-scale, 1) - 1) * 3.2cqw);
+}
+
+.greenhouse--painted.greenhouse--drawn .shelf-bay--hang .plant-tile--compact .plant-tile__art svg {
+  transform-origin: 50% 8%;
+}
+
+.greenhouse--painted.greenhouse--drawn .plant-tile--compact .plant-tile__tag {
+  font-size: clamp(0.46rem, 0.95cqw, 0.58rem);
+  max-width: none;
+}
+
+/* Hint bubble: cream pill, dark-brown ink, soft shadow (readable on every wall) */
+.greenhouse--painted.greenhouse--drawn .greenhouse__whisper {
+  color: #4a3424;
+  font-weight: 700;
+  background: rgba(255, 249, 236, 0.95);
+  border: 1.5px solid rgba(156, 122, 76, 0.55);
+  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.25);
+  text-shadow: none;
+}
+
+/* Signs: ink sized with the room so it keeps fitting its painted blank */
+.greenhouse--painted.greenhouse--drawn .wood-sign {
+  align-items: center;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign__plank {
+  gap: 0.2rem;
+  padding: 0.06rem 0.22rem;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign__label,
+.greenhouse--painted.greenhouse--drawn .wood-sign__icon {
+  font-size: clamp(0.5rem, 1.12cqw, 0.72rem);
+  line-height: 1.15;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign__label {
+  color: #45321f;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign__icon {
+  color: #5f7f45;
+  font-weight: 900;
+  opacity: 1;
+  text-shadow: 0 0 0.6px currentColor;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign--proud-shelf .wood-sign__icon {
+  color: #b24f68;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign__count {
+  font-size: clamp(0.44rem, 0.92cqw, 0.6rem);
+  line-height: 1.3;
+  min-width: 0;
+  padding: 0 0.26rem;
+}
+
+/* compact: label (wrapping if it must) over a "❀ 3" line */
+.greenhouse--painted.greenhouse--drawn .wood-sign--compact .wood-sign__plank {
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.08rem;
+  text-align: center;
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign--compact .wood-sign__label {
+  order: -1;
+  flex: 0 0 100%;
+  white-space: normal;
+  line-height: 1.05;
+}
+
+/* tag: a small cream hang tag on a twine (shared by bench name tags) */
+.greenhouse--painted.greenhouse--drawn .wood-sign--tag .wood-sign__plank,
+.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque {
+  position: relative;
+  background: linear-gradient(180deg, #fffaf0 0%, #f3e3c3 100%);
+  border: 1.5px solid #9c7a4c;
+  border-radius: 0.3rem 0.3rem 0.42rem 0.42rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    1px 2px 3px rgba(60, 40, 20, 0.3);
+  padding: 0.3rem 0.34rem 0.1rem;
+  transform: rotate(-1.5deg);
+}
+
+.greenhouse--painted.greenhouse--drawn .wood-sign--resting.wood-sign--tag .wood-sign__plank {
+  transform: rotate(1.5deg);
+}
+
+/* punched eyelet */
+.greenhouse--painted.greenhouse--drawn .wood-sign--tag .wood-sign__plank::before,
+.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque::before {
+  content: '';
+  position: absolute;
+  top: 0.09rem;
+  left: 50%;
+  width: 0.24rem;
+  height: 0.24rem;
+  margin-left: -0.12rem;
+  border-radius: 50%;
+  background: #6f5233;
+  box-shadow: 0 0 0 1.2px #d9c49c;
+}
+
+/* twine up to the hook / edge it hangs from */
+.greenhouse--painted.greenhouse--drawn .wood-sign--tag .wood-sign__plank::after,
+.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% - 0.2rem);
+  left: 50%;
+  width: 1.3px;
+  height: 0.5rem;
+  margin-left: -0.65px;
+  background: #7a5a36;
+  border-radius: 1px;
+}
+
+.greenhouse--painted .potting-bench--label-tag .potting-bench__plaque {
+  font-size: clamp(0.5rem, 1.12cqw, 0.72rem);
+  font-weight: 800;
+  color: #45321f;
+  text-shadow: none;
+  max-width: none;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+/* Bench name inked on a painted blank: scales with the room too */
+.greenhouse--painted.greenhouse--drawn .potting-bench--label-plaque .potting-bench__plaque {
+  font-size: clamp(0.5rem, 1.12cqw, 0.72rem);
+  color: #45321f;
+}
+
+/* Tiny room (portrait phones, where we already suggest rotating): drop the
+   per-object name tags/bars and sign icons/counts, and shrink the hint, so the
+   furniture and sign words stay visible instead of piling up. */
+@container (max-width: 560px) {
+  .greenhouse--painted.greenhouse--drawn .plant-tile--compact .plant-tile__tag,
+  .greenhouse--painted.greenhouse--drawn .plant-tile--compact .plant-tile__bar,
+  .greenhouse--painted.greenhouse--drawn .wood-sign__icon,
+  .greenhouse--painted.greenhouse--drawn .wood-sign__count {
+    display: none;
+  }
+
+  .greenhouse--painted.greenhouse--drawn .greenhouse__whisper {
+    font-size: 0.56rem;
+    max-width: 72%;
+    padding: 0.12rem 0.5rem;
+  }
+
+  .greenhouse--painted.greenhouse--drawn .wood-sign__label,
+  .greenhouse--painted.greenhouse--drawn .wood-sign__icon,
+  .greenhouse--painted.greenhouse--drawn .potting-bench--label-tag .potting-bench__plaque,
+  .greenhouse--painted.greenhouse--drawn .potting-bench--label-plaque .potting-bench__plaque {
+    font-size: 0.42rem;
+  }
+
+  .greenhouse--painted.greenhouse--drawn .wood-sign--tag .wood-sign__plank {
+    padding: 0.2rem 0.22rem 0.05rem;
   }
 }

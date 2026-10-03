@@ -7,8 +7,6 @@
   background: transparent;
   overflow: hidden;
   overscroll-behavior: none;
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
 }
 
 .app-main {
@@ -17,9 +15,11 @@
   width: 100%;
   max-width: 36rem;
   margin: 0 auto;
-  padding: 0.85rem 0.85rem 5.5rem;
+  /* The bottom toolbar is an in-flow sibling, so no nav clearance needed. */
+  padding: 0.85rem;
   padding-top: calc(0.85rem + env(safe-area-inset-top));
-  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  padding-left: calc(0.85rem + env(safe-area-inset-left));
+  padding-right: calc(0.85rem + env(safe-area-inset-right));
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: auto;
@@ -59,13 +59,12 @@
   max-width: min(52rem, 100%);
 }
 
-/* Landscape: use horizontal space, compact bottom padding for shorter nav */
+/* Landscape phones: use horizontal space, compact padding */
 @media (orientation: landscape) and (max-height: 560px) {
   .app-main {
     max-width: min(56rem, 100%);
-    padding: 0.45rem 0.75rem 3.4rem;
+    padding: 0.45rem 0.75rem 0.6rem;
     padding-top: calc(0.45rem + env(safe-area-inset-top));
-    padding-bottom: calc(3.25rem + env(safe-area-inset-bottom));
     padding-left: calc(0.75rem + env(safe-area-inset-left));
     padding-right: calc(0.75rem + env(safe-area-inset-right));
   }

@@ -34,9 +34,18 @@ export interface ShelfGroupLayout {
   sign: Place
   /** Objects hang from the bay's top edge (closet rails) instead of standing on its bottom edge. */
   hang?: boolean
-  /** Let the sign text wrap inside `sign.width` (narrow painted plaques/tags). */
-  signWrap?: boolean
+  /**
+   * How the sign is drawn (default `plaque`):
+   * - plaque: one line (icon, label, count) in ink straight on a painted blank.
+   * - compact: same ink, stacked — label (wrapping if needed) over icon + count —
+   *   for blanks too narrow for one line.
+   * - tag: its own small cream hang tag on a twine, for spots with no usable
+   *   painted blank (matches the bench name tag).
+   */
+  signStyle?: SignStyle
 }
+
+export type SignStyle = 'plaque' | 'compact' | 'tag'
 
 export interface BenchLayout {
   /** `.potting-bench` box (carry anchor), relative to the right column. */
@@ -48,12 +57,27 @@ export interface BenchLayout {
   /**
    * chalkboard: light chalk text on a painted chalkboard (Greenhouse).
    * plaque: dark ink straight onto a blank painted plaque/sign/screen.
-   * tag: small cream name tag pinned on bare furniture (no painted blank left).
+   * tag: small cream hang tag on a twine over bare furniture (no painted blank left).
    */
   labelOn: 'chalkboard' | 'plaque' | 'tag'
 }
 
+/**
+ * Size of the hobby objects in rooms whose objects are drawn as SVG
+ * illustrations (everything except Greenhouse's painted pots). Both numbers
+ * scale with the room width (cqw), so objects keep their size relative to the
+ * painted furniture at every screen size.
+ */
+export interface ObjectSize {
+  /** Tile (tap target / slot) width, % of room width. */
+  tile: number
+  /** Extra zoom on the illustration, grown from where it rests (base or hook). */
+  scale: number
+}
+
 export interface ThemeLayout {
+  /** Omitted for Greenhouse, whose painted pots keep their stylesheet size. */
+  objects?: ObjectSize
   leftColumn: Place
   rightColumn: Place
   inSeason: ShelfGroupLayout
@@ -83,7 +107,7 @@ function onRail(x: number, y: number): Place {
   return { left: x - BAY_SPAN / 2, width: BAY_SPAN, top: y, height: BAY_HEIGHT }
 }
 
-/** Sign centred on a painted plaque/tag at (x, y); width (room %) enables wrapping. */
+/** Sign centred on a painted plaque/tag at (x, y); optional max width (room %). */
 function onPlaque(x: number, y: number, width?: number): Place {
   return { left: x, top: y, width, tx: -50, ty: -50 }
 }
@@ -129,28 +153,30 @@ export const THEME_LAYOUT: Record<PlayableTheme, ThemeLayout> = {
     benchFallback: { x: 86, y: 78 },
   },
 
-  // Tall shelving unit (left) with three cream plaques hanging off its boards;
-  // workbench + lantern (right) under a hanging blank sign.
+  // Tall shelving unit (left): each group stands on a board with its sign on
+  // the cream plaque hanging just under that board (name tags overlap the
+  // plaque's top rim, so the sign sits low). Objects are capped by the plaque
+  // above them, which limits how big they can draw here.
+  // Workbench + lantern (right) under a hanging blank sign.
   Basement: {
+    objects: { tile: 5.3, scale: 1.25 },
     leftColumn: FULL_LEFT_COLUMN,
     rightColumn: FULL_RIGHT_COLUMN,
     inSeason: {
       tier: FULL,
       bay: onLedge(20, 42),
-      sign: onPlaque(19.4, 49.5, 9),
-      signWrap: true,
+      sign: onPlaque(19.55, 48.4),
     },
     resting: {
       tier: FULL,
       bay: onLedge(20, 61.5),
-      sign: onPlaque(19.2, 72, 9),
-      signWrap: true,
+      sign: onPlaque(19.2, 70.6),
     },
     proud: {
       tier: FULL,
-      bay: onLedge(25.3, 18.3),
-      sign: onPlaque(19.5, 27, 9),
-      signWrap: true,
+      bay: onLedge(28, 18.3),
+      sign: onPlaque(19.7, 25.6, 8.2),
+      signStyle: 'compact',
     },
     bench: {
       box: FULL,
@@ -162,105 +188,107 @@ export const THEME_LAYOUT: Record<PlayableTheme, ThemeLayout> = {
     benchFallback: { x: 91.5, y: 52 },
   },
 
-  // Wardrobe (left): looks hang on its two rails, signs on the small plaques
-  // along the top edge. Proud looks hang off the lit mirror frame under the
-  // plaque above it; the "+" stands on the vanity top.
+  // Wardrobe (left): looks hang on its two rails; each sign is a cream tag
+  // hung on the rail's right-hand hook. Proud looks hang off the lit mirror
+  // with their tag on the glass; the "+" stands on the vanity top.
   Closet: {
+    objects: { tile: 4.6, scale: 1.3 },
     leftColumn: FULL_LEFT_COLUMN,
     rightColumn: FULL_RIGHT_COLUMN,
     inSeason: {
       tier: FULL,
-      bay: onRail(17, 12),
-      sign: onPlaque(15.2, 2.6, 11),
+      bay: onRail(16.3, 13),
+      sign: onPlaque(28.2, 22.4),
       hang: true,
-      signWrap: true,
+      signStyle: 'tag',
     },
     resting: {
       tier: FULL,
-      bay: onRail(20, 39),
-      sign: onPlaque(27.2, 2.6, 8.5),
+      bay: onRail(16.3, 42.2),
+      sign: onPlaque(28.2, 49.6),
       hang: true,
-      signWrap: true,
+      signStyle: 'tag',
     },
     proud: {
       tier: FULL,
-      bay: onRail(80.5, 4.3),
-      sign: onPlaque(89.5, 2.6, 11.5),
+      bay: onRail(81.5, 3.6),
+      sign: onPlaque(81.5, 31.6),
       hang: true,
-      signWrap: true,
+      signStyle: 'tag',
     },
     bench: {
       box: FULL,
       fab: standingOn(77.5, 50),
-      label: centredAt(76, 56),
+      label: centredAt(77.5, 57),
       labelOn: 'tag',
     },
     idle: IDLE_FLOOR,
     benchFallback: { x: 77.5, y: 46 },
   },
 
-  // Two wall shelves (upper-left): In season + Proud stand on the top board
-  // above the big cream frames / shield that carry their signs; Resting stands
-  // on the lower board in front of the middle frame. Bench name on the monitor.
+  // Two wall shelves (upper-left): In season + Resting stand on the top board,
+  // above the two big cream frames that carry their signs. Proud pieces stand
+  // on top of the monitor, with their sign on its screen. The "+" stands on the
+  // sticky notes; the bench name sits on the filing card just below it.
   Desktop: {
+    objects: { tile: 4.8, scale: 1.22 },
     leftColumn: FULL_LEFT_COLUMN,
     rightColumn: FULL_RIGHT_COLUMN,
     inSeason: {
       tier: FULL,
-      bay: onLedge(10.5, 14.8),
-      sign: onPlaque(9.3, 29.5, 8.5),
-      signWrap: true,
+      bay: onLedge(8.8, 14.8),
+      sign: onPlaque(9.3, 35.5),
     },
     resting: {
       tier: FULL,
-      bay: onLedge(21, 48.3),
-      sign: onPlaque(21, 29.5, 9),
-      signWrap: true,
+      bay: onLedge(26.5, 14.8),
+      sign: onPlaque(21, 35.5),
     },
     proud: {
       tier: FULL,
-      bay: onLedge(31.5, 14.8),
-      sign: onPlaque(31.5, 31, 7),
-      signWrap: true,
+      bay: onLedge(77.5, 24.8),
+      sign: onPlaque(78.5, 41),
     },
     bench: {
       box: FULL,
       fab: standingOn(86, 80),
-      label: centredAt(77, 42),
+      label: centredAt(84.6, 95.6),
       labelOn: 'plaque',
     },
     idle: IDLE_FLOOR,
     benchFallback: { x: 86, y: 76 },
   },
 
-  // Pegboard shelf with blank tags (upper-left), shavings crate with a blank
-  // label plate (bottom-left), workbench + tool rack (right) under a blank
-  // hanging board.
+  // Pegboard shelf (upper-left): In season stands in front of its blank tags,
+  // with a cream tag hung from the drawer knob below. Shavings crate
+  // (bottom-left) holds Resting, tag over its label plate. Workbench + tool
+  // rack (right) under the blank cream board that carries Proud.
   Workshop: {
+    objects: { tile: 5.4, scale: 1.4 },
     leftColumn: FULL_LEFT_COLUMN,
     rightColumn: FULL_RIGHT_COLUMN,
     inSeason: {
       tier: FULL,
       bay: onLedge(10, 42.8),
-      sign: onPlaque(23.9, 36.5, 9.5),
-      signWrap: true,
+      sign: onPlaque(17.4, 57.6),
+      signStyle: 'tag',
     },
     resting: {
       tier: FULL,
       bay: onLedge(9, 79),
-      sign: onPlaque(12.2, 89, 9),
-      signWrap: true,
+      sign: onPlaque(12.2, 88.4),
+      signStyle: 'tag',
     },
     proud: {
       tier: FULL,
       bay: onLedge(79, 50.5),
-      sign: onPlaque(79.3, 10, 6.5),
-      signWrap: true,
+      sign: onPlaque(78.7, 11.5, 6.2),
+      signStyle: 'compact',
     },
     bench: {
       box: FULL,
       fab: standingOn(93.5, 59),
-      label: centredAt(91.5, 66),
+      label: centredAt(93.2, 67),
       labelOn: 'tag',
     },
     idle: IDLE_FLOOR,
